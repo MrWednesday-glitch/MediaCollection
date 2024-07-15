@@ -4,10 +4,10 @@ public class Publisher : EntityBase
 {
     public Publisher()
     {
-        Games = new List<Game>();
+        Media = new List<Media>();
     }
 
     public string Name { get; set; } = string.Empty;
 
-    public virtual ICollection<Game> Games { get; set; }
+    public virtual ICollection<Media> Media { get; set; } 
 }
