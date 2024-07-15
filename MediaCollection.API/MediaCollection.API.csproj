@@ -10,4 +10,10 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\MediaCollection.Business\MediaCollection.Business.csproj" />
+    <ProjectReference Include="..\MediaCollection.Data\MediaCollection.Data.csproj" />
+    <ProjectReference Include="..\MediaCollection.Domain\MediaCollection.Domain.csproj" />
+  </ItemGroup>
+
 </Project>
