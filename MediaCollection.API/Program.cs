@@ -1,3 +1,6 @@
+using MediaCollection.Business.Services;
+using MediaCollection.Data;
+using MediaCollection.Domain.Interfaces;
 
 namespace MediaCollection.API;
 
@@ -9,7 +12,12 @@ public class Program
 
         // Add services to the container.
 
+        // TODO Learn how to make a service factory
         builder.Services.AddControllers();
+
+        builder.Services.AddScoped<MockDatabase>();
+        builder.Services.AddScoped<IGameService, GameService>();
+
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
