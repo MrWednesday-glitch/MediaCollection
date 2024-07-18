@@ -7,6 +7,8 @@ namespace MediaCollection.API;
 
 public class Program
 {
+    // TODO Have the connectionstring hidden inside local settings
+    // TODO Make Hellang problem details
     public static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
@@ -26,6 +28,7 @@ public class Program
 
         // TODO Remove the mockDatabase and have the data be retrieved from the real database
         builder.Services.AddScoped<MockDatabase>();
+        // TODO IMediaService<Game> ... etc
         builder.Services.AddScoped<IGameService, GameService>();
 
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

@@ -5,7 +5,7 @@ namespace MediaCollection.Domain.Interfaces;
 // TODO Make summaries
 public interface IGameService
 {
-    IEnumerable<Game> Get();
+    Task<(IEnumerable<Game>, PaginationMetadata)> Get(int pageNumber, int pageSize, string? searchTerm = "");
 
     Game Get(int id);
 }
