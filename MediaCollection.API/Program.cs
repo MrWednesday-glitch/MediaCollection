@@ -1,5 +1,6 @@
 using MediaCollection.Business.Services;
 using MediaCollection.Data;
+using MediaCollection.Data.Repositories;
 using MediaCollection.Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -26,10 +27,9 @@ public class Program
                 .UseSqlServer(connectionString);
         }, ServiceLifetime.Scoped);
 
-        // TODO Remove the mockDatabase and have the data be retrieved from the real database
-        builder.Services.AddScoped<MockDatabase>();
         // TODO IMediaService<Game> ... etc
         builder.Services.AddScoped<IGameService, GameService>();
+        builder.Services.AddScoped<IGameRepository, GameRepository>();
 
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();

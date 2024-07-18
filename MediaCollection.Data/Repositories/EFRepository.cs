@@ -1,0 +1,39 @@
+﻿using MediaCollection.Domain.Entities;
+using MediaCollection.Domain.Interfaces;
+
+namespace MediaCollection.Data.Repositories;
+
+public class EFRepository<TEntity> : IEFRepository<TEntity> where TEntity : EntityBase
+{
+    private readonly MediaDbContext _mediaDbContext;
+
+    public EFRepository(MediaDbContext mediaDbContext)
+    {
+        _mediaDbContext = mediaDbContext;
+    }
+
+    public virtual async Task CreateRecord(TEntity entity)
+    {
+        await _mediaDbContext.Set<TEntity>().AddAsync(entity);
+    }
+
+    public virtual async Task DeleteRecord(TEntity entity)
+    {
+        _mediaDbContext.Set<TEntity>().Remove(entity);
+    }
+
+    public virtual async Task<IQueryable<TEntity>> Get()
+    {
+        return _mediaDbContext.Set<TEntity>().AsQueryable();
+    }
+
+    public virtual async Task<TEntity> Get(int id)
+    {
+        return _mediaDbContext.Set<TEntity>().SingleOrDefault(x => x.Id == id) ?? throw new ArgumentNullException(); // TODO Make custom exception with Hellang 
+    }
+
+    public virtual async Task SaveChanges()
+    {
+        await _mediaDbContext.SaveChangesAsync();
+    }
+}
