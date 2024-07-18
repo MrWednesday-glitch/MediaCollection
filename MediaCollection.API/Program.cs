@@ -1,6 +1,7 @@
 using MediaCollection.Business.Services;
 using MediaCollection.Data;
 using MediaCollection.Domain.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace MediaCollection.API;
 
@@ -15,6 +16,15 @@ public class Program
         // TODO Learn how to make a service factory
         builder.Services.AddControllers();
 
+        var connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=MediaCollection;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False";
+        builder.Services.AddDbContext<MediaDbContext>((serviceProvider, options) =>
+        {
+            options
+                .UseLazyLoadingProxies()
+                .UseSqlServer(connectionString);
+        }, ServiceLifetime.Scoped);
+
+        // TODO Remove the mockDatabase and have the data be retrieved from the real database
         builder.Services.AddScoped<MockDatabase>();
         builder.Services.AddScoped<IGameService, GameService>();
 
@@ -22,7 +32,18 @@ public class Program
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
 
+        builder.Services.AddCors(o => o.AddPolicy("myAllowSpecificOrigins", b =>
+        {
+            b.AllowAnyOrigin().WithExposedHeaders("X-Pagination")
+             .AllowAnyMethod()
+             .AllowAnyHeader();
+        }));
+
         var app = builder.Build();
+
+        using var scope = app.Services.CreateScope();
+        scope.ServiceProvider.GetRequiredService<MediaDbContext>()
+            .Database.Migrate();
 
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())
