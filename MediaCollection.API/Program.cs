@@ -24,6 +24,7 @@ public class Program
                 .UseSqlServer(connectionString);
         }, ServiceLifetime.Scoped);
 
+        // TODO Remove the mockDatabase and have the data be retrieved from the real database
         builder.Services.AddScoped<MockDatabase>();
         builder.Services.AddScoped<IGameService, GameService>();
 
