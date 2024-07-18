@@ -64,6 +64,21 @@ public class MediaDbContext : DbContext
             Id = 3,
             Name = "Supergiant Games"
         };
+        var squarePub = new Publisher
+        {
+            Id = 4,
+            Name = "Square"
+        };
+        var yCGPub = new Publisher
+        {
+            Id = 5,
+            Name = "Yacht Club Games"
+        };
+        var zaumPub = new Publisher
+        {
+            Id = 6,
+            Name = "ZA/UM"
+        };
 
         var georgeMiller = new Director
         {
@@ -80,49 +95,92 @@ public class MediaDbContext : DbContext
             Id = 1,
             Name = "Supergiant Games"
         };
+        var squareDev = new Developer
+        {
+            Id = 2,
+            Name = "Square Product Development Division 1"
+        };
+        var yCGDev = new Developer
+        {
+            Id = 3,
+            Name = "Yacht Club Games"
+        };
+        var zaumDev = new Developer
+        {
+            Id = 4,
+            Name = "ZA/UM"
+        };
 
         var hades = new Game
         {
             Id = 6,
-            //Developer = supergiantGamesDev,
             DeveloperId = supergiantGamesDev.Id,
             Finished = true,
             Owned = true,
             Name = "Hades",
             ReleaseDate = new DateTime(2020, 09, 17),
             OwnedOn = "Steam",
-            //Publisher = supergiantGamesPub,
             PublisherId = supergiantGamesPub.Id,
         };
         var americanGods = new Book
         {
             Id = 1,
             ReleaseDate = new DateTime(2001, 01, 01),
-            //Author = neilGaiman,
             AuthorId = neilGaiman.Id,
             Name = "American Gods",
             Owned = true,
-            //Publisher = harperTorch,
             PublisherId = harperTorch.Id,
         };
         var furyRoad = new Film
         {
-            //Director = georgeMiller,
             DirectorId = georgeMiller.Id,
             ReleaseDate = new DateTime(2015, 05, 07),
             Id = 5,
             Name = "Mad Max: Fury Road",
             Owned = false,
-            //Publisher = warnerBros,
             PublisherId = warnerBros.Id,
         };
+        var finalFantasyX = new Game
+        {
+            Id = 2,
+            Finished = true,
+            Name = "Final Fantasy 10",
+            Owned = true,
+            ReleaseDate = new DateTime(2002, 05, 24),
+            OwnedOn = "Playstation 2",
+            DeveloperId = squareDev.Id,
+            PublisherId = squarePub.Id,
+        };
+        var shovelKnight = new Game
+        {
+            Id = 3,
+            Finished = true,
+            Name = "Shovel Knight",
+            Owned = true,
+            ReleaseDate = new DateTime(2014, 06, 26),
+            OwnedOn = "Steam",
+            DeveloperId = yCGDev.Id,
+            PublisherId = yCGPub.Id,
+        };
+        var discoElysium = new Game
+        {
+            Id = 4,
+            Finished = false,
+            Name = "Disco Elysium",
+            Owned = true,
+            ReleaseDate = new DateTime(2019, 10, 15),
+            OwnedOn = "GOG",
+            DeveloperId = zaumDev.Id,
+            PublisherId = zaumPub.Id,
+        };
 
-        modelBuilder.Entity<Publisher>().HasData([harperTorch, warnerBros, supergiantGamesPub]);
+
+        modelBuilder.Entity<Publisher>().HasData([harperTorch, warnerBros, supergiantGamesPub, squarePub, zaumPub, yCGPub]);
         modelBuilder.Entity<Director>().HasData(georgeMiller);
         modelBuilder.Entity<Author>().HasData(neilGaiman);
-        modelBuilder.Entity<Developer>().HasData(supergiantGamesDev);
+        modelBuilder.Entity<Developer>().HasData([supergiantGamesDev, zaumDev, squareDev, yCGDev]);
         modelBuilder.Entity<Film>().HasData(furyRoad);
-        modelBuilder.Entity<Game>().HasData(hades);
+        modelBuilder.Entity<Game>().HasData([hades, discoElysium, shovelKnight, finalFantasyX]);
         modelBuilder.Entity<Book>().HasData(americanGods);
 
         base.OnModelCreating(modelBuilder);

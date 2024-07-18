@@ -4,6 +4,7 @@ using MediaCollection.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MediaCollection.Data.Migrations
 {
     [DbContext(typeof(MediaDbContext))]
-    partial class MediaDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240718182900_AddedSeedData")]
+    partial class AddedSeedData
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -67,21 +70,6 @@ namespace MediaCollection.Data.Migrations
                         {
                             Id = 1,
                             Name = "Supergiant Games"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Name = "ZA/UM"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "Square Product Development Division 1"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Name = "Yacht Club Games"
                         });
                 });
 
@@ -177,21 +165,6 @@ namespace MediaCollection.Data.Migrations
                         {
                             Id = 3,
                             Name = "Supergiant Games"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Name = "Square"
-                        },
-                        new
-                        {
-                            Id = 6,
-                            Name = "ZA/UM"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Name = "Yacht Club Games"
                         });
                 });
 
@@ -269,39 +242,6 @@ namespace MediaCollection.Data.Migrations
                             DeveloperId = 1,
                             Finished = true,
                             OwnedOn = "Steam"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Name = "Disco Elysium",
-                            Owned = true,
-                            PublisherId = 6,
-                            ReleaseDate = new DateTime(2019, 10, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DeveloperId = 4,
-                            Finished = false,
-                            OwnedOn = "GOG"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Name = "Shovel Knight",
-                            Owned = true,
-                            PublisherId = 5,
-                            ReleaseDate = new DateTime(2014, 6, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DeveloperId = 3,
-                            Finished = true,
-                            OwnedOn = "Steam"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "Final Fantasy 10",
-                            Owned = true,
-                            PublisherId = 4,
-                            ReleaseDate = new DateTime(2002, 5, 24, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DeveloperId = 2,
-                            Finished = true,
-                            OwnedOn = "Playstation 2"
                         });
                 });
 
