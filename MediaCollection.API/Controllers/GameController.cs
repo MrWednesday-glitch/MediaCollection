@@ -27,11 +27,31 @@ public class GameController : ControllerBase
         }
 
         var (games, paginationMetadata) = await _gameService.Get(pageNumber, pageSize, searchTerm);
-        var gamesDTO = games.Select(g => Transform(g)); // TODO Add a transform here
+        var gamesDTO = games.Select(g => Transform(g));
 
-        Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(paginationMetadata));
+        Response.Headers.Append("X-Pagination", JsonSerializer.Serialize(paginationMetadata));
 
         return Ok(gamesDTO);
+    }
+
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetGame(int id)
+    {
+        try
+        {
+            var game = await _gameService.Get(id);
+            var gameDTO = Transform(game);
+
+            return Ok(gameDTO);
+        }
+        catch (KeyNotFoundException ex)
+        {
+            return NotFound(ex.Message);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
 
     private GameDTO Transform(Game game)
@@ -42,7 +62,7 @@ public class GameController : ControllerBase
             Name = game.Name,
             DeveloperName = game.Developer.Name,
             PublisherName = game.Publisher.Name,
-            ReleaseDate = game.ReleaseDate.ToShortDateString(), // TODO Check if this is what I want
+            ReleaseDate = game.ReleaseDate.ToString("dd-MM-yyyy"),
             Finished = game.Finished,
             Owned = game.Owned,
             OwnedOn = game.OwnedOn ?? "Unowned"

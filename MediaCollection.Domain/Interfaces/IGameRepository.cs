@@ -2,6 +2,6 @@
 
 namespace MediaCollection.Domain.Interfaces;
 
-public interface IGameRepository : IEFRepository<Game>
+public interface IGameRepository : IRepository<Game>
 {
 }

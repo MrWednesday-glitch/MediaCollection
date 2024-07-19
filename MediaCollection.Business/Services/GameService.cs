@@ -3,6 +3,8 @@ using MediaCollection.Domain.Interfaces;
 using Microsoft.IdentityModel.Tokens;
 
 namespace MediaCollection.Business.Services;
+
+//TODO Write unit tests
 public class GameService : IGameService
 {
     private readonly IGameRepository _gameRepository;
@@ -12,10 +14,9 @@ public class GameService : IGameService
         _gameRepository = gameRepository;
     }
 
-    public Game Get(int id)
+    public async Task<Game> Get(int id)
     {
-        throw new NotImplementedException();
-        //return _mockDatabase.Get().FirstOrDefault(x => x.Id == id) ?? throw new Exception("No game found");
+        return await _gameRepository.Get(id);
     }
 
     public async Task<(IEnumerable<Game>, PaginationMetadata)> Get(int pageNumber, int pageSize, string? searchTerm = "")

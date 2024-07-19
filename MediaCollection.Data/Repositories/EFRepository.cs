@@ -3,7 +3,7 @@ using MediaCollection.Domain.Interfaces;
 
 namespace MediaCollection.Data.Repositories;
 
-public class EFRepository<TEntity> : IEFRepository<TEntity> where TEntity : EntityBase
+public class EFRepository<TEntity> : IRepository<TEntity> where TEntity : EntityBase
 {
     private readonly MediaDbContext _mediaDbContext;
 
@@ -27,9 +27,9 @@ public class EFRepository<TEntity> : IEFRepository<TEntity> where TEntity : Enti
         return _mediaDbContext.Set<TEntity>().AsQueryable();
     }
 
-    public virtual async Task<TEntity> Get(int id)
+    public virtual async Task<TEntity?> Get(int id)
     {
-        return _mediaDbContext.Set<TEntity>().SingleOrDefault(x => x.Id == id) ?? throw new ArgumentNullException(); // TODO Make custom exception with Hellang 
+        return await _mediaDbContext.Set<TEntity>().FindAsync(id);
     }
 
     public virtual async Task SaveChanges()

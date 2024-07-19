@@ -26,15 +26,7 @@ public class GameRepository : EFRepository<Game>, IGameRepository
 
     public override async Task<Game> Get(int id)
     {
-        try
-        {
-            return await base.Get(id);
-        }
-        catch (Exception ex)
-        {
-
-            throw; // Put the custom exception here and store the ex as an inner exception
-        }
+        return await base.Get(id) ?? throw new KeyNotFoundException($"No game with id {id} was found.");
     }
 
     public override async Task SaveChanges()
