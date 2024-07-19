@@ -29,7 +29,7 @@ public class GameService : IGameService
         }
 
         var totalItemCount = gameCollection.Count();
-        var paginationMetadata = new PaginationMetadata(pageNumber, pageSize, totalItemCount);
+        var paginationMetadata = new PaginationMetadata(totalItemCount, pageSize, pageNumber);
 
         var games = gameCollection
             .Skip(pageSize * (pageNumber - 1))
