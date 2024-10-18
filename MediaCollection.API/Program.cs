@@ -1,7 +1,6 @@
 using MediaCollection.Business.Services;
 using MediaCollection.Data;
 using MediaCollection.Data.Repositories;
-using MediaCollection.Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace MediaCollection.API;
@@ -30,8 +29,10 @@ public class Program
         // TODO IMediaService<Game> ... etc
         builder.Services.AddScoped<IGameService, GameService>();
         builder.Services.AddScoped<IBookService, BookService>();
+        builder.Services.AddScoped<IFilmService, FilmService>();
         builder.Services.AddScoped<IGameRepository, GameRepository>();
         builder.Services.AddScoped<IBookRepository, BookRepository>();
+        builder.Services.AddScoped<IFilmRepository, FilmRepository>();
 
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();

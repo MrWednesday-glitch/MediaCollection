@@ -1,10 +1,4 @@
-﻿using MediaCollection.API.DTOModels;
-using MediaCollection.Domain.Entities;
-using MediaCollection.Domain.Interfaces;
-using Microsoft.AspNetCore.Mvc;
-using System.Text.Json;
-
-namespace MediaCollection.API.Controllers;
+﻿namespace MediaCollection.API.Controllers;
 
 [ApiController]
 [Route("games")]
