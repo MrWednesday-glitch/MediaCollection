@@ -1,17 +1,13 @@
-﻿using MediaCollection.Domain.Entities;
-using MediaCollection.Domain.Interfaces;
-using Microsoft.IdentityModel.Tokens;
+﻿namespace MediaCollection.Business.Services;
 
-namespace MediaCollection.Business.Services;
-
-//TODO Write unit tests
 public class GameService : IGameService
 {
     private readonly IGameRepository _gameRepository;
 
+    // TODO unittest argument null repository is null
     public GameService(IGameRepository gameRepository)
     {
-        _gameRepository = gameRepository;
+        _gameRepository = gameRepository ?? throw new ArgumentNullException(nameof(gameRepository));
     }
 
     public async Task<Game> Get(int id)
@@ -23,6 +19,7 @@ public class GameService : IGameService
     {
         var gameCollection = await _gameRepository.Get();
 
+        //TODO Write unit tests if searchterm is filled
         if (!searchTerm.IsNullOrEmpty())
         {
             // TODO add logic to search through games

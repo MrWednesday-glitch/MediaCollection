@@ -26,7 +26,6 @@ public class Program
                 .UseSqlServer(connectionString);
         }, ServiceLifetime.Scoped);
 
-        // TODO IMediaService<Game> ... etc
         builder.Services.AddScoped<IGameService, GameService>();
         builder.Services.AddScoped<IBookService, BookService>();
         builder.Services.AddScoped<IFilmService, FilmService>();

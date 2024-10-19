@@ -1,4 +1,6 @@
-﻿namespace MediaCollection.Business.Services;
+﻿using MediaCollection.Data.Repositories;
+
+namespace MediaCollection.Business.Services;
 
 // TODO Write unittests
 public class FilmService : IFilmService
@@ -7,7 +9,7 @@ public class FilmService : IFilmService
 
     public FilmService(IFilmRepository filmRepository)
     {
-        _filmRepository = filmRepository;
+        _filmRepository = filmRepository ?? throw new ArgumentNullException(nameof(filmRepository));
     }
 
     public async Task<(IEnumerable<Film>, PaginationMetadata)> Get(int pageNumber, int pageSize, string? searchTerm = "")

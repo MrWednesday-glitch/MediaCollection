@@ -1,5 +1,8 @@
-﻿namespace MediaCollection.Data.Repositories;
+﻿using System.Diagnostics.CodeAnalysis;
 
+namespace MediaCollection.Data.Repositories;
+
+[ExcludeFromCodeCoverage]
 public class FilmRepository : EFRepository<Film>, IFilmRepository
 {
     public FilmRepository(MediaDbContext mediaDbContext) : base(mediaDbContext)

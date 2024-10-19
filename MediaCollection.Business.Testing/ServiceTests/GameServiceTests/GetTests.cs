@@ -1,7 +1,8 @@
-﻿using MediaCollection.Domain.Entities;
+﻿using System.Diagnostics.CodeAnalysis;
 
 namespace MediaCollection.Business.Testing.ServiceTests.GameServiceTests;
 
+[ExcludeFromCodeCoverage]
 public class GetTests
 {
     private static readonly List<Game> _mockedGames = new()

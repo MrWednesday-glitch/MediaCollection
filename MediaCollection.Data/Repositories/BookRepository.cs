@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Diagnostics.CodeAnalysis;
 
 namespace MediaCollection.Data.Repositories;
 
+[ExcludeFromCodeCoverage]
 public class BookRepository : EFRepository<Book>, IBookRepository
 {
     public BookRepository(MediaDbContext mediaDbContext) : base(mediaDbContext)

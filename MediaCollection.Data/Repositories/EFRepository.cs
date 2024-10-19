@@ -1,8 +1,8 @@
-﻿using MediaCollection.Domain.Entities;
-using MediaCollection.Domain.Interfaces;
+﻿using System.Diagnostics.CodeAnalysis;
 
 namespace MediaCollection.Data.Repositories;
 
+[ExcludeFromCodeCoverage]
 public class EFRepository<TEntity> : IRepository<TEntity> where TEntity : EntityBase
 {
     private readonly MediaDbContext _mediaDbContext;

@@ -1,10 +1,9 @@
-﻿using MediaCollection.Domain.Entities;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Diagnostics.CodeAnalysis;
 
-// TODO Write Repositories
-// TODO DI
 namespace MediaCollection.Data;
 
+[ExcludeFromCodeCoverage]
 public class MediaDbContext : DbContext
 {
     public MediaDbContext()
