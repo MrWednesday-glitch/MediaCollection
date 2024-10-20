@@ -1,6 +1,4 @@
-﻿using MediaCollection.Data.Repositories;
-
-namespace MediaCollection.Business.Services;
+﻿namespace MediaCollection.Business.Services;
 
 // TODO Write unittests
 public class FilmService : IFilmService
