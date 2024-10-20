@@ -1,6 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
-
-namespace MediaCollection.Business.Testing.ServiceTests.GameServiceTests;
+﻿namespace MediaCollection.Business.Testing.ServiceTests.GameServiceTests;
 
 [ExcludeFromCodeCoverage]
 public class GetTests
