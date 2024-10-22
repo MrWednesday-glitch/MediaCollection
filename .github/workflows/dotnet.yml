@@ -1,0 +1,38 @@
+# This workflow will build a .NET project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
+
+name: .NET
+
+on:
+  push:
+    branches: [ "development" ]
+  pull_request:
+    branches: [ "development" ]
+
+permissions:
+  checks: write
+  pull-requests: write
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+    - name: Restore dependencies
+      run: dotnet restore ./MediaCollection.sln
+    - name: Build
+      run: dotnet build ./MediaCollection.sln --no-restore
+    - name: Test
+      run: dotnet test ./MediaCollection.Business.Testing/MediaCollection.Business.Testing.csproj --no-build --verbosity normal --no-build --verbosity normal --logger "trx;LogFileName=xtests.trx"
+    - name: Publish Test Results
+      uses: EnricoMi/publish-unit-test-result-action@v2
+      if: always()
+      with:
+        files: |
+          MediaCollection.Business.Testing/TestResults/xtests.trx
