@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using System.Diagnostics.CodeAnalysis;
 
 namespace MediaCollection.Data;
@@ -32,7 +33,13 @@ public class MediaDbContext : DbContext
     {
         if (!optionsBuilder.IsConfigured)
         {
-            var connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=MediaCollection;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False";
+            IConfigurationRoot configBuilder = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("local.settings.json", false, true)
+                .Build();
+            string connectionString = configBuilder.GetConnectionString("LocalDb")
+                ?? throw new ArgumentNullException("No Connectionstring found.");
+
             optionsBuilder.UseSqlServer(connectionString);
         }
 
