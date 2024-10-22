@@ -1,6 +1,5 @@
 ﻿namespace MediaCollection.Business.Services;
 
-// TODO Write unittests
 public class FilmService : IFilmService
 {
     private readonly IFilmRepository _filmRepository;

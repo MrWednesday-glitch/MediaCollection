@@ -1,5 +1,6 @@
 ﻿namespace MediaCollection.Domain.Entities;
 
+[ExcludeFromCodeCoverage]
 public class Publisher : EntityBase
 {
     public Publisher()
@@ -9,5 +10,5 @@ public class Publisher : EntityBase
 
     public string Name { get; set; } = string.Empty;
 
-    public virtual ICollection<Media> Media { get; set; } 
+    public virtual ICollection<Media> Media { get; set; }
 }

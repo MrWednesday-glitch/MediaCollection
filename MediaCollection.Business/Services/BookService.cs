@@ -1,6 +1,5 @@
 ﻿namespace MediaCollection.Business.Services;
 
-// TODO Write unit tests
 public class BookService : IBookService
 {
     private readonly IBookRepository _bookRepository;

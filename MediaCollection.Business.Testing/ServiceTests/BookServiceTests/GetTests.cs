@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MediaCollection.Business.Testing.ServiceTests.BookServiceTests;
+﻿namespace MediaCollection.Business.Testing.ServiceTests.BookServiceTests;
 
 [ExcludeFromCodeCoverage]
 public class GetTests
@@ -51,5 +45,32 @@ public class GetTests
         metadata.CurrentPage.Should().Be(1);
         metadata.TotalItemCount.Should().Be(3);
         metadata.TotalPageCount.Should().Be(2);
+    }
+
+    [Fact]
+    public async Task SHould_FindCorrectBookMatchingId()
+    {
+        Mock<IBookRepository> mockedBookRepository = new Mock<IBookRepository>();
+        IBookService bookService = new BookService(mockedBookRepository.Object);
+        mockedBookRepository.Setup(bRepo => bRepo.Get(1))
+            .ReturnsAsync(new Book { Id = 1, Name = "Feet of Clay" });
+
+        Book book = await bookService.Get(1);
+
+        book.Id.Should().Be(1);
+        book.Name.Should().BeEquivalentTo("Feet of Clay");
+    }
+
+    [Fact]
+    public async Task Should_ThrowKeyNotFoundException_When_TheGivenIdDoesNotMatchABook()
+    {
+        Mock<IBookRepository> mockedBookRepository = new Mock<IBookRepository>();
+        IBookService bookService = new BookService(mockedBookRepository.Object);
+        mockedBookRepository.Setup(bRepo => bRepo.Get(It.IsAny<int>()))
+            .ThrowsAsync(new KeyNotFoundException());
+
+        Func<Task> getAction = async () => await bookService.Get(1);
+
+        await getAction.Should().ThrowAsync<KeyNotFoundException>();
     }
 }
