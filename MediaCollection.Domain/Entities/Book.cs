@@ -1,5 +1,6 @@
 ﻿namespace MediaCollection.Domain.Entities;
 
+[ExcludeFromCodeCoverage]
 public class Book : Media
 {
     public int AuthorId { get; set; }

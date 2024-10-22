@@ -1,25 +1,38 @@
-﻿using MediaCollection.Data;
-using MediaCollection.Domain.Entities;
-using MediaCollection.Domain.Interfaces;
+﻿namespace MediaCollection.Business.Services;
 
-namespace MediaCollection.Business.Services;
 public class GameService : IGameService
 {
-    private readonly MockDatabase _mockDatabase;
+    private readonly IGameRepository _gameRepository;
 
-    public GameService(MockDatabase mockDatabase)
+    // TODO unittest argument null repository is null
+    public GameService(IGameRepository gameRepository)
     {
-        _mockDatabase = mockDatabase;
+        _gameRepository = gameRepository ?? throw new ArgumentNullException(nameof(gameRepository));
     }
 
-    public IEnumerable<Game> Get()
+    public async Task<Game> Get(int id)
     {
-        return _mockDatabase.Get();
+        return await _gameRepository.Get(id);
     }
 
-    public Game Get(int id)
+    public async Task<(IEnumerable<Game>, PaginationMetadata)> Get(int pageNumber, int pageSize, string? searchTerm = "")
     {
-        return _mockDatabase.Get()
-            .FirstOrDefault(x => x.Id == id) ?? throw new Exception("No game found");
+        var gameCollection = await _gameRepository.Get();
+
+        //TODO Write unit tests if searchterm is filled
+        if (!searchTerm.IsNullOrEmpty())
+        {
+            // TODO add logic to search through games
+        }
+
+        var totalItemCount = gameCollection.Count();
+        var paginationMetadata = new PaginationMetadata(totalItemCount, pageSize, pageNumber);
+
+        var games = gameCollection
+            .Skip(pageSize * (pageNumber - 1))
+            .Take(pageSize)
+            .ToList();
+
+        return (games, paginationMetadata);
     }
 }

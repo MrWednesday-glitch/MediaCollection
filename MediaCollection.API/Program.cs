@@ -1,12 +1,14 @@
 using MediaCollection.Business.Services;
 using MediaCollection.Data;
-using MediaCollection.Domain.Interfaces;
+using MediaCollection.Data.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace MediaCollection.API;
 
 public class Program
 {
+    // TODO Have the connectionstring hidden inside local settings
+    // TODO Make Hellang problem details
     public static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
@@ -24,9 +26,12 @@ public class Program
                 .UseSqlServer(connectionString);
         }, ServiceLifetime.Scoped);
 
-        // TODO Remove the mockDatabase and have the data be retrieved from the real database
-        builder.Services.AddScoped<MockDatabase>();
         builder.Services.AddScoped<IGameService, GameService>();
+        builder.Services.AddScoped<IBookService, BookService>();
+        builder.Services.AddScoped<IFilmService, FilmService>();
+        builder.Services.AddScoped<IGameRepository, GameRepository>();
+        builder.Services.AddScoped<IBookRepository, BookRepository>();
+        builder.Services.AddScoped<IFilmRepository, FilmRepository>();
 
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();

@@ -1,4 +1,6 @@
 ﻿namespace MediaCollection.Domain.Entities;
+
+[ExcludeFromCodeCoverage]
 public class Media : EntityBase
 {
     public string Name { get; set; } = string.Empty;

@@ -1,5 +1,6 @@
 ﻿namespace MediaCollection.Domain.Entities;
 
+[ExcludeFromCodeCoverage]
 public class Author : EntityBase
 {
     public Author()

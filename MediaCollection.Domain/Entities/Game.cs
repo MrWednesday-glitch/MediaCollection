@@ -1,5 +1,6 @@
 ﻿namespace MediaCollection.Domain.Entities;
 
+[ExcludeFromCodeCoverage]
 public class Game : Media
 {
     public int DeveloperId { get; set; }

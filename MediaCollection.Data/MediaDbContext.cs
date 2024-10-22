@@ -1,28 +1,20 @@
-﻿using MediaCollection.Domain.Entities;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Diagnostics.CodeAnalysis;
 
-// TODO Write Repositories
-// TODO DI
-// TODO Set up database
-// TODO Set up automatic migration
 namespace MediaCollection.Data;
 
+[ExcludeFromCodeCoverage]
 public class MediaDbContext : DbContext
 {
     public MediaDbContext()
     {
     }
 
-    public MediaDbContext(DbContextOptions<MediaDbContext> options) : base(options) 
-    { 
+    public MediaDbContext(DbContextOptions<MediaDbContext> options) : base(options)
+    {
     }
 
-    public DbSet<Game> Games { get; set; } 
+    public DbSet<Game> Games { get; set; }
 
     public DbSet<Book> Books { get; set; }
 
@@ -88,7 +80,7 @@ public class MediaDbContext : DbContext
         var neilGaiman = new Author
         {
             Id = 1,
-            Name = "NeilGaiman"
+            Name = "Neil Gaiman"
         };
         var supergiantGamesDev = new Developer
         {
