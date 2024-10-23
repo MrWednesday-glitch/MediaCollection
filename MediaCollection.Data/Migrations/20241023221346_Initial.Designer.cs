@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MediaCollection.Data.Migrations
 {
     [DbContext(typeof(MediaDbContext))]
-    [Migration("20240718180525_Initial")]
+    [Migration("20241023221346_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -20,18 +20,16 @@ namespace MediaCollection.Data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.7")
+                .HasAnnotation("ProductVersion", "8.0.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
             modelBuilder.Entity("MediaCollection.Domain.Entities.Author", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -44,18 +42,16 @@ namespace MediaCollection.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 1,
-                            Name = "NeilGaiman"
+                            Id = new Guid("c7a76a93-4f5a-4409-aa6f-a10b08e25972"),
+                            Name = "Neil Gaiman"
                         });
                 });
 
             modelBuilder.Entity("MediaCollection.Domain.Entities.Developer", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -68,18 +64,31 @@ namespace MediaCollection.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 1,
+                            Id = new Guid("44834ccb-3cb8-439f-b18e-3ea8ea326e62"),
                             Name = "Supergiant Games"
+                        },
+                        new
+                        {
+                            Id = new Guid("4894ae09-3aba-49a6-90f2-9c9950128e79"),
+                            Name = "ZA/UM"
+                        },
+                        new
+                        {
+                            Id = new Guid("e12cd967-fc5d-4ecc-bc02-ec595e7975a5"),
+                            Name = "Square Product Development Division 1"
+                        },
+                        new
+                        {
+                            Id = new Guid("edb6b2e4-5325-4e32-aec1-425ce0c9329a"),
+                            Name = "Yacht Club Games"
                         });
                 });
 
             modelBuilder.Entity("MediaCollection.Domain.Entities.Director", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -92,18 +101,16 @@ namespace MediaCollection.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 1,
+                            Id = new Guid("2a12bf92-f007-4cda-853e-ac47afb32b58"),
                             Name = "George Miller"
                         });
                 });
 
             modelBuilder.Entity("MediaCollection.Domain.Entities.Media", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Discriminator")
                         .IsRequired()
@@ -117,8 +124,8 @@ namespace MediaCollection.Data.Migrations
                     b.Property<bool>("Owned")
                         .HasColumnType("bit");
 
-                    b.Property<int>("PublisherId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("PublisherId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("ReleaseDate")
                         .HasColumnType("datetime2");
@@ -136,11 +143,9 @@ namespace MediaCollection.Data.Migrations
 
             modelBuilder.Entity("MediaCollection.Domain.Entities.Publisher", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -153,18 +158,33 @@ namespace MediaCollection.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 1,
+                            Id = new Guid("2dd65acc-3298-4cb8-a5df-8f8c93059e04"),
                             Name = "HarperTorch"
                         },
                         new
                         {
-                            Id = 2,
+                            Id = new Guid("0526a300-872f-4abe-825d-db8f6640408e"),
                             Name = "Warner Bros. Pictures"
                         },
                         new
                         {
-                            Id = 3,
+                            Id = new Guid("0cbf6f06-0cb8-44cb-9525-02d4d834181c"),
                             Name = "Supergiant Games"
+                        },
+                        new
+                        {
+                            Id = new Guid("2d7fd4be-95be-45c7-884e-b8876bf97632"),
+                            Name = "Square"
+                        },
+                        new
+                        {
+                            Id = new Guid("228f850d-ba52-4137-a9b1-7449f14f774c"),
+                            Name = "ZA/UM"
+                        },
+                        new
+                        {
+                            Id = new Guid("93eefc0a-de92-4cd0-9e82-9a59e5b443c8"),
+                            Name = "Yacht Club Games"
                         });
                 });
 
@@ -172,8 +192,8 @@ namespace MediaCollection.Data.Migrations
                 {
                     b.HasBaseType("MediaCollection.Domain.Entities.Media");
 
-                    b.Property<int>("AuthorId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("AuthorId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasIndex("AuthorId");
 
@@ -182,12 +202,12 @@ namespace MediaCollection.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 1,
+                            Id = new Guid("ed980d9f-fc15-4cf5-844a-9b12566a8597"),
                             Name = "American Gods",
                             Owned = true,
-                            PublisherId = 1,
+                            PublisherId = new Guid("2dd65acc-3298-4cb8-a5df-8f8c93059e04"),
                             ReleaseDate = new DateTime(2001, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            AuthorId = 1
+                            AuthorId = new Guid("c7a76a93-4f5a-4409-aa6f-a10b08e25972")
                         });
                 });
 
@@ -195,8 +215,8 @@ namespace MediaCollection.Data.Migrations
                 {
                     b.HasBaseType("MediaCollection.Domain.Entities.Media");
 
-                    b.Property<int>("DirectorId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("DirectorId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasIndex("DirectorId");
 
@@ -205,12 +225,12 @@ namespace MediaCollection.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 5,
+                            Id = new Guid("fff9a839-2710-46c9-96fb-fa1f585ae2e8"),
                             Name = "Mad Max: Fury Road",
                             Owned = false,
-                            PublisherId = 2,
+                            PublisherId = new Guid("0526a300-872f-4abe-825d-db8f6640408e"),
                             ReleaseDate = new DateTime(2015, 5, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DirectorId = 1
+                            DirectorId = new Guid("2a12bf92-f007-4cda-853e-ac47afb32b58")
                         });
                 });
 
@@ -218,8 +238,8 @@ namespace MediaCollection.Data.Migrations
                 {
                     b.HasBaseType("MediaCollection.Domain.Entities.Media");
 
-                    b.Property<int>("DeveloperId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("DeveloperId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("Finished")
                         .HasColumnType("bit");
@@ -234,14 +254,47 @@ namespace MediaCollection.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 6,
+                            Id = new Guid("d64a24c6-7bd6-4ba8-a1a6-524d69305efe"),
                             Name = "Hades",
                             Owned = true,
-                            PublisherId = 3,
+                            PublisherId = new Guid("0cbf6f06-0cb8-44cb-9525-02d4d834181c"),
                             ReleaseDate = new DateTime(2020, 9, 17, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DeveloperId = 1,
+                            DeveloperId = new Guid("44834ccb-3cb8-439f-b18e-3ea8ea326e62"),
                             Finished = true,
                             OwnedOn = "Steam"
+                        },
+                        new
+                        {
+                            Id = new Guid("11fa67da-5ec1-4f24-a8f2-aa5fc02f9c9d"),
+                            Name = "Disco Elysium",
+                            Owned = true,
+                            PublisherId = new Guid("228f850d-ba52-4137-a9b1-7449f14f774c"),
+                            ReleaseDate = new DateTime(2019, 10, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DeveloperId = new Guid("4894ae09-3aba-49a6-90f2-9c9950128e79"),
+                            Finished = false,
+                            OwnedOn = "GOG"
+                        },
+                        new
+                        {
+                            Id = new Guid("4040186e-770a-44ac-9323-1ea8107eb13d"),
+                            Name = "Shovel Knight",
+                            Owned = true,
+                            PublisherId = new Guid("93eefc0a-de92-4cd0-9e82-9a59e5b443c8"),
+                            ReleaseDate = new DateTime(2014, 6, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DeveloperId = new Guid("edb6b2e4-5325-4e32-aec1-425ce0c9329a"),
+                            Finished = true,
+                            OwnedOn = "Steam"
+                        },
+                        new
+                        {
+                            Id = new Guid("c4b4d641-041d-4a60-b1ff-32c122853751"),
+                            Name = "Final Fantasy 10",
+                            Owned = true,
+                            PublisherId = new Guid("2d7fd4be-95be-45c7-884e-b8876bf97632"),
+                            ReleaseDate = new DateTime(2002, 5, 24, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DeveloperId = new Guid("e12cd967-fc5d-4ecc-bc02-ec595e7975a5"),
+                            Finished = true,
+                            OwnedOn = "Playstation 2"
                         });
                 });
 

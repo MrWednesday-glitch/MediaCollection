@@ -29,7 +29,7 @@ public class FilmController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetBook(int id)
+    public async Task<IActionResult> Getfilm(Guid id)
     {
         try
         {

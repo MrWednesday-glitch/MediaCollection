@@ -24,7 +24,7 @@ public class BookRepository : EFRepository<Book>, IBookRepository
         return await base.Get();
     }
 
-    public override async Task<Book> Get(int id)
+    public override async Task<Book> Get(Guid id)
     {
         return await base.Get(id) ?? throw new KeyNotFoundException($"No book with id {id} was found."); ;
     }

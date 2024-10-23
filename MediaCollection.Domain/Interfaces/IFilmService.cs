@@ -16,5 +16,5 @@ public interface IFilmService
     /// </summary>
     /// <param name="id">The id of the wanted record.</param>
     /// <returns>A task with a film value.</returns>
-    Task<Film> Get(int id);
+    Task<Film> Get(Guid id);
 }

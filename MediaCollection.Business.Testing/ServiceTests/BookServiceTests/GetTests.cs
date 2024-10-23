@@ -5,13 +5,13 @@ public class GetTests
 {
     private readonly Book[] _mockedBooks =
     [
-        new Book { Id = 1, Name = "Huckleberry Finn" },
-        new Book { Id = 2, Name = "Alice in Wonderland" },
-        new Book { Id = 3, Name = "Kill all Normies" },
+        new Book { Id = Guid.NewGuid(), Name = "Huckleberry Finn" },
+        new Book { Id = Guid.NewGuid(), Name = "Alice in Wonderland" },
+        new Book { Id = Guid.NewGuid(), Name = "Kill all Normies" },
     ];
 
     [Fact]
-    public async void SHould_ReturnCorrectAmountOfBooks()
+    public async Task SHould_ReturnCorrectAmountOfBooks()
     {
         // -- Arrange
         Mock<IBookRepository> mockedBookRepository = new Mock<IBookRepository>();
@@ -52,12 +52,13 @@ public class GetTests
     {
         Mock<IBookRepository> mockedBookRepository = new Mock<IBookRepository>();
         IBookService bookService = new BookService(mockedBookRepository.Object);
-        mockedBookRepository.Setup(bRepo => bRepo.Get(1))
-            .ReturnsAsync(new Book { Id = 1, Name = "Feet of Clay" });
+        Guid bookId = Guid.NewGuid();
+        mockedBookRepository.Setup(bRepo => bRepo.Get(bookId))
+            .ReturnsAsync(new Book { Id = bookId, Name = "Feet of Clay" });
 
-        Book book = await bookService.Get(1);
+        Book book = await bookService.Get(bookId);
 
-        book.Id.Should().Be(1);
+        book.Id.Should().Be(bookId);
         book.Name.Should().BeEquivalentTo("Feet of Clay");
     }
 
@@ -66,10 +67,10 @@ public class GetTests
     {
         Mock<IBookRepository> mockedBookRepository = new Mock<IBookRepository>();
         IBookService bookService = new BookService(mockedBookRepository.Object);
-        mockedBookRepository.Setup(bRepo => bRepo.Get(It.IsAny<int>()))
+        mockedBookRepository.Setup(bRepo => bRepo.Get(It.IsAny<Guid>()))
             .ThrowsAsync(new KeyNotFoundException());
 
-        Func<Task> getAction = async () => await bookService.Get(1);
+        Func<Task> getAction = async () => await bookService.Get(Guid.NewGuid());
 
         await getAction.Should().ThrowAsync<KeyNotFoundException>();
     }

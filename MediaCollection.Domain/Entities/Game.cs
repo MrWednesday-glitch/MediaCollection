@@ -3,7 +3,7 @@
 [ExcludeFromCodeCoverage]
 public class Game : Media
 {
-    public int DeveloperId { get; set; }
+    public Guid DeveloperId { get; set; }
 
     public virtual Developer Developer { get; set; } = null!;
 

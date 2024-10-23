@@ -50,69 +50,69 @@ public class MediaDbContext : DbContext
     {
         var harperTorch = new Publisher
         {
-            Id = 1,
+            Id = Guid.NewGuid(),
             Name = "HarperTorch"
         };
         var warnerBros = new Publisher
         {
-            Id = 2,
+            Id = Guid.NewGuid(),
             Name = "Warner Bros. Pictures"
         };
         var supergiantGamesPub = new Publisher
         {
-            Id = 3,
+            Id = Guid.NewGuid(),
             Name = "Supergiant Games"
         };
         var squarePub = new Publisher
         {
-            Id = 4,
+            Id = Guid.NewGuid(),
             Name = "Square"
         };
         var yCGPub = new Publisher
         {
-            Id = 5,
+            Id = Guid.NewGuid(),
             Name = "Yacht Club Games"
         };
         var zaumPub = new Publisher
         {
-            Id = 6,
+            Id = Guid.NewGuid(),
             Name = "ZA/UM"
         };
 
         var georgeMiller = new Director
         {
-            Id = 1,
+            Id = Guid.NewGuid(),
             Name = "George Miller"
         };
         var neilGaiman = new Author
         {
-            Id = 1,
+            Id = Guid.NewGuid(),
             Name = "Neil Gaiman"
         };
         var supergiantGamesDev = new Developer
         {
-            Id = 1,
+            Id = Guid.NewGuid(),
             Name = "Supergiant Games"
         };
         var squareDev = new Developer
         {
-            Id = 2,
+            Id = Guid.NewGuid(),
             Name = "Square Product Development Division 1"
         };
         var yCGDev = new Developer
         {
-            Id = 3,
+            Id = Guid.NewGuid(),
             Name = "Yacht Club Games"
         };
         var zaumDev = new Developer
         {
-            Id = 4,
+            Id = Guid.NewGuid(),
             Name = "ZA/UM"
         };
 
         var hades = new Game
         {
-            Id = 6,
+            Id = Guid.NewGuid(),
             DeveloperId = supergiantGamesDev.Id,
             Finished = true,
             Owned = true,
@@ -123,7 +123,7 @@ public class MediaDbContext : DbContext
         };
         var americanGods = new Book
         {
-            Id = 1,
+            Id = Guid.NewGuid(),
             ReleaseDate = new DateTime(2001, 01, 01),
             AuthorId = neilGaiman.Id,
             Name = "American Gods",
@@ -134,14 +134,14 @@ public class MediaDbContext : DbContext
         {
             DirectorId = georgeMiller.Id,
             ReleaseDate = new DateTime(2015, 05, 07),
-            Id = 5,
+            Id = Guid.NewGuid(),
             Name = "Mad Max: Fury Road",
             Owned = false,
             PublisherId = warnerBros.Id,
         };
         var finalFantasyX = new Game
         {
-            Id = 2,
+            Id = Guid.NewGuid(),
             Finished = true,
             Name = "Final Fantasy 10",
             Owned = true,
@@ -152,7 +152,7 @@ public class MediaDbContext : DbContext
         };
         var shovelKnight = new Game
         {
-            Id = 3,
+            Id = Guid.NewGuid(),
             Finished = true,
             Name = "Shovel Knight",
             Owned = true,
@@ -163,7 +163,7 @@ public class MediaDbContext : DbContext
         };
         var discoElysium = new Game
         {
-            Id = 4,
+            Id = Guid.NewGuid(),
             Finished = false,
             Name = "Disco Elysium",
             Owned = true,

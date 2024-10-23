@@ -29,7 +29,7 @@ public class GameController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetGame(int id)
+    public async Task<IActionResult> GetGame(Guid id)
     {
         try
         {

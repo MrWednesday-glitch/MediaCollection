@@ -7,17 +7,17 @@ public class GetTests
     [
         new Game
         {
-            Id = 1,
+            Id = Guid.NewGuid(),
             Name = "Call of Duty",
         },
         new Game
         {
-            Id = 2,
+            Id = Guid.NewGuid(),
             Name = "Atelier Ryza",
         },
         new Game
         {
-            Id = 3,
+            Id = Guid.NewGuid(),
             Name = "Burnout",
         },
     ];
@@ -35,7 +35,7 @@ public class GetTests
     //}
 
     [Fact]
-    public async Task Should_ReturnCorrectAmountOfCompanies()
+    public async Task Should_ReturnCorrectAmountOfGames()
     {
         // -- Arrange
         var mockedGameRepository = new Mock<IGameRepository>();
@@ -56,9 +56,11 @@ public class GetTests
     {
         var mockedGameRepository = new Mock<IGameRepository>();
         IGameService gameService = new GameService(mockedGameRepository.Object);
-        mockedGameRepository.Setup(gRepo => gRepo.Get(1)).ReturnsAsync(new Game { Id = 1, Name = "Call of Duty" });
+        Guid gameId = Guid.NewGuid();
+        mockedGameRepository.Setup(gRepo => gRepo.Get(gameId))
+            .ReturnsAsync(new Game { Id = gameId, Name = "Call of Duty" });
 
-        var game = await gameService.Get(1);
+        var game = await gameService.Get(gameId);
 
         game.Name.Should().BeEquivalentTo("Call of Duty");
     }
@@ -68,9 +70,10 @@ public class GetTests
     {
         var mockedGameRepository = new Mock<IGameRepository>();
         IGameService gameService = new GameService(mockedGameRepository.Object);
-        mockedGameRepository.Setup(gRepo => gRepo.Get(It.IsAny<int>())).ThrowsAsync(new KeyNotFoundException());
+        mockedGameRepository.Setup(gRepo => gRepo.Get(It.IsAny<Guid>()))
+            .ThrowsAsync(new KeyNotFoundException());
 
-        Func<Task> task = async () => await gameService.Get(0);
+        Func<Task> task = async () => await gameService.Get(Guid.NewGuid());
 
         await task.Should().ThrowAsync<KeyNotFoundException>();
     }

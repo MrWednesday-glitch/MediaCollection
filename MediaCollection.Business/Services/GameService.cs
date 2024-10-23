@@ -10,7 +10,7 @@ public class GameService : IGameService
         _gameRepository = gameRepository ?? throw new ArgumentNullException(nameof(gameRepository));
     }
 
-    public async Task<Game> Get(int id)
+    public async Task<Game> Get(Guid id)
     {
         return await _gameRepository.Get(id);
     }

@@ -24,7 +24,7 @@ public class FilmRepository : EFRepository<Film>, IFilmRepository
         return await base.Get();
     }
 
-    public override async Task<Film> Get(int id)
+    public override async Task<Film> Get(Guid id)
     {
         return await base.Get(id) ?? throw new KeyNotFoundException($"No film with id {id} was found.");
     }
