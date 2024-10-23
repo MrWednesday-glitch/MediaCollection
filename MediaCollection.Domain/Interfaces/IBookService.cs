@@ -16,5 +16,5 @@ public interface IBookService
     /// </summary>
     /// <param name="id">The id of the wanted record.</param>
     /// <returns>A task with a book value.</returns>
-    Task<Book> Get(int id);
+    Task<Book> Get(Guid id);
 }

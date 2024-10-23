@@ -24,7 +24,7 @@ public class GameRepository : EFRepository<Game>, IGameRepository
         return await base.Get();
     }
 
-    public override async Task<Game> Get(int id)
+    public override async Task<Game> Get(Guid id)
     {
         return await base.Get(id) ?? throw new KeyNotFoundException($"No game with id {id} was found.");
     }

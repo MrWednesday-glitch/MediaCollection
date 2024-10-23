@@ -29,7 +29,7 @@ public class FilmService : IFilmService
         return (films, paginationMetadata);
     }
 
-    public async Task<Film> Get(int id)
+    public async Task<Film> Get(Guid id)
     {
         return await _filmRepository.Get(id);
     }

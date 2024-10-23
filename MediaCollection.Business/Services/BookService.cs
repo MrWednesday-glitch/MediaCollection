@@ -29,7 +29,7 @@ public class BookService : IBookService
         return (books, paginationMetadata);
     }
 
-    public async Task<Book> Get(int id)
+    public async Task<Book> Get(Guid id)
     {
         return await _bookRepository.Get(id);
     }

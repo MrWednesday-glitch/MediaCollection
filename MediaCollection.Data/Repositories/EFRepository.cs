@@ -27,7 +27,7 @@ public class EFRepository<TEntity> : IRepository<TEntity> where TEntity : Entity
         return _mediaDbContext.Set<TEntity>().AsQueryable();
     }
 
-    public virtual async Task<TEntity> Get(int id)
+    public virtual async Task<TEntity> Get(Guid id)
     {
         return (await _mediaDbContext.Set<TEntity>().FindAsync(id))!;
     }

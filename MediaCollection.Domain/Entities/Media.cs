@@ -5,7 +5,7 @@ public class Media : EntityBase
 {
     public string Name { get; set; } = string.Empty;
 
-    public int PublisherId { get; set; }
+    public Guid PublisherId { get; set; }
 
     public virtual Publisher Publisher { get; set; } = null!;
 

@@ -19,5 +19,5 @@ public interface IGameService
     /// </summary>
     /// <param name="id">The id of the game entity that is required from the database.</param>
     /// <returns>A game entity.</returns>
-    Task<Game> Get(int id);
+    Task<Game> Get(Guid id);
 }

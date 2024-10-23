@@ -29,7 +29,7 @@ public class BookController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetBook(int id)
+    public async Task<IActionResult> GetBook(Guid id)
     {
         try
         {

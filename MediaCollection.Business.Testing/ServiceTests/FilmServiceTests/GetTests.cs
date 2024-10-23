@@ -5,9 +5,9 @@ public class GetTests
 {
     private readonly Film[] _mockedFilms =
     [
-        new Film { Id = 1, Name = "Alien" },
-        new Film { Id = 2, Name = "Seven Samurai" },
-        new Film { Id = 3, Name = "Gundam Hathaway" },
+        new Film { Id = Guid.NewGuid(), Name = "Alien" },
+        new Film { Id = Guid.NewGuid(), Name = "Seven Samurai" },
+        new Film { Id = Guid.NewGuid(), Name = "Gundam Hathaway" },
     ];
 
     [Fact]
@@ -66,12 +66,13 @@ public class GetTests
     {
         Mock<IFilmRepository> mockedFilmRepository = new();
         IFilmService filmService = new FilmService(mockedFilmRepository.Object);
-        mockedFilmRepository.Setup(fRepo => fRepo.Get(1))
-            .ReturnsAsync(new Film { Id = 1, Name = "Alien" });
+        Guid filmId = Guid.NewGuid();
+        mockedFilmRepository.Setup(fRepo => fRepo.Get(filmId))
+            .ReturnsAsync(new Film { Id = filmId, Name = "Alien" });
 
-        Film film = await filmService.Get(1);
+        Film film = await filmService.Get(filmId);
 
-        film.Id.Should().Be(1);
+        film.Id.Should().Be(filmId);
         film.Name.Should().BeEquivalentTo("Alien");
     }
 
@@ -80,10 +81,10 @@ public class GetTests
     {
         Mock<IFilmRepository> mockedFilmRepository = new();
         IFilmService filmService = new FilmService(mockedFilmRepository.Object);
-        mockedFilmRepository.Setup(fRepo => fRepo.Get(It.IsAny<int>()))
+        mockedFilmRepository.Setup(fRepo => fRepo.Get(It.IsAny<Guid>()))
             .ThrowsAsync(new KeyNotFoundException());
 
-        Func<Task> getAction = async () => await filmService.Get(0);
+        Func<Task> getAction = async () => await filmService.Get(Guid.NewGuid());
 
         await getAction.Should().ThrowAsync<KeyNotFoundException>();
     }

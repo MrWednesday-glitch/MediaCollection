@@ -21,7 +21,7 @@ public interface IRepository<TEntity> where TEntity : EntityBase
     /// </summary>
     /// <param name="id">the id that corresponds with a record.</param>
     /// <returns>The record as an object of type TEntity.</returns>
-    Task<TEntity> Get(int id);
+    Task<TEntity> Get(Guid id);
 
     /// <summary>
     /// Adds a created entity to the database to become a record.

@@ -7,8 +7,6 @@ namespace MediaCollection.API;
 
 public class Program
 {
-    // TODO Have the connectionstring hidden inside local settings
-    // TODO Make Hellang problem details
     public static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
