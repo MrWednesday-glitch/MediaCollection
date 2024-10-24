@@ -12,4 +12,6 @@ public class FilmDTO
     public string ReleaseDate { get; set; } = string.Empty;
 
     public string DirectorName { get; set; } = string.Empty;
+
+    public string? PictureUri { get; set; }
 }

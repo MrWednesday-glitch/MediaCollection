@@ -57,6 +57,7 @@ public class BookController : ControllerBase
             AuthorName = book.Author.Name,
             PublisherName = book.Publisher.Name,
             ReleaseDate = book.ReleaseDate.ToString("dd-MM-yyyy"),
+            PictureUri = book.PictureUri,
         };
     }
 }

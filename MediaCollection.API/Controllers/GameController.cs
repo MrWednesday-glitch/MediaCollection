@@ -59,7 +59,8 @@ public class GameController : ControllerBase
             ReleaseDate = game.ReleaseDate.ToString("dd-MM-yyyy"),
             Finished = game.Finished,
             Owned = game.Owned,
-            OwnedOn = game.OwnedOn ?? "Unowned"
+            OwnedOn = game.OwnedOn ?? "Unowned",
+            PictureUri = game.PictureUri,
         };
     }
 }

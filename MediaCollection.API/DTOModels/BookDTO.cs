@@ -12,4 +12,6 @@ public class BookDTO
     public string ReleaseDate { get; set; } = string.Empty;
 
     public string AuthorName { get; set; } = string.Empty;
+
+    public string? PictureUri { get; set; }
 }

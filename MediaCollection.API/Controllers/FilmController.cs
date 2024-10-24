@@ -57,6 +57,7 @@ public class FilmController : ControllerBase
             DirectorName = film.Director.Name,
             PublisherName = film.Publisher.Name,
             ReleaseDate = film.ReleaseDate.ToString("dd-MM-yyyy"),
+            PictureUri = film.PictureUri,
         };
     }
 }
