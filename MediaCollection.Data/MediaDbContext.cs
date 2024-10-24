@@ -56,7 +56,8 @@ public class MediaDbContext : DbContext
         var warnerBros = new Publisher
         {
             Id = Guid.NewGuid(),
-            Name = "Warner Bros. Pictures"
+            Name = "Warner Bros. Pictures",
+            PictureUri = "https://www.fotolip.com/wp-content/uploads/2016/05/Warner-Bros-logo-23.jpg",
         };
         var supergiantGamesPub = new Publisher
         {
@@ -66,28 +67,33 @@ public class MediaDbContext : DbContext
         var squarePub = new Publisher
         {
             Id = Guid.NewGuid(),
-            Name = "Square"
+            Name = "Square",
+            PictureUri = "https://www.square-enix-games.com/home/public/selogo_onwhite.jpg",
         };
         var yCGPub = new Publisher
         {
             Id = Guid.NewGuid(),
-            Name = "Yacht Club Games"
+            Name = "Yacht Club Games",
+            PictureUri = "https://images.nintendolife.com/9081f8a938747/yacht-club-games.original.jpg",
         };
         var zaumPub = new Publisher
         {
             Id = Guid.NewGuid(),
-            Name = "ZA/UM"
+            Name = "ZA/UM",
+            PictureUri = "https://videogames.si.com/.image/t_share/MjA0MzY3MDI4MDcxNDQyMjA4/zaum-studio-logo-1.png",
         };
 
         var georgeMiller = new Director
         {
             Id = Guid.NewGuid(),
-            Name = "George Miller"
+            Name = "George Miller",
+            PictureUri = "https://i1.wp.com/www.filminquiry.com/wp-content/uploads/2020/05/George-Miller.jpg?fit=1050%2C700&ssl=1",
         };
         var neilGaiman = new Author
         {
             Id = Guid.NewGuid(),
-            Name = "Neil Gaiman"
+            Name = "Neil Gaiman",
+            PictureUri = "https://img.thedailybeast.com/image/upload/c_crop,d_placeholder_euli9k,h_1687,w_2999,x_0,y_0/dpr_1.5/c_limit,w_1600/fl_lossy,q_auto/v1610347631/210108-leon-neil-gaiman-hero_vhtgng",
         };
         var supergiantGamesDev = new Developer
         {
@@ -107,7 +113,8 @@ public class MediaDbContext : DbContext
         var zaumDev = new Developer
         {
             Id = Guid.NewGuid(),
-            Name = "ZA/UM"
+            Name = "ZA/UM",
+            PictureUri = "https://videogames.si.com/.image/t_share/MjA0MzY3MDI4MDcxNDQyMjA4/zaum-studio-logo-1.png",
         };
 
         var hades = new Game
@@ -120,6 +127,7 @@ public class MediaDbContext : DbContext
             ReleaseDate = new DateTime(2020, 09, 17),
             OwnedOn = "Steam",
             PublisherId = supergiantGamesPub.Id,
+            PictureUri = "https://image.api.playstation.com/vulcan/ap/rnd/202104/0517/9AcM3vy5t77zPiJyKHwRfnNT.png",
         };
         var americanGods = new Book
         {
@@ -129,6 +137,7 @@ public class MediaDbContext : DbContext
             Name = "American Gods",
             Owned = true,
             PublisherId = harperTorch.Id,
+            PictureUri = "https://1.bp.blogspot.com/-sIcmR6Ve9uk/UT4G1N7iAaI/AAAAAAAASJU/KEzdlynscVE/s1600/american-gods-ebook-9788499185415.jpg",
         };
         var furyRoad = new Film
         {
@@ -138,6 +147,7 @@ public class MediaDbContext : DbContext
             Name = "Mad Max: Fury Road",
             Owned = false,
             PublisherId = warnerBros.Id,
+            PictureUri = "https://cdn.traileraddict.com/content/warner-bros-pictures/mad_max_fury_road-7.jpg",
         };
         var finalFantasyX = new Game
         {
@@ -149,6 +159,7 @@ public class MediaDbContext : DbContext
             OwnedOn = "Playstation 2",
             DeveloperId = squareDev.Id,
             PublisherId = squarePub.Id,
+            PictureUri = "https://m.media-amazon.com/images/I/91rQrZ+BRHL._AC_SL1500_.jpg",
         };
         var shovelKnight = new Game
         {
@@ -160,6 +171,7 @@ public class MediaDbContext : DbContext
             OwnedOn = "Steam",
             DeveloperId = yCGDev.Id,
             PublisherId = yCGPub.Id,
+            PictureUri = "https://www.gamespot.com/a/uploads/scale_medium/mig/0/0/6/2/2230062-box_sk.png"
         };
         var discoElysium = new Game
         {
@@ -171,6 +183,7 @@ public class MediaDbContext : DbContext
             OwnedOn = "GOG",
             DeveloperId = zaumDev.Id,
             PublisherId = zaumPub.Id,
+            PictureUri = "https://static0.gamerantimages.com/wordpress/wp-content/uploads/2022/10/disco-elysium-final-cut.jpg"
         };
 
 

@@ -20,4 +20,6 @@ public class GameDTO
     public string OwnedOn { get; set; } = string.Empty;
 
     public bool Finished { get; set; }
+
+    public string? PictureUri { get; set; }
 }
