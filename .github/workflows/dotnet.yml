@@ -20,16 +20,21 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+  
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: ${{ env.DOTNET_VERSION }}
+
     - name: Restore dependencies
       run: dotnet restore ./MediaCollection.sln
+
     - name: Build
       run: dotnet build ./MediaCollection.sln --no-restore
+
     - name: Test
-      run: dotnet test ./MediaCollection.Business.Testing/MediaCollection.Business.Testing.csproj --no-build --verbosity normal --no-build --verbosity normal --logger "trx;LogFileName=xtests.trx"
+      run: dotnet test ./MediaCollection.Business.Testing/MediaCollection.Business.Testing.csproj --no-build --verbosity normal --logger "trx;LogFileName=xtests.trx"
+
     - name: Publish Test Results
       uses: EnricoMi/publish-unit-test-result-action@v2
       if: always()
