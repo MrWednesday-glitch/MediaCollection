@@ -22,18 +22,6 @@ public class GetTests
         },
     ];
 
-    // TODO Figure out how to test this
-    //[Fact]
-    //public void Should_ThrowArgumentNullException_When_TheRepositoryIsNull()
-    //{
-    //    Mock<IGameRepository>? mockedGameRepository = null;
-    //    //IGameService gameService = new GameService(mockedGameRepository.Object);
-
-    //    var invocation = () => new GameService(mockedGameRepository.Object);
-
-    //    invocation.Should().Throw<ArgumentNullException>().WithMessage("gameRepository");
-    //}
-
     [Fact]
     public async Task Should_ReturnCorrectAmountOfGames()
     {

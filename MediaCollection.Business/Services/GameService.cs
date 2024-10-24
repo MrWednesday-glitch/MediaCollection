@@ -4,7 +4,6 @@ public class GameService : IGameService
 {
     private readonly IGameRepository _gameRepository;
 
-    // TODO unittest argument null repository is null
     public GameService(IGameRepository gameRepository)
     {
         _gameRepository = gameRepository ?? throw new ArgumentNullException(nameof(gameRepository));
