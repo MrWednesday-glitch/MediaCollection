@@ -5,9 +5,46 @@ public class GetTests
 {
     private readonly Film[] _mockedFilms =
     [
-        new Film { Id = Guid.NewGuid(), Name = "Alien" },
-        new Film { Id = Guid.NewGuid(), Name = "Seven Samurai" },
-        new Film { Id = Guid.NewGuid(), Name = "Gundam Hathaway" },
+        new Film 
+        { 
+            Id = Guid.NewGuid(), 
+            Name = "Alien",
+            Director = new Director
+            {
+                Name = "DirectorA"
+            },
+            Publisher = new Publisher
+            {
+                Name = "PublisherA"
+            },
+        },
+        new Film 
+        { 
+            Id = 
+            Guid.NewGuid(), 
+            Name = "Seven Samurai",
+            Director = new Director
+            {
+                Name = "DirectorB"
+            },
+            Publisher = new Publisher
+            {
+                Name = "PublisherA"
+            },
+        },
+        new Film 
+        { 
+            Id = Guid.NewGuid(), 
+            Name = "Gundam Hathaway",
+            Director = new Director
+            {
+                Name = "DirectorC"
+            },
+            Publisher = new Publisher
+            {
+                Name = "PublisherC"
+            },
+        },
     ];
 
     [Fact]
@@ -59,6 +96,23 @@ public class GetTests
         var (films, metadata) = await filmService.Get(pageNumber, pageSize);
 
         films.ToList().Should().HaveCount(expectedCollectionSize);
+    }
+
+    [Theory]
+    [InlineData("alien", 1)]
+    [InlineData("director", 3)]
+    [InlineData("publishera", 2)]
+    public async Task Should_FindCorrectAmountOfRecordsBasedOnSearchTerm(string searchTerm, int expectedTotalItemCount)
+    {
+        Mock<IFilmRepository> mockedFilmRepository = new();
+        IFilmService filmService = new FilmService(mockedFilmRepository.Object);
+        mockedFilmRepository.Setup(fRepo => fRepo.Get()).ReturnsAsync(_mockedFilms.AsQueryable());
+        int pageNumber = 1;
+        int pageSize = 10;
+
+        (IEnumerable<Film> films, PaginationMetadata metaData) = await filmService.Get(pageNumber, pageSize, searchTerm);
+
+        metaData.TotalItemCount.Should().Be(expectedTotalItemCount);
     }
 
     [Fact]

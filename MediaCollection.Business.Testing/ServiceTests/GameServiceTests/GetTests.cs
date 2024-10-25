@@ -9,16 +9,40 @@ public class GetTests
         {
             Id = Guid.NewGuid(),
             Name = "Call of Duty",
+            Developer = new Developer
+            {
+                Name = "DeveloperA"
+            },
+            Publisher = new Publisher
+            {
+                Name = "PublisherA"
+            }
         },
         new Game
         {
             Id = Guid.NewGuid(),
             Name = "Atelier Ryza",
+            Developer = new Developer
+            {
+                Name = "DeveloperB"
+            },
+            Publisher = new Publisher
+            {
+                Name = "PublisherA"
+            }
         },
         new Game
         {
             Id = Guid.NewGuid(),
             Name = "Burnout",
+            Developer = new Developer
+            {
+                Name = "DeveloperC"
+            },
+            Publisher = new Publisher
+            {
+                Name = "PublisherB"
+            }
         },
     ];
 
@@ -37,6 +61,23 @@ public class GetTests
 
         // -- Assert
         games.ToList().Should().HaveCount(3);
+    }
+
+    [Theory]
+    [InlineData("burnout", 1)]
+    [InlineData("developer", 3)]
+    [InlineData("publishera", 2)]
+    public async Task Should_FindCorrectAmountOfRecordsBasedOnSearchTerm(string searchTerm, int expectedTotalItemCount)
+    {
+        var mockedGameRepository = new Mock<IGameRepository>();
+        IGameService gameService = new GameService(mockedGameRepository.Object);
+        mockedGameRepository.Setup(gRepo => gRepo.Get()).ReturnsAsync(_mockedGames.AsQueryable);
+        int pageNumber = 1;
+        int pageSize = 10;
+
+        (IEnumerable<Game> games, PaginationMetadata metaData) = await gameService.Get(pageNumber, pageSize, searchTerm);
+
+        metaData.TotalItemCount.Should().Be(expectedTotalItemCount);
     }
 
     [Fact]

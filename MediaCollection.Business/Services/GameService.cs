@@ -16,18 +16,21 @@ public class GameService : IGameService
 
     public async Task<(IEnumerable<Game>, PaginationMetadata)> Get(int pageNumber, int pageSize, string? searchTerm = "")
     {
-        var gameCollection = await _gameRepository.Get();
+        IQueryable<Game> gameCollection = await _gameRepository.Get();
 
-        //TODO Write unit tests if searchterm is filled
         if (!searchTerm.IsNullOrEmpty())
         {
-            // TODO add logic to search through games
+            searchTerm = searchTerm.ToLower();
+
+            gameCollection = gameCollection.Where(game => game.Name.ToLower().Contains(searchTerm) 
+                                                           || game.Publisher.Name.ToLower().Contains(searchTerm) 
+                                                           || game.Developer.Name.ToLower().Contains(searchTerm));
         }
 
-        var totalItemCount = gameCollection.Count();
-        var paginationMetadata = new PaginationMetadata(totalItemCount, pageSize, pageNumber);
+        int totalItemCount = gameCollection.Count();
+        PaginationMetadata paginationMetadata = new PaginationMetadata(totalItemCount, pageSize, pageNumber);
 
-        var games = gameCollection
+        List<Game> games = gameCollection
             .Skip(pageSize * (pageNumber - 1))
             .Take(pageSize)
             .ToList();
