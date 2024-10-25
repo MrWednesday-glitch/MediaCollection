@@ -11,17 +11,21 @@ public class BookService : IBookService
 
     public async Task<(IEnumerable<Book>, PaginationMetadata)> Get(int pageNumber, int pageSize, string? searchTerm = "")
     {
-        var bookCollection = await _bookRepository.Get();
+        IQueryable<Book> bookCollection = await _bookRepository.Get();
 
         if (!searchTerm.IsNullOrEmpty())
         {
-            // TODO add logic to search through books
+            searchTerm = searchTerm.ToLower();
+
+            bookCollection = bookCollection.Where(book => book.Name.ToLower().Contains(searchTerm)
+                                                           || book.Publisher.Name.ToLower().Contains(searchTerm)
+                                                           || book.Author.Name.ToLower().Contains(searchTerm));
         }
 
-        var totalItemCount = bookCollection.Count();
-        var paginationMetadata = new PaginationMetadata(totalItemCount, pageSize, pageNumber);
+        int totalItemCount = bookCollection.Count();
+        PaginationMetadata paginationMetadata = new PaginationMetadata(totalItemCount, pageSize, pageNumber);
 
-        var books = bookCollection
+        List<Book> books = bookCollection
             .Skip(pageSize * (pageNumber - 1))
             .Take(pageSize)
             .ToList();

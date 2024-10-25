@@ -11,17 +11,21 @@ public class FilmService : IFilmService
 
     public async Task<(IEnumerable<Film>, PaginationMetadata)> Get(int pageNumber, int pageSize, string? searchTerm = "")
     {
-        var filmCollection = await _filmRepository.Get();
+        IQueryable<Film> filmCollection = await _filmRepository.Get();
 
         if (!searchTerm.IsNullOrEmpty())
         {
-            // TODO add logic to search through books
+            searchTerm = searchTerm.ToLower();
+
+            filmCollection = filmCollection.Where(film => film.Name.ToLower().Contains(searchTerm)
+                                                           || film.Publisher.Name.ToLower().Contains(searchTerm)
+                                                           || film.Director.Name.ToLower().Contains(searchTerm));
         }
 
-        var totalItemCount = filmCollection.Count();
-        var paginationMetadata = new PaginationMetadata(totalItemCount, pageSize, pageNumber);
+       int totalItemCount = filmCollection.Count();
+       PaginationMetadata paginationMetadata = new PaginationMetadata(totalItemCount, pageSize, pageNumber);
 
-        var films = filmCollection
+       List<Film> films = filmCollection
             .Skip(pageSize * (pageNumber - 1))
             .Take(pageSize)
             .ToList();
