@@ -20,7 +20,7 @@ public class GameService : IGameService
 
         if (!searchTerm.IsNullOrEmpty())
         {
-            searchTerm = searchTerm.ToLower();
+            searchTerm = searchTerm!.ToLower();
 
             gameCollection = gameCollection.Where(game => game.Name.ToLower().Contains(searchTerm) 
                                                            || game.Publisher.Name.ToLower().Contains(searchTerm) 
@@ -36,5 +36,12 @@ public class GameService : IGameService
             .ToList();
 
         return (games, paginationMetadata);
+    }
+
+    public async Task<Game> GetRandom()
+    {
+        // TODO Finish
+        // TODO Unit test
+        throw new NotImplementedException();
     }
 }
