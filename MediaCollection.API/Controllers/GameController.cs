@@ -15,7 +15,14 @@ public class GameController : ControllerBase
     [HttpGet("randomunfinished", Name = "GetRandomUnfinished")]
     public async Task<IActionResult> GetRandomUnfinished()
     {
-        Game randomGame = await _gameService.GetRandom();
+        Game? randomGame = await _gameService.GetRandom();
+
+        if (randomGame is null) 
+        {
+            // TODO Make something of an errorfactory that returns a standard set of json key=values per non standard result.
+            return NoContent();
+        }
+
         GameDTO gameDTO = Transform(randomGame);
 
         return Ok(gameDTO);

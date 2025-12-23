@@ -20,5 +20,5 @@ public interface IGameService
     Task<Game> Get(Guid id);
 
     // TODO Summary
-    Task<Game> GetRandom();
+    Task<Game?> GetRandom();
 }
