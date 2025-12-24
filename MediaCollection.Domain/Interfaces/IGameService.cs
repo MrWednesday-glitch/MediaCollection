@@ -1,6 +1,4 @@
-﻿using MediaCollection.Domain.Entities;
-
-namespace MediaCollection.Domain.Interfaces;
+﻿namespace MediaCollection.Domain.Interfaces;
 
 public interface IGameService
 {
@@ -20,4 +18,10 @@ public interface IGameService
     /// <param name="id">The id of the game entity that is required from the database.</param>
     /// <returns>A game entity.</returns>
     Task<Game> Get(Guid id);
+
+    /// <summary>
+    /// Logic to select a random unfinished game from the database.
+    /// </summary>
+    /// <returns>A random game, or null if no unfinished games exist in the database.</returns>
+    Task<Game?> GetRandom();
 }

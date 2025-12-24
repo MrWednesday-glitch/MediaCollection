@@ -20,7 +20,7 @@ public class GameService : IGameService
 
         if (!searchTerm.IsNullOrEmpty())
         {
-            searchTerm = searchTerm.ToLower();
+            searchTerm = searchTerm!.ToLower();
 
             gameCollection = gameCollection.Where(game => game.Name.ToLower().Contains(searchTerm) 
                                                            || game.Publisher.Name.ToLower().Contains(searchTerm) 
@@ -28,7 +28,7 @@ public class GameService : IGameService
         }
 
         int totalItemCount = gameCollection.Count();
-        PaginationMetadata paginationMetadata = new PaginationMetadata(totalItemCount, pageSize, pageNumber);
+        PaginationMetadata paginationMetadata = new(totalItemCount, pageSize, pageNumber);
 
         List<Game> games = gameCollection
             .Skip(pageSize * (pageNumber - 1))
@@ -36,5 +36,24 @@ public class GameService : IGameService
             .ToList();
 
         return (games, paginationMetadata);
+    }
+
+    public async Task<Game?> GetRandom()
+    {
+        IQueryable<Game> unfinishedGames = (await _gameRepository.Get())
+            .Where(g => !g.Finished);
+        int totalItemCount = unfinishedGames.Count();
+
+        if (totalItemCount == 0)
+        {
+            return null;
+        }
+
+        Random random = new();
+        int randomNumber = random.Next(0, totalItemCount);
+
+        return unfinishedGames
+            .Skip(randomNumber)
+            .FirstOrDefault();
     }
 }

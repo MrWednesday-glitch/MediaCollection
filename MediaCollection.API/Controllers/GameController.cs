@@ -12,6 +12,22 @@ public class GameController : ControllerBase
         _gameService = gameService;
     }
 
+    [HttpGet("randomunfinished", Name = "GetRandomUnfinished")]
+    public async Task<IActionResult> GetRandomUnfinished()
+    {
+        Game? randomGame = await _gameService.GetRandom();
+
+        if (randomGame is null) 
+        {
+            // TODO Make something of an errorfactory that returns a standard set of json key=values per non standard result.
+            return NoContent();
+        }
+
+        GameDTO gameDTO = Transform(randomGame);
+
+        return Ok(gameDTO);
+    }
+
     [HttpGet(Name = "GetGames")]
     public async Task<IActionResult> GetGames(int pageNumber = 1, int pageSize = 10, string? searchTerm = "") //TODO add filters
     {
@@ -21,7 +37,7 @@ public class GameController : ControllerBase
         }
 
         var (games, paginationMetadata) = await _gameService.Get(pageNumber, pageSize, searchTerm);
-        var gamesDTO = games.Select(g => Transform(g));
+        IEnumerable<GameDTO> gamesDTO = games.Select(g => Transform(g));
 
         Response.Headers.Append("X-Pagination", JsonSerializer.Serialize(paginationMetadata));
 
@@ -33,8 +49,8 @@ public class GameController : ControllerBase
     {
         try
         {
-            var game = await _gameService.Get(id);
-            var gameDTO = Transform(game);
+            Game game = await _gameService.Get(id);
+            GameDTO gameDTO = Transform(game);
 
             return Ok(gameDTO);
         }
