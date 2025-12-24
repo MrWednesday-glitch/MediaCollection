@@ -19,6 +19,9 @@ public interface IGameService
     /// <returns>A game entity.</returns>
     Task<Game> Get(Guid id);
 
-    // TODO Summary
+    /// <summary>
+    /// Logic to select a random unfinished game from the database.
+    /// </summary>
+    /// <returns>A random game, or null if no unfinished games exist in the database.</returns>
     Task<Game?> GetRandom();
 }
