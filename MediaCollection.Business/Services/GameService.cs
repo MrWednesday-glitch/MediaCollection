@@ -40,8 +40,6 @@ public class GameService : IGameService
 
     public async Task<Game?> GetRandom()
     {
-        // TODO Unit test
-
         IQueryable<Game> unfinishedGames = (await _gameRepository.Get())
             .Where(g => !g.Finished);
         int totalItemCount = unfinishedGames.Count();
