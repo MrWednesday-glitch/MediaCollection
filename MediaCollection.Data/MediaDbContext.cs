@@ -50,76 +50,76 @@ public class MediaDbContext : DbContext
     {
         var harperTorch = new Publisher
         {
-            Id = Guid.NewGuid(),
+            Id = Guid.Parse("00000000-0000-0000-0000-000000000001"),
             Name = "HarperTorch"
         };
         var warnerBros = new Publisher
         {
-            Id = Guid.NewGuid(),
+            Id = Guid.Parse("00000000-0000-0000-0000-000000000002"),
             Name = "Warner Bros. Pictures",
             PictureUri = "https://www.fotolip.com/wp-content/uploads/2016/05/Warner-Bros-logo-23.jpg",
         };
         var supergiantGamesPub = new Publisher
         {
-            Id = Guid.NewGuid(),
+            Id = Guid.Parse("00000000-0000-0000-0000-000000000003"),
             Name = "Supergiant Games"
         };
         var squarePub = new Publisher
         {
-            Id = Guid.NewGuid(),
+            Id = Guid.Parse("00000000-0000-0000-0000-000000000004"),
             Name = "Square",
             PictureUri = "https://www.square-enix-games.com/home/public/selogo_onwhite.jpg",
         };
         var yCGPub = new Publisher
         {
-            Id = Guid.NewGuid(),
+            Id = Guid.Parse("00000000-0000-0000-0000-000000000005"),
             Name = "Yacht Club Games",
             PictureUri = "https://images.nintendolife.com/9081f8a938747/yacht-club-games.original.jpg",
         };
         var zaumPub = new Publisher
         {
-            Id = Guid.NewGuid(),
+            Id = Guid.Parse("00000000-0000-0000-0000-000000000006"),
             Name = "ZA/UM",
             PictureUri = "https://videogames.si.com/.image/t_share/MjA0MzY3MDI4MDcxNDQyMjA4/zaum-studio-logo-1.png",
         };
 
         var georgeMiller = new Director
         {
-            Id = Guid.NewGuid(),
+            Id = Guid.Parse("00000000-0000-0000-0000-000000000007"),
             Name = "George Miller",
             PictureUri = "https://i1.wp.com/www.filminquiry.com/wp-content/uploads/2020/05/George-Miller.jpg?fit=1050%2C700&ssl=1",
         };
         var neilGaiman = new Author
         {
-            Id = Guid.NewGuid(),
+            Id = Guid.Parse("00000000-0000-0000-0000-000000000008"),
             Name = "Neil Gaiman",
             PictureUri = "https://img.thedailybeast.com/image/upload/c_crop,d_placeholder_euli9k,h_1687,w_2999,x_0,y_0/dpr_1.5/c_limit,w_1600/fl_lossy,q_auto/v1610347631/210108-leon-neil-gaiman-hero_vhtgng",
         };
         var supergiantGamesDev = new Developer
         {
-            Id = Guid.NewGuid(),
+            Id = Guid.Parse("00000000-0000-0000-0000-000000000009"),
             Name = "Supergiant Games"
         };
         var squareDev = new Developer
         {
-            Id = Guid.NewGuid(),
+            Id = Guid.Parse("00000000-0000-0000-0000-000000000010"),
             Name = "Square Product Development Division 1"
         };
         var yCGDev = new Developer
         {
-            Id = Guid.NewGuid(),
+            Id = Guid.Parse("00000000-0000-0000-0000-000000000011"),
             Name = "Yacht Club Games"
         };
         var zaumDev = new Developer
         {
-            Id = Guid.NewGuid(),
+            Id = Guid.Parse("00000000-0000-0000-0000-000000000012"),
             Name = "ZA/UM",
             PictureUri = "https://videogames.si.com/.image/t_share/MjA0MzY3MDI4MDcxNDQyMjA4/zaum-studio-logo-1.png",
         };
 
         var hades = new Game
         {
-            Id = Guid.NewGuid(),
+            Id = Guid.Parse("00000000-0000-0000-0000-000000000013"),
             DeveloperId = supergiantGamesDev.Id,
             Finished = true,
             Owned = true,
@@ -131,7 +131,7 @@ public class MediaDbContext : DbContext
         };
         var americanGods = new Book
         {
-            Id = Guid.NewGuid(),
+            Id = Guid.Parse("00000000-0000-0000-0000-000000000014"),
             ReleaseDate = new DateTime(2001, 01, 01),
             AuthorId = neilGaiman.Id,
             Name = "American Gods",
@@ -143,7 +143,7 @@ public class MediaDbContext : DbContext
         {
             DirectorId = georgeMiller.Id,
             ReleaseDate = new DateTime(2015, 05, 07),
-            Id = Guid.NewGuid(),
+            Id = Guid.Parse("00000000-0000-0000-0000-000000000016"),
             Name = "Mad Max: Fury Road",
             Owned = false,
             PublisherId = warnerBros.Id,
@@ -151,7 +151,7 @@ public class MediaDbContext : DbContext
         };
         var finalFantasyX = new Game
         {
-            Id = Guid.NewGuid(),
+            Id = Guid.Parse("00000000-0000-0000-0000-000000000015"),
             Finished = true,
             Name = "Final Fantasy 10",
             Owned = true,
@@ -163,7 +163,7 @@ public class MediaDbContext : DbContext
         };
         var shovelKnight = new Game
         {
-            Id = Guid.NewGuid(),
+            Id = Guid.Parse("00000000-0000-0000-0000-000000000017"),
             Finished = true,
             Name = "Shovel Knight",
             Owned = true,
@@ -175,7 +175,7 @@ public class MediaDbContext : DbContext
         };
         var discoElysium = new Game
         {
-            Id = Guid.NewGuid(),
+            Id = Guid.Parse("00000000-0000-0000-0000-000000000018"),
             Finished = false,
             Name = "Disco Elysium",
             Owned = true,
