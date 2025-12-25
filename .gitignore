@@ -361,5 +361,10 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# local secrets
 /MediaCollection.API/local.settings.json
 /MediaCollection.Data/local.settings.json
+
+# vscode stuff
+.vscode
