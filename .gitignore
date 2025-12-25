@@ -364,6 +364,7 @@ FodyWeavers.xsd
 
 # local secrets
 /MediaCollection.API/local.settings.json
+/MediaCollection.API/appsettings.Development.json
 /MediaCollection.Data/local.settings.json
 
 # vscode stuff
