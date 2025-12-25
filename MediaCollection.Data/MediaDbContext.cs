@@ -35,7 +35,7 @@ public class MediaDbContext : DbContext
         {
             IConfigurationRoot configBuilder = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("local.settings.json", false, true)
+                .AddJsonFile("local.settings.json", true, true)
                 .Build();
             string connectionString = configBuilder.GetConnectionString("LocalDb")
                 ?? throw new ArgumentNullException("No Connectionstring found.");
