@@ -31,7 +31,7 @@ public class MediaDbContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        // Uncomment this and add the proper connString when I need to do a migration
+        // Uncomment this and add the proper connString when I need to do a migration jgj
         //if (!optionsBuilder.IsConfigured)
         //{
         //    string connectionString = "";
