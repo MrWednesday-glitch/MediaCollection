@@ -31,6 +31,7 @@ public class MediaDbContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
+#if DEBUG
         if (!optionsBuilder.IsConfigured)
         {
             IConfigurationRoot configBuilder = new ConfigurationBuilder()
@@ -42,6 +43,7 @@ public class MediaDbContext : DbContext
 
             optionsBuilder.UseSqlServer(connectionString);
         }
+#endif
 
         base.OnConfiguring(optionsBuilder);
     }
