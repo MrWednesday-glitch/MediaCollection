@@ -31,17 +31,13 @@ public class MediaDbContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        if (!optionsBuilder.IsConfigured)
-        {
-            IConfigurationRoot configBuilder = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("local.settings.json", false, true)
-                .Build();
-            string connectionString = configBuilder.GetConnectionString("LocalDb")
-                ?? throw new ArgumentNullException("No Connectionstring found.");
+        // Uncomment this and add the proper connString when I need to do a migration jgj
+        //if (!optionsBuilder.IsConfigured)
+        //{
+        //    string connectionString = "";
 
-            optionsBuilder.UseSqlServer(connectionString);
-        }
+        //    optionsBuilder.UseSqlServer(connectionString);
+        //}
 
         base.OnConfiguring(optionsBuilder);
     }

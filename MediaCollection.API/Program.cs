@@ -10,11 +10,7 @@ public class Program
     public static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
-        IConfigurationRoot configBuilder = new ConfigurationBuilder()
-            .SetBasePath(Directory.GetCurrentDirectory())
-            .AddJsonFile("local.settings.json", false, true)
-            .Build();
-        string connectionString = configBuilder.GetConnectionString("LocalDb") 
+        string connectionString = builder.Configuration.GetConnectionString("LocalDb") 
             ?? throw new ArgumentNullException("No Connectionstring found.");
 
         // Add services to the container.

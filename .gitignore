@@ -363,8 +363,7 @@ MigrationBackup/
 FodyWeavers.xsd
 
 # local secrets
-/MediaCollection.API/local.settings.json
-/MediaCollection.Data/local.settings.json
+/MediaCollection.API/appsettings.Development.json
 
 # vscode stuff
 .vscode
