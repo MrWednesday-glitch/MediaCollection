@@ -50,11 +50,11 @@ public class GetTests
     public async Task Should_ReturnCorrectAmountOfGames()
     {
         // -- Arrange
-        var mockedGameRepository = new Mock<IGameRepository>();
+        Mock<IGameRepository> mockedGameRepository = new();
         IGameService gameService = new GameService(mockedGameRepository.Object);
         mockedGameRepository.Setup(gRepo => gRepo.Get()).ReturnsAsync(_mockedGames.AsQueryable);
-        var pageNumber = 1;
-        var pageSize = 10;
+        int pageNumber = 1;
+        int pageSize = 10;
 
         // -- Act
         var (games, metaData) = (await gameService.Get(pageNumber, pageSize));
@@ -69,7 +69,7 @@ public class GetTests
     [InlineData("publishera", 2)]
     public async Task Should_FindCorrectAmountOfRecordsBasedOnSearchTerm(string searchTerm, int expectedTotalItemCount)
     {
-        var mockedGameRepository = new Mock<IGameRepository>();
+        Mock<IGameRepository> mockedGameRepository = new();
         IGameService gameService = new GameService(mockedGameRepository.Object);
         mockedGameRepository.Setup(gRepo => gRepo.Get()).ReturnsAsync(_mockedGames.AsQueryable);
         int pageNumber = 1;
@@ -83,13 +83,13 @@ public class GetTests
     [Fact]
     public async Task Should_FindCorrespondingGameToId()
     {
-        var mockedGameRepository = new Mock<IGameRepository>();
+        Mock<IGameRepository> mockedGameRepository = new();
         IGameService gameService = new GameService(mockedGameRepository.Object);
         Guid gameId = Guid.NewGuid();
         mockedGameRepository.Setup(gRepo => gRepo.Get(gameId))
             .ReturnsAsync(new Game { Id = gameId, Name = "Call of Duty" });
 
-        var game = await gameService.Get(gameId);
+        Game game = await gameService.Get(gameId);
 
         game.Name.Should().BeEquivalentTo("Call of Duty");
     }
@@ -97,7 +97,7 @@ public class GetTests
     [Fact]
     public async Task Should_ThrowKeyNotFoundException_When_NoGameMatchingAnIdIsFound()
     {
-        var mockedGameRepository = new Mock<IGameRepository>();
+        Mock<IGameRepository>? mockedGameRepository = new();
         IGameService gameService = new GameService(mockedGameRepository.Object);
         mockedGameRepository.Setup(gRepo => gRepo.Get(It.IsAny<Guid>()))
             .ThrowsAsync(new KeyNotFoundException());
@@ -114,10 +114,10 @@ public class GetTests
     [InlineData(4, 3)]
     public async Task Should_ReturnALimitedCollectionMatchingThePageSize(int pageSize, int expectedCollectionSize)
     {
-        var mockedGameRepository = new Mock<IGameRepository>();
+        Mock<IGameRepository>? mockedGameRepository = new();
         IGameService gameService = new GameService(mockedGameRepository.Object);
         mockedGameRepository.Setup(gRepo => gRepo.Get()).ReturnsAsync(_mockedGames.AsQueryable);
-        var pageNumber = 1;
+        int pageNumber = 1;
 
         var (games, metaData) = (await gameService.Get(pageNumber, pageSize));
 
@@ -127,17 +127,19 @@ public class GetTests
     [Fact]
     public async Task Should_HaveCorrectPaginationMetaData()
     {
-        var mockedGameRepository = new Mock<IGameRepository>();
+        Mock<IGameRepository> mockedGameRepository = new();
         IGameService gameService = new GameService(mockedGameRepository.Object);
         mockedGameRepository.Setup(gRepo => gRepo.Get()).ReturnsAsync(_mockedGames.AsQueryable);
-        var pageNumber = 1;
-        var pageSize = 2;
+        int pageNumber = 1;
+        int pageSize = 2;
 
-        var (games, metaData) = (await gameService.Get(pageNumber, pageSize));
+        var (games, metaData) = await gameService.Get(pageNumber, pageSize);
 
-        metaData.PageSize.Should().Be(2);
-        metaData.CurrentPage.Should().Be(1);
-        metaData.TotalItemCount.Should().Be(3);
-        metaData.TotalPageCount.Should().Be(2);
+        metaData
+            .Should().NotBeNull()
+            .And.Match<PaginationMetadata>(mD => mD.PageSize == 2)
+            .And.Match<PaginationMetadata>(mD => mD.CurrentPage == 1)
+            .And.Match<PaginationMetadata>(mD => mD.TotalItemCount == 3)
+            .And.Match<PaginationMetadata>(mD => mD.TotalPageCount == 2);
     }
 }

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MediaCollection.Business.Testing.ServiceTests.GameServiceTests;
+﻿namespace MediaCollection.Business.Testing.ServiceTests.GameServiceTests;
 
 [ExcludeFromCodeCoverage]
 public class GetRandomTests
@@ -63,11 +57,12 @@ public class GetRandomTests
         mockedGameRepository.Setup(gRepo => gRepo.Get()).ReturnsAsync(mockedGames.AsQueryable);
 
         // -- Act
-        Game? randomGame = (await gameService.GetRandom());
+        Game? randomGame = await gameService.GetRandom();
 
         // -- Assert
-        randomGame.Should().NotBeNull();
-        randomGame!.Name.Should().NotBeNullOrEmpty();
+        randomGame
+            .Should().NotBeNull()
+            .And.Match<Game>(g => !string.IsNullOrEmpty(g.Name));
     }
 
     [Fact]
@@ -124,7 +119,7 @@ public class GetRandomTests
         mockedGameRepository.Setup(gRepo => gRepo.Get()).ReturnsAsync(mockedGames.AsQueryable);
 
         // -- Act
-        Game? randomGame = (await gameService.GetRandom());
+        Game? randomGame = await gameService.GetRandom();
 
         // -- Assert
         randomGame.Should().BeNull();
