@@ -8,7 +8,6 @@ namespace MediaCollection.API.Controllers;
 [Route("publishers")]
 public class PublisherController : ControllerBase
 {
-    // TODO Make service, interface, and add to DI container
     private readonly IPublisherService _publisherService;
 
     public PublisherController(IPublisherService publisherService)

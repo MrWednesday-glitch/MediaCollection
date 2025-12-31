@@ -9,17 +9,19 @@ namespace MediaCollection.Business.Services;
 // TODO Summaries
 public class PublisherService : IPublisherService
 {
-    //private readonly IPublisherRepository _publisherRepository;
+    private readonly IPublisherRepository _publisherRepository;
 
-    //public PublisherService(IPublisherRepository publisherRepository)
-    //{
-    //    ArgumentNullException.ThrowIfNull(publisherRepository);
-
-    //    _publisherRepository = publisherRepository;
-    //}
-
-    public Task<Publisher[]> Add(PublisherToBe[] publishersToBe)
+    public PublisherService(IPublisherRepository publisherRepository)
     {
+        ArgumentNullException.ThrowIfNull(publisherRepository);
+
+        _publisherRepository = publisherRepository;
+    }
+
+    public async Task<Publisher[]> Add(PublisherToBe[] publishersToBe)
+    {
+
+
         throw new NotImplementedException();
     }
 }
