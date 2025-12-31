@@ -10,6 +10,29 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 	</PropertyGroup>
 
+	<PropertyGroup>
+		<GlobalMicrosoftNetVersion>[10.*,11)</GlobalMicrosoftNetVersion>
+
+		<MicrosoftEntityFrameworkCoreProxiesVersion>$(GlobalMicrosoftNetVersion)</MicrosoftEntityFrameworkCoreProxiesVersion>
+		<MicrosoftEntityFrameworkCoreVersion>$(GlobalMicrosoftNetVersion)</MicrosoftEntityFrameworkCoreVersion>
+		<MicrosoftEntityFrameworkCoreDesignVersion>$(GlobalMicrosoftNetVersion)</MicrosoftEntityFrameworkCoreDesignVersion>
+		<MicrosoftEntityFrameworkCoreSqlServerVersion>$(GlobalMicrosoftNetVersion)</MicrosoftEntityFrameworkCoreSqlServerVersion>
+		<MicrosoftEntityFrameworkCoreToolsVersion>$(GlobalMicrosoftNetVersion)</MicrosoftEntityFrameworkCoreToolsVersion>
+		<MicrosoftEntityFrameworkCoreInMemoryVersion>$(GlobalMicrosoftNetVersion)</MicrosoftEntityFrameworkCoreInMemoryVersion>
+
+		<MicrosoftExtensionsConfigurationFileExtensionsVersion>$(GlobalMicrosoftNetVersion)</MicrosoftExtensionsConfigurationFileExtensionsVersion>
+		<MicrosoftExtensionsConfigurationJsonVersion>$(GlobalMicrosoftNetVersion)</MicrosoftExtensionsConfigurationJsonVersion>
+
+		<SwashbuckleAspNetCoreVersion>10.*</SwashbuckleAspNetCoreVersion>
+
+		<CoverletCollectorVersion>6.*</CoverletCollectorVersion>
+		<FluentAssertionsVersion>7.*</FluentAssertionsVersion>
+		<MicrosoftNETTestSdkVersion>18.*</MicrosoftNETTestSdkVersion>
+		<MoqVersion>4.*</MoqVersion>
+		<XunitVersion>2.*</XunitVersion>
+		<XunitRunnerVisualStudioVersion>3.*</XunitRunnerVisualStudioVersion>
+	</PropertyGroup>
+
 	<ItemGroup Condition="!$(MSBuildProjectName.EndsWith('.Testing'))">
 		<InternalsVisibleTo Include="$(MSBuildProjectName).Testing" />
 	</ItemGroup>
