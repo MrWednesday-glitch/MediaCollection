@@ -4,11 +4,11 @@
 	<SolutionDir>$(MSBuildThisFileDirectory)</SolutionDir>
   </PropertyGroup>
 
-  <PropertyGroup>
+  <!--<PropertyGroup>
 	<TargetFramework>net10.0</TargetFramework>
 	<Nullable>enable</Nullable>
 	<ImplicitUsings>enable</ImplicitUsings>
-  </PropertyGroup>
+  </PropertyGroup>-->
 
   <PropertyGroup>
 	<GlobalMicrosoftNetVersion>[10.*,11)</GlobalMicrosoftNetVersion>
@@ -37,11 +37,11 @@
 	<InternalsVisibleTo Include="$(MSBuildProjectName).Testing" />
   </ItemGroup>
 
-  <PropertyGroup Condition="$(MSBuildProjectName.EndsWith('.Testing'))">
+  <!--<PropertyGroup Condition="$(MSBuildProjectName.EndsWith('.Testing'))">
 	<IsPackable>false</IsPackable>
 	<IsTestProject>true</IsTestProject>
 
 	<MainProjectName>$(MSBuildProjectName.Substring(0, $(MSBuildProjectName.IndexOf('.Testing'))))</MainProjectName>
-  </PropertyGroup>
+  </PropertyGroup>-->
 
 </Project>
