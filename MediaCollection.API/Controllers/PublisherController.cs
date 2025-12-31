@@ -19,11 +19,11 @@ public class PublisherController : ControllerBase
     }
 
     [HttpPost(Name = "PostPublishers")]
-    public async Task<IActionResult> PostPublishers([FromBody]PublisherToBe[] publisherToBe)
+    public async Task<IActionResult> PostPublishers([FromBody]PublisherToBe[] publishersToBe)
     {
         try
         {
-            Publisher[] createdPublishers = ...;
+            Publisher[] createdPublishers = await _publisherService.Add(publishersToBe);
 
             return Created("", createdPublishers);
         }
