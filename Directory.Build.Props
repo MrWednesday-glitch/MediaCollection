@@ -1,43 +1,47 @@
 <Project>
 
-	<PropertyGroup>
-		<TargetFramework>net10.0</TargetFramework>
-		<Nullable>enable</Nullable>
-		<ImplicitUsings>enable</ImplicitUsings>
-	</PropertyGroup>
+  <PropertyGroup>
+	<SolutionDir>$(MSBuildThisFileDirectory)</SolutionDir>
+  </PropertyGroup>
 
-	<PropertyGroup>
-		<GlobalMicrosoftNetVersion>[10.*,11)</GlobalMicrosoftNetVersion>
+  <PropertyGroup>
+	<TargetFramework>net10.0</TargetFramework>
+	<Nullable>enable</Nullable>
+	<ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
 
-		<MicrosoftEntityFrameworkCoreProxiesVersion>$(GlobalMicrosoftNetVersion)</MicrosoftEntityFrameworkCoreProxiesVersion>
-		<MicrosoftEntityFrameworkCoreVersion>$(GlobalMicrosoftNetVersion)</MicrosoftEntityFrameworkCoreVersion>
-		<MicrosoftEntityFrameworkCoreDesignVersion>$(GlobalMicrosoftNetVersion)</MicrosoftEntityFrameworkCoreDesignVersion>
-		<MicrosoftEntityFrameworkCoreSqlServerVersion>$(GlobalMicrosoftNetVersion)</MicrosoftEntityFrameworkCoreSqlServerVersion>
-		<MicrosoftEntityFrameworkCoreToolsVersion>$(GlobalMicrosoftNetVersion)</MicrosoftEntityFrameworkCoreToolsVersion>
-		<MicrosoftEntityFrameworkCoreInMemoryVersion>$(GlobalMicrosoftNetVersion)</MicrosoftEntityFrameworkCoreInMemoryVersion>
+  <PropertyGroup>
+	<GlobalMicrosoftNetVersion>[10.*,11)</GlobalMicrosoftNetVersion>
 
-		<MicrosoftExtensionsConfigurationFileExtensionsVersion>$(GlobalMicrosoftNetVersion)</MicrosoftExtensionsConfigurationFileExtensionsVersion>
-		<MicrosoftExtensionsConfigurationJsonVersion>$(GlobalMicrosoftNetVersion)</MicrosoftExtensionsConfigurationJsonVersion>
+	<MicrosoftEntityFrameworkCoreProxiesVersion>$(GlobalMicrosoftNetVersion)</MicrosoftEntityFrameworkCoreProxiesVersion>
+	<MicrosoftEntityFrameworkCoreVersion>$(GlobalMicrosoftNetVersion)</MicrosoftEntityFrameworkCoreVersion>
+	<MicrosoftEntityFrameworkCoreDesignVersion>$(GlobalMicrosoftNetVersion)</MicrosoftEntityFrameworkCoreDesignVersion>
+	<MicrosoftEntityFrameworkCoreSqlServerVersion>$(GlobalMicrosoftNetVersion)</MicrosoftEntityFrameworkCoreSqlServerVersion>
+	<MicrosoftEntityFrameworkCoreToolsVersion>$(GlobalMicrosoftNetVersion)</MicrosoftEntityFrameworkCoreToolsVersion>
+	<MicrosoftEntityFrameworkCoreInMemoryVersion>$(GlobalMicrosoftNetVersion)</MicrosoftEntityFrameworkCoreInMemoryVersion>
 
-		<SwashbuckleAspNetCoreVersion>10.*</SwashbuckleAspNetCoreVersion>
+	<MicrosoftExtensionsConfigurationFileExtensionsVersion>$(GlobalMicrosoftNetVersion)</MicrosoftExtensionsConfigurationFileExtensionsVersion>
+	<MicrosoftExtensionsConfigurationJsonVersion>$(GlobalMicrosoftNetVersion)</MicrosoftExtensionsConfigurationJsonVersion>
 
-		<CoverletCollectorVersion>6.*</CoverletCollectorVersion>
-		<FluentAssertionsVersion>7.*</FluentAssertionsVersion>
-		<MicrosoftNETTestSdkVersion>18.*</MicrosoftNETTestSdkVersion>
-		<MoqVersion>4.*</MoqVersion>
-		<XunitVersion>2.*</XunitVersion>
-		<XunitRunnerVisualStudioVersion>3.*</XunitRunnerVisualStudioVersion>
-	</PropertyGroup>
+	<SwashbuckleAspNetCoreVersion>10.*</SwashbuckleAspNetCoreVersion>
 
-	<ItemGroup Condition="!$(MSBuildProjectName.EndsWith('.Testing'))">
-		<InternalsVisibleTo Include="$(MSBuildProjectName).Testing" />
-	</ItemGroup>
+	<CoverletCollectorVersion>6.*</CoverletCollectorVersion>
+	<FluentAssertionsVersion>7.*</FluentAssertionsVersion>
+	<MicrosoftNETTestSdkVersion>18.*</MicrosoftNETTestSdkVersion>
+	<MoqVersion>4.*</MoqVersion>
+	<XunitVersion>2.*</XunitVersion>
+	<XunitRunnerVisualStudioVersion>3.*</XunitRunnerVisualStudioVersion>
+  </PropertyGroup>
 
-	<PropertyGroup Condition="$(MSBuildProjectName.EndsWith('.Testing'))">
-		<IsPackable>false</IsPackable>
-		<IsTestProject>true</IsTestProject>
+  <ItemGroup Condition="!$(MSBuildProjectName.EndsWith('.Testing'))">
+	<InternalsVisibleTo Include="$(MSBuildProjectName).Testing" />
+  </ItemGroup>
 
-		<MainProjectName>$(MSBuildProjectName.Substring(0, $(MSBuildProjectName.IndexOf('.Testing'))))</MainProjectName>
-	</PropertyGroup>
+  <PropertyGroup Condition="$(MSBuildProjectName.EndsWith('.Testing'))">
+	<IsPackable>false</IsPackable>
+	<IsTestProject>true</IsTestProject>
+
+	<MainProjectName>$(MSBuildProjectName.Substring(0, $(MSBuildProjectName.IndexOf('.Testing'))))</MainProjectName>
+  </PropertyGroup>
 
 </Project>
