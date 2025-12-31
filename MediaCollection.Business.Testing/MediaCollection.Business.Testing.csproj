@@ -21,8 +21,12 @@
     <ProjectReference Include="..\MediaCollection.Domain\MediaCollection.Domain.csproj" />
   </ItemGroup>
 
+	<!--other way to do globalusings-->
   <ItemGroup>
     <Using Include="Xunit" />
+	<Using Include="FluentAssertions" />
+	<Using Include="Moq" />
+	<Using Include="System.Diagnostics.CodeAnalysis" />
   </ItemGroup>
 
 </Project>
