@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Text;
+﻿using System.Diagnostics.CodeAnalysis;
 
 namespace MediaCollection.Data.Repositories;
 
@@ -14,7 +11,7 @@ public class PublisherRepository : EFRepository<Publisher>, IPublisherRepository
 
     public override async Task CreateRecord(Publisher entity)
     {
-         await base.CreateRecord(entity);
+        await base.CreateRecord(entity);
     }
 
     public override async Task DeleteRecord(Publisher entity)
@@ -35,5 +32,10 @@ public class PublisherRepository : EFRepository<Publisher>, IPublisherRepository
     public override async Task SaveChanges()
     {
         await base.SaveChanges();
+    }
+
+    public override async Task CreateRecords(Publisher[] entities)
+    {
+        await base.CreateRecords(entities);
     }
 }

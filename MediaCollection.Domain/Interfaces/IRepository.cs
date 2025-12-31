@@ -1,6 +1,4 @@
-﻿using MediaCollection.Domain.Entities;
-
-namespace MediaCollection.Domain.Interfaces;
+﻿namespace MediaCollection.Domain.Interfaces;
 
 public interface IRepository<TEntity> where TEntity : EntityBase
 {
@@ -33,4 +31,7 @@ public interface IRepository<TEntity> where TEntity : EntityBase
     /// Sends a previous command to the database to be executed.
     /// </summary>
     Task SaveChanges();
+
+    // TODO summary
+    Task CreateRecords(TEntity[] entities);
 }

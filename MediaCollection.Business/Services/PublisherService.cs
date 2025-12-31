@@ -20,8 +20,20 @@ public class PublisherService : IPublisherService
 
     public async Task<Publisher[]> Add(PublisherToBe[] publishersToBe)
     {
+        if (publishersToBe.Length <= 0)
+        {
+            return [];
+        }
 
+        Publisher[] publishers = publishersToBe
+            .Select(x => new Publisher { Name = x.Name, PictureUri = x.PictureUri })
+            .ToArray();
 
-        throw new NotImplementedException();
+        // TODO check if publisher already exists, and then remove it from the collection
+
+        await _publisherRepository.CreateRecords(publishers);
+        await _publisherRepository.SaveChanges();
+
+        return publishers;
     }
 }

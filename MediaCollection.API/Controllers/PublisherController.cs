@@ -1,4 +1,5 @@
 ﻿using MediaCollection.Domain.Models;
+using System.Text;
 
 namespace MediaCollection.API.Controllers;
 
@@ -24,7 +25,13 @@ public class PublisherController : ControllerBase
         {
             Publisher[] createdPublishers = await _publisherService.Add(publishersToBe);
 
-            return Created("", createdPublishers);
+            StringBuilder stringBuilder = new();
+            foreach (var createdPublisher in createdPublishers)
+            {
+                stringBuilder.Append($@"/publishers/{createdPublisher.Id},");
+            }
+
+            return Created(stringBuilder.ToString(), createdPublishers);
         }
         catch (Exception ex)
         {
