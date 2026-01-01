@@ -1,7 +1,4 @@
 ﻿using MediaCollection.Domain.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace MediaCollection.Business.Services;
 
@@ -22,18 +19,34 @@ public class PublisherService : IPublisherService
     {
         if (publishersToBe.Length <= 0)
         {
-            return [];
+            return Array.Empty<Publisher>();
         }
 
-        Publisher[] publishers = publishersToBe
+        IEnumerable<PublisherToBe> distinctPublishersToBe = publishersToBe.DistinctBy(x => x.Name);
+
+        IQueryable<Publisher> existingPublishers = await FilterOutExisting(distinctPublishersToBe);
+
+        Publisher[] publishers = distinctPublishersToBe
+            .Where(p => !existingPublishers.Any(e => e.Name.Equals(p.Name)))
             .Select(x => new Publisher { Name = x.Name, PictureUri = x.PictureUri })
             .ToArray();
-
-        // TODO check if publisher already exists, and then remove it from the collection
 
         await _publisherRepository.CreateRecords(publishers);
         await _publisherRepository.SaveChanges();
 
+        publishers = publishers.Concat(existingPublishers).ToArray();
+
         return publishers;
+    }
+
+    private async Task<IQueryable<Publisher>> FilterOutExisting(IEnumerable<PublisherToBe> publishersToBe)
+    {
+        IEnumerable<string> publisherNamesToCheck = publishersToBe
+            .Select(x => x.Name);
+
+        IQueryable<Publisher> existingPublishers = (await _publisherRepository.Get())
+            .Where(p => publisherNamesToCheck.Contains(p.Name));
+
+        return existingPublishers;
     }
 }
