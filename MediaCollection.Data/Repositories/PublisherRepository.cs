@@ -34,7 +34,7 @@ public class PublisherRepository : EFRepository<Publisher>, IPublisherRepository
         await base.SaveChanges();
     }
 
-    public override async Task CreateRecords(Publisher[] entities)
+    public override async Task CreateRecords(IEnumerable<Publisher> entities)
     {
         await base.CreateRecords(entities);
     }

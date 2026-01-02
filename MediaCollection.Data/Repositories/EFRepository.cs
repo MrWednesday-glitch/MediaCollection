@@ -17,7 +17,7 @@ public class EFRepository<TEntity> : IRepository<TEntity> where TEntity : Entity
         await _mediaDbContext.Set<TEntity>().AddAsync(entity);
     }
 
-    public virtual async Task CreateRecords(TEntity[] entities)
+    public virtual async Task CreateRecords(IEnumerable<TEntity> entities)
     {
         await _mediaDbContext.Set<TEntity>().AddRangeAsync(entities);
     }

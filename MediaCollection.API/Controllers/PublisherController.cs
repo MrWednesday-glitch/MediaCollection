@@ -3,8 +3,10 @@ using System.Text;
 
 namespace MediaCollection.API.Controllers;
 
-// TODO Summaries
 //TODO Unit tests
+/// <summary>
+/// The controller for dealing with <see cref="Publisher"/> entities.
+/// </summary>
 [ApiController]
 [Route("publishers")]
 public class PublisherController : ControllerBase
@@ -18,15 +20,19 @@ public class PublisherController : ControllerBase
         _publisherService = publisherService;
     }
 
+    /// <summary>
+    /// The controller endpoint to store publisher information into the database.
+    /// </summary>
+    /// <param name="publishersToBe">The required information that needs to be send to the database.</param>
     [HttpPost(Name = "PostPublishers")]
     public async Task<IActionResult> PostPublishers([FromBody]PublisherToBe[] publishersToBe)
     {
         try
         {
-            Publisher[] createdPublishers = await _publisherService.Add(publishersToBe);
+            IEnumerable<Publisher> createdPublishers = await _publisherService.Add(publishersToBe);
 
             StringBuilder stringBuilder = new();
-            foreach (var createdPublisher in createdPublishers)
+            foreach (Publisher createdPublisher in createdPublishers)
             {
                 stringBuilder.Append($@"/publishers/{createdPublisher.Id},");
             }

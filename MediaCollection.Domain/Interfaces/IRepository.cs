@@ -1,5 +1,9 @@
 ﻿namespace MediaCollection.Domain.Interfaces;
 
+/// <summary>
+/// The generic interface for interacting with the <see cref="IRepository{TEntity}"/>. 
+/// </summary>
+/// <typeparam name="TEntity">The entities that are stored in the database via Entity Framework.</typeparam>
 public interface IRepository<TEntity> where TEntity : EntityBase
 {
     /// <summary>
@@ -32,6 +36,9 @@ public interface IRepository<TEntity> where TEntity : EntityBase
     /// </summary>
     Task SaveChanges();
 
-    // TODO summary
-    Task CreateRecords(TEntity[] entities);
+    /// <summary>
+    /// Adds a multitude of <see cref="TEntity"/> entities to the database to become records.
+    /// </summary>
+    /// <param name="entities">The entities that need to be stored into the database.</param>
+    Task CreateRecords(IEnumerable<TEntity> entities);
 }
