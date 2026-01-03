@@ -27,9 +27,9 @@ public class PublisherService : IPublisherService
     /// <returns>The publisher entities that are in the database.</returns>
     public async Task<IEnumerable< Publisher>> Add(IEnumerable< PublisherToBe> publishersToBe)
     {
-        if (publishersToBe.Count() <= 0)
+        if (!publishersToBe.Any())
         {
-            return Array.Empty<Publisher>();
+            return Enumerable.Empty<Publisher>();
         }
 
         IEnumerable<PublisherToBe> distinctPublishersToBe = publishersToBe.DistinctBy(pTB => pTB.Name);
