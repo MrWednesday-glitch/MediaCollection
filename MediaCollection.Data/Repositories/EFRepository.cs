@@ -17,6 +17,11 @@ public class EFRepository<TEntity> : IRepository<TEntity> where TEntity : Entity
         await _mediaDbContext.Set<TEntity>().AddAsync(entity);
     }
 
+    public virtual async Task CreateRecords(IEnumerable<TEntity> entities)
+    {
+        await _mediaDbContext.Set<TEntity>().AddRangeAsync(entities);
+    }
+
     public virtual async Task DeleteRecord(TEntity entity)
     {
         _mediaDbContext.Set<TEntity>().Remove(entity);
