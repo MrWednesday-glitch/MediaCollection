@@ -16,8 +16,4 @@ public class ConstructorTests
             .Should().ThrowExactly<ArgumentNullException>()
             .WithParameterName("publisherRepository");
     }
-
-    // TODO Test happyflow
-    // TODO Test distinct
-    // TODO Test filter
 }
