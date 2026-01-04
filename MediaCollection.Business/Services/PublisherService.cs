@@ -1,8 +1,5 @@
-﻿using MediaCollection.Domain.Models;
+﻿namespace MediaCollection.Business.Services;
 
-namespace MediaCollection.Business.Services;
-
-// TODO unit test
 /// <summary>
 /// The actual logic dealing with the <see cref="Publisher"/> entity
 /// </summary>
@@ -25,7 +22,7 @@ public class PublisherService : IPublisherService
     /// </summary>
     /// <param name="publishersToBe">The collection of publishers that are to be added.</param>
     /// <returns>The publisher entities that are in the database.</returns>
-    public async Task<IEnumerable< Publisher>> Add(IEnumerable< PublisherToBe> publishersToBe)
+    public async Task<IEnumerable<Publisher>> Add(IEnumerable<PublisherToBe> publishersToBe)
     {
         if (!publishersToBe.Any())
         {
@@ -36,12 +33,12 @@ public class PublisherService : IPublisherService
 
         IQueryable<Publisher> existingPublishers = await FilterOutExisting(distinctPublishersToBe);
 
-        IEnumerable< Publisher> publishers = distinctPublishersToBe
+        IEnumerable<Publisher> publishers = distinctPublishersToBe
             .Where(pTB => !existingPublishers.Any(p => p.Name.Equals(pTB.Name)))
-            .Select(pTB => new Publisher 
-            { 
-                Name = pTB.Name, 
-                PictureUri = pTB.PictureUri 
+            .Select(pTB => new Publisher
+            {
+                Name = pTB.Name,
+                PictureUri = pTB.PictureUri
             });
 
         await _publisherRepository.CreateRecords(publishers);
