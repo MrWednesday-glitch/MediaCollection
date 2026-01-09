@@ -1,7 +1,6 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿namespace MediaCollection.Data.Repositories;
 
-namespace MediaCollection.Data.Repositories;
-
+// TODO Summaries
 [ExcludeFromCodeCoverage]
 public class PublisherRepository : EFRepository<Publisher>, IPublisherRepository
 {
