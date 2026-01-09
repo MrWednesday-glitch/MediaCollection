@@ -3,8 +3,10 @@ using System.Text;
 
 namespace MediaCollection.API.Controllers;
 
-// TODO Summaries
 // TODO Unit tests
+/// <summary>
+/// The controller for dealing with <see cref="Developer"/> entities.
+/// </summary>
 [ApiController]
 [Route("developers")]
 public class DeveloperController : ControllerBase
@@ -18,6 +20,10 @@ public class DeveloperController : ControllerBase
         _developerService = developerService;
     }
 
+    /// <summary>
+    /// The controller endpoint to store developer information into the database.
+    /// </summary>
+    /// <param name="DeveloperToBe">The information needed to store developers into the database.</param>
     [HttpPost(Name = "PostDevelopers")]
     public async Task<IActionResult> PostDevelopers([FromBody] DeveloperToBe[] DeveloperToBe)
     {

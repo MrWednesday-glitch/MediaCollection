@@ -1,16 +1,17 @@
-﻿using MediaCollection.Domain.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿namespace MediaCollection.Business.Services;
 
-namespace MediaCollection.Business.Services;
-
-// TODO Summaries
 // TODO Unit testen
+/// <summary>
+/// The actual logic dealing with the <see cref="Developer"/> entity.
+/// </summary>
 public class DeveloperService : IDeveloperService
 {
     private readonly IDeveloperRepository _developerRepository;
 
+    /// <summary>
+    /// Initializes the constructor.
+    /// </summary>
+    /// <param name="developerRepository">The implementation of the <see cref="IDeveloperRepository"/>.</param>
     public DeveloperService(IDeveloperRepository developerRepository)
     {
         ArgumentNullException.ThrowIfNull(developerRepository);
@@ -18,6 +19,14 @@ public class DeveloperService : IDeveloperService
         _developerRepository = developerRepository;
     }
 
+    /// <summary>
+    /// Checks if the collection to be added isn't empty,
+    /// that all the elements in it are unique,
+    /// whether certain elements aren't in the database already,
+    /// and then stores the unstored ones into the database.
+    /// </summary>
+    /// <param name="developersToBe">The collection of <see cref="Developer"/> that are to be added.</param>
+    /// <returns>The <see cref="Developer"/> entities that are in the database.</returns>
     public async Task<IEnumerable<Developer>> Add(IEnumerable<DeveloperToBe> developersToBe)
     {
         if (!developersToBe.Any())
@@ -45,6 +54,11 @@ public class DeveloperService : IDeveloperService
         return developers;
     }
 
+    /// <summary>
+    /// Returns a collection of <see cref="Developer"/> that already exists in the database.
+    /// </summary>
+    /// <param name="developersToBe">The collection of developers that are to be added.</param>
+    /// <returns>A collection of already existing <see cref="Developer"/> entities.</returns>
     private async Task<IQueryable<Developer>> FilterOutExisting(IEnumerable<DeveloperToBe> developersToBe)
     {
         IEnumerable<string> developersNamesToCheck = developersToBe

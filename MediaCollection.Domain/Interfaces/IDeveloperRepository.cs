@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿namespace MediaCollection.Domain.Interfaces;
 
-namespace MediaCollection.Domain.Interfaces;
-
-// TODO SUmmaries
+/// <summary>
+/// The interface for the service class of the <see cref="Developer"/> entity.
+/// </summary>
 public interface IDeveloperRepository : IRepository<Developer>
 {
 }
