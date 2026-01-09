@@ -1,9 +1,9 @@
 ﻿namespace MediaCollection.Domain.Models;
 
 /// <summary>
-/// The model for information that will become a <see cref="Publisher"/> entity.
+/// The model for information that will become a <see cref="Developer"/> entity.
 /// </summary>
-public record PublisherToBe
+public record DeveloperToBe
 {
     /// <summary>
     /// An uri to a picture.
@@ -11,7 +11,7 @@ public record PublisherToBe
     public string? PictureUri { get; init; }
 
     /// <summary>
-    /// The name of the <see cref="Publisher"/>.
+    /// The name of the <see cref="Developer"/>.
     /// </summary>
     public string Name { get; init; } = string.Empty;
 }
