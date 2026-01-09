@@ -29,6 +29,7 @@ public class Program
         builder.Services.AddScoped<IBookService, BookService>();
         builder.Services.AddScoped<IFilmService, FilmService>();
         builder.Services.AddScoped<IPublisherService, PublisherService>();
+        builder.Services.AddScoped<IDeveloperService, DeveloperService>();
         builder.Services.AddScoped<IGameRepository, GameRepository>();
         builder.Services.AddScoped<IBookRepository, BookRepository>();
         builder.Services.AddScoped<IFilmRepository, FilmRepository>();
