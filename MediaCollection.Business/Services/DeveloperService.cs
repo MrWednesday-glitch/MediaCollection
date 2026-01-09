@@ -1,6 +1,5 @@
 ﻿namespace MediaCollection.Business.Services;
 
-// TODO Unit testen
 /// <summary>
 /// The actual logic dealing with the <see cref="Developer"/> entity.
 /// </summary>
