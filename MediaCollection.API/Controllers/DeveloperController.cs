@@ -3,7 +3,6 @@ using System.Text;
 
 namespace MediaCollection.API.Controllers;
 
-// TODO Unit tests
 /// <summary>
 /// The controller for dealing with <see cref="Developer"/> entities.
 /// </summary>

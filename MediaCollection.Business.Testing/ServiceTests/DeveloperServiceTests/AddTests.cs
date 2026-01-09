@@ -1,0 +1,138 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace MediaCollection.Business.Testing.ServiceTests.DeveloperServiceTests;
+
+[ExcludeFromCodeCoverage]
+public class AddTests
+{
+    [Fact]
+    public async Task Should_ReturnAnEmptyCollection_When_AnEmptyCollectionGoesIn()
+    {
+        // -- Arrange
+        List<DeveloperToBe> developersToBe = new();
+        IDeveloperService developerService = new DeveloperService(Mock.Of<IDeveloperRepository>());
+
+        // -- Act
+        List<Developer> developers = (await developerService.Add(developersToBe)).ToList();
+
+        // -- Assert
+        developers.Should().HaveCount(0);
+    }
+
+    // TODO Finish the rest of these
+
+    //[Fact]
+    //public async Task Should_FollowTheHappyPath()
+    //{
+    //    IEnumerable<PublisherToBe> publishersToBe = new List<PublisherToBe>()
+    //    {
+    //        new PublisherToBe()
+    //        {
+    //            Name = "2K",
+    //            PictureUri = "www.dinotopia.com"
+    //        }
+    //    };
+    //    Mock<IPublisherRepository> mockedRepo = new();
+    //    mockedRepo
+    //        .Setup(x => x.Get())
+    //        .Verifiable(Times.Once);
+    //    mockedRepo
+    //        .Setup(x => x.CreateRecords(It.IsAny<IEnumerable<Publisher>>()))
+    //        .Verifiable(Times.Once);
+    //    mockedRepo
+    //        .Setup(x => x.SaveChanges())
+    //        .Verifiable(Times.Once);
+    //    IPublisherService publisherService = new PublisherService(mockedRepo.Object);
+
+    //    List<Publisher> publishers = (await publisherService.Add(publishersToBe)).ToList();
+
+    //    publishers.Should().HaveCount(1);
+    //    mockedRepo.Verify();
+    //}
+
+    //[Fact]
+    //public async Task Should_FollowTheHappyPath_And_RemoveDuplicates()
+    //{
+    //    IEnumerable<PublisherToBe> publishersToBe = new List<PublisherToBe>()
+    //    {
+    //        new PublisherToBe()
+    //        {
+    //            Name = "2K",
+    //            PictureUri = "www.dinotopia.com"
+    //        },
+    //        new PublisherToBe()
+    //        {
+    //            Name = "2K",
+    //            PictureUri = "www.dinotopia.com"
+    //        }
+    //    };
+    //    Mock<IPublisherRepository> mockedRepo = new();
+    //    mockedRepo
+    //        .Setup(x => x.Get())
+    //        .Verifiable(Times.Once);
+    //    mockedRepo
+    //        .Setup(x => x.CreateRecords(It.IsAny<IEnumerable<Publisher>>()))
+    //        .Verifiable(Times.Once);
+    //    mockedRepo
+    //        .Setup(x => x.SaveChanges())
+    //        .Verifiable(Times.Once);
+    //    IPublisherService publisherService = new PublisherService(mockedRepo.Object);
+
+    //    List<Publisher> publishers = (await publisherService.Add(publishersToBe)).ToList();
+
+    //    publishers.Should().HaveCount(1);
+    //    mockedRepo.Verify();
+    //}
+
+    //[Fact]
+    //public async Task Should_ProperlyDealWithEntitiesThatAlreadyExist()
+    //{
+    //    IEnumerable<PublisherToBe> publishersToBe = new List<PublisherToBe>()
+    //    {
+    //        new()
+    //        {
+    //            Name = "2K",
+    //            PictureUri = "www.dinotopia.com"
+    //        },
+    //        new()
+    //        {
+    //            Name = "EA",
+    //            PictureUri = "www.flaaafffyyyy.com"
+    //        }
+    //    };
+    //    Mock<IPublisherRepository> mockedRepo = new();
+    //    IEnumerable<Publisher> existingPublishers = new List<Publisher>()
+    //    {
+    //        new()
+    //        {
+    //            Id = Guid.Parse("10000000-0000-0000-0000-000000000001"),
+    //            Name = "EA",
+    //            PictureUri = "www.flaaafffyyyy.com"
+    //        }
+    //    };
+    //    mockedRepo
+    //        .Setup(x => x.Get())
+    //        .ReturnsAsync(existingPublishers.AsQueryable)
+    //        .Verifiable(Times.Once);
+    //    mockedRepo
+    //        .Setup(x => x.CreateRecords(It.IsAny<IEnumerable<Publisher>>()))
+    //        .Verifiable(Times.Once);
+    //    mockedRepo
+    //        .Setup(x => x.SaveChanges())
+    //        .Verifiable(Times.Once);
+    //    IPublisherService publisherService = new PublisherService(mockedRepo.Object);
+
+    //    List<Publisher> publishers = (await publisherService.Add(publishersToBe)).ToList();
+
+    //    publishers.Should().HaveCount(2);
+    //    mockedRepo.Verify();
+
+    //    Publisher publisher2K = publishers.First(x => x.Name.Equals("2K"));
+    //    Publisher publisherEA = publishers.First(x => x.Name.Equals("EA"));
+
+    //    publisher2K.Id.Should().Be(Guid.Parse("00000000-0000-0000-0000-000000000000"));
+    //    publisherEA.Id.Should().Be(Guid.Parse("10000000-0000-0000-0000-000000000001"));
+    //}
+}
