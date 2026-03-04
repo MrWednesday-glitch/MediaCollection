@@ -1,6 +1,4 @@
-﻿using MediaCollection.Domain.Exceptions;
-
-namespace MediaCollection.API.Controllers;
+﻿namespace MediaCollection.API.Controllers;
 
 [ApiController]
 [Route("games")]
@@ -11,21 +9,22 @@ public class GameController : ControllerBase
 
     public GameController(IGameService gameService)
     {
+        ArgumentNullException.ThrowIfNull(gameService);
+
         _gameService = gameService;
     }
 
     [HttpGet("randomunfinished", Name = "GetRandomUnfinished")]
     public async Task<IActionResult> GetRandomUnfinished()
     {
-        Game? randomGame = await _gameService.GetRandom();
+        CustomResult<Game> randomGameResult = await _gameService.GetRandom();
 
-        if (randomGame is null) 
+        if (randomGameResult.IsFailure)
         {
-            // TODO Make something of an errorfactory that returns a standard set of json key=values per non standard result.
             return NoContent();
         }
 
-        GameDTO gameDTO = Transform(randomGame);
+        GameDTO gameDTO = Transform(randomGameResult.Value);
 
         return Ok(gameDTO);
     }
@@ -38,8 +37,14 @@ public class GameController : ControllerBase
             pageSize = MaxPageSize;
         }
 
-        var (games, paginationMetadata) = await _gameService.Get(pageNumber, pageSize, searchTerm);
-        IEnumerable<GameDTO> gamesDTO = games.Select(g => Transform(g));
+        var (gameResults, paginationMetadata) = await _gameService.Get(pageNumber, pageSize, searchTerm);
+
+        if (gameResults.IsFailure)
+        {
+            return NotFound();
+        }
+
+        IEnumerable<GameDTO> gamesDTO = gameResults.Value.Select(g => Transform(g));
 
         Response.Headers.Append("X-Pagination", JsonSerializer.Serialize(paginationMetadata));
 
@@ -51,14 +56,16 @@ public class GameController : ControllerBase
     {
         try
         {
-            Game game = await _gameService.Get(id);
-            GameDTO gameDTO = Transform(game);
+            CustomResult<Game> gameResult = await _gameService.Get(id);
+
+            if (gameResult.IsFailure)
+            {
+                return NotFound(gameResult.Error.Message);
+            }
+
+            GameDTO gameDTO = Transform(gameResult.Value);
 
             return Ok(gameDTO);
-        }
-        catch (RecordNotFoundException ex)
-        {
-            return NotFound(ex.Message);
         }
         catch (Exception ex)
         {

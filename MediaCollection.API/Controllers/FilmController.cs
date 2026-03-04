@@ -9,6 +9,8 @@ public class FilmController : ControllerBase
 
     public FilmController(IFilmService filmService)
     {
+        ArgumentNullException.ThrowIfNull(filmService);
+
         _filmService = filmService;
     }
 
@@ -20,8 +22,14 @@ public class FilmController : ControllerBase
             pageSize = MaxPageSize;
         }
 
-        var (films, paginationMetadata) = await _filmService.Get(pageNumber, pageSize, searchTerm);
-        var filmsDTO = films.Select(f => Transform(f));
+        var (filmsResult, paginationMetadata) = await _filmService.Get(pageNumber, pageSize, searchTerm);
+
+        if (filmsResult.IsFailure)
+        {
+            return NotFound();
+        }
+
+        IEnumerable<FilmDTO> filmsDTO = filmsResult.Value.Select(f => Transform(f));
 
         Response.Headers.Append("X-Pagination", JsonSerializer.Serialize(paginationMetadata));
 
@@ -33,14 +41,16 @@ public class FilmController : ControllerBase
     {
         try
         {
-            var film = await _filmService.Get(id);
-            var filmDTO = Transform(film);
+            CustomResult<Film> filmResult = await _filmService.Get(id);
+
+            if (filmResult.IsFailure)
+            {
+                return NotFound(filmResult.Error.Message);
+            }
+
+            FilmDTO filmDTO = Transform(filmResult.Value);
 
             return Ok(filmDTO);
-        }
-        catch (KeyNotFoundException ex)
-        {
-            return NotFound(ex.Message);
         }
         catch (Exception ex)
         {

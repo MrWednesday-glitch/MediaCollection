@@ -9,6 +9,8 @@ public class BookController : ControllerBase
 
     public BookController(IBookService bookService)
     {
+        ArgumentNullException.ThrowIfNull(bookService);
+
         _bookService = bookService;
     }
 
@@ -20,8 +22,14 @@ public class BookController : ControllerBase
             pageSize = MaxPageSize;
         }
 
-        var (books, paginationMetadata) = await _bookService.Get(pageNumber, pageSize, searchTerm);
-        var booksDTO = books.Select(b => Transform(b));
+        var (bookResults, paginationMetadata) = await _bookService.Get(pageNumber, pageSize, searchTerm);
+
+        if (bookResults.IsFailure)
+        {
+            return NotFound();
+        }
+
+        IEnumerable<BookDTO> booksDTO = bookResults.Value.Select(b => Transform(b));
 
         Response.Headers.Append("X-Pagination", JsonSerializer.Serialize(paginationMetadata));
 
@@ -33,14 +41,16 @@ public class BookController : ControllerBase
     {
         try
         {
-            var book = await _bookService.Get(id);
-            var bookDTO = Transform(book);
+            CustomResult<Book> bookResult = await _bookService.Get(id);
+
+            if (bookResult.IsFailure)
+            {
+                return NotFound(bookResult.Error.Message);
+            }
+
+            BookDTO bookDTO = Transform(bookResult.Value);
 
             return Ok(bookDTO);
-        }
-        catch (KeyNotFoundException ex)
-        {
-            return NotFound(ex.Message);
         }
         catch (Exception ex)
         {

@@ -26,21 +26,20 @@ public class DeveloperController : ControllerBase
     [HttpPost(Name = "PostDevelopers")]
     public async Task<IActionResult> PostDevelopers([FromBody] DeveloperToBe[] DeveloperToBe)
     {
-        try
-        {
-            IEnumerable<Developer> createdDevelopers = await _developerService.Add(DeveloperToBe);
+        CustomResult<IEnumerable<Developer>> createdDevelopersResult = await _developerService.Add(DeveloperToBe);
 
-            StringBuilder stringBuilder = new();
-            foreach (Developer createdDeveloper in createdDevelopers)
-            {
-                stringBuilder.Append($@"/developers/{createdDeveloper.Id},");
-            }
-
-            return Created(stringBuilder.ToString(), createdDevelopers);
-        }
-        catch (Exception ex)
+        if (createdDevelopersResult.IsFailure)
         {
-            return BadRequest(ex.Message);
+            return BadRequest(createdDevelopersResult.Error.Message);
         }
+
+        IEnumerable<Developer> createdDevelopers = createdDevelopersResult.Value;
+        StringBuilder stringBuilder = new();
+        foreach (Developer createdDeveloper in createdDevelopers)
+        {
+            stringBuilder.Append($@"/developers/{createdDeveloper.Id},");
+        }
+
+        return Created(stringBuilder.ToString(), createdDevelopersResult);
     }
 }

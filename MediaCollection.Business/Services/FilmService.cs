@@ -9,13 +9,13 @@ public class FilmService : IFilmService
         _filmRepository = filmRepository ?? throw new ArgumentNullException(nameof(filmRepository));
     }
 
-    public async Task<(IEnumerable<Film>, PaginationMetadata)> Get(int pageNumber, int pageSize, string? searchTerm = "")
+    public async Task<(CustomResult<IEnumerable<Film>>, PaginationMetadata)> Get(int pageNumber, int pageSize, string? searchTerm = "")
     {
         IQueryable<Film> filmCollection = await _filmRepository.Get();
 
         if (!searchTerm.IsNullOrEmpty())
         {
-            searchTerm = searchTerm.ToLower();
+            searchTerm = searchTerm!.ToLower();
 
             filmCollection = filmCollection.Where(film => film.Name.ToLower().Contains(searchTerm)
                                                            || film.Publisher.Name.ToLower().Contains(searchTerm)
@@ -30,11 +30,20 @@ public class FilmService : IFilmService
             .Take(pageSize)
             .ToList();
 
-        return (films, paginationMetadata);
+        return (CustomResult<IEnumerable<Film>>.Success(films), paginationMetadata);
     }
 
-    public async Task<Film> Get(Guid id)
+    public async Task<CustomResult<Film>> Get(Guid id)
     {
-        return await _filmRepository.Get(id);
+        try
+        {
+            Film film = await _filmRepository.Get(id);
+
+            return CustomResult<Film>.Success(film);
+        }
+        catch (RecordNotFoundException ex)
+        {
+            return CustomResult<Film>.Failure(CustomError.RecordNotFound(ex.Message));
+        }
     }
 }

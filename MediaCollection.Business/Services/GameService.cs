@@ -9,12 +9,21 @@ public class GameService : IGameService
         _gameRepository = gameRepository ?? throw new ArgumentNullException(nameof(gameRepository));
     }
 
-    public async Task<Game> Get(Guid id)
+    public async Task<CustomResult<Game>> Get(Guid id)
     {
-        return await _gameRepository.Get(id);
+        try
+        {
+            Game game = await _gameRepository.Get(id);
+
+            return CustomResult<Game>.Success(game);
+        }
+        catch (RecordNotFoundException ex)
+        {
+            return CustomResult<Game>.Failure(CustomError.RecordNotFound(ex.Message));
+        }
     }
 
-    public async Task<(IEnumerable<Game>, PaginationMetadata)> Get(int pageNumber, int pageSize, string? searchTerm = "")
+    public async Task<(CustomResult<IEnumerable<Game>>, PaginationMetadata)> Get(int pageNumber, int pageSize, string? searchTerm = "")
     {
         IQueryable<Game> gameCollection = await _gameRepository.Get();
 
@@ -22,8 +31,8 @@ public class GameService : IGameService
         {
             searchTerm = searchTerm!.ToLower();
 
-            gameCollection = gameCollection.Where(game => game.Name.ToLower().Contains(searchTerm) 
-                                                           || game.Publisher.Name.ToLower().Contains(searchTerm) 
+            gameCollection = gameCollection.Where(game => game.Name.ToLower().Contains(searchTerm)
+                                                           || game.Publisher.Name.ToLower().Contains(searchTerm)
                                                            || game.Developer.Name.ToLower().Contains(searchTerm));
         }
 
@@ -35,10 +44,10 @@ public class GameService : IGameService
             .Take(pageSize)
             .ToList();
 
-        return (games, paginationMetadata);
+        return (CustomResult<IEnumerable<Game>>.Success(games), paginationMetadata);
     }
 
-    public async Task<Game?> GetRandom()
+    public async Task<CustomResult<Game>> GetRandom()
     {
         IQueryable<Game> unfinishedGames = (await _gameRepository.Get())
             .Where(g => !g.Finished);
@@ -46,14 +55,18 @@ public class GameService : IGameService
 
         if (totalItemCount == 0)
         {
-            return null;
+            string message = "No unfinished game to be found.";
+            
+            return CustomResult<Game>.Failure(CustomError.RecordNotFound(message));
         }
 
         Random random = new();
         int randomNumber = random.Next(0, totalItemCount);
 
-        return unfinishedGames
+        Game randomGame = unfinishedGames
             .Skip(randomNumber)
-            .FirstOrDefault();
+            .First();
+
+        return CustomResult<Game>.Success(randomGame);
     }
 }

@@ -12,5 +12,5 @@ public interface IPublisherService
     /// </summary>
     /// <param name="publishersToBe">The objects that potentially need to be stored into the database.</param>
     /// <returns>The existing records out of the database.</returns>
-    Task<IEnumerable<Publisher>> Add(IEnumerable< PublisherToBe> publishersToBe);
+    Task<CustomResult<IEnumerable<Publisher>>> Add(IEnumerable< PublisherToBe> publishersToBe);
 }
