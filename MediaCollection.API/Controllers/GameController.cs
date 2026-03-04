@@ -15,6 +15,8 @@ public class GameController : ControllerBase
     }
 
     [HttpGet("randomunfinished", Name = "GetRandomUnfinished")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
     public async Task<IActionResult> GetRandomUnfinished()
     {
         CustomResult<Game> randomGameResult = await _gameService.GetRandom();
@@ -30,6 +32,8 @@ public class GameController : ControllerBase
     }
 
     [HttpGet(Name = "GetGames")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetGames(int pageNumber = 1, int pageSize = 10, string? searchTerm = "") //TODO add filters
     {
         if (pageSize > MaxPageSize)
@@ -52,25 +56,25 @@ public class GameController : ControllerBase
     }
 
     [HttpGet("{id}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> GetGame(Guid id)
     {
-        try
-        {
-            CustomResult<Game> gameResult = await _gameService.Get(id);
+        CustomResult<Game> gameResult = await _gameService.Get(id);
 
-            if (gameResult.IsFailure)
+        if (gameResult.IsFailure)
+        {
+            return gameResult.Error.Code switch
             {
-                return NotFound(gameResult.Error.Message);
-            }
-
-            GameDTO gameDTO = Transform(gameResult.Value);
-
-            return Ok(gameDTO);
+                "RecordNotFound" => NotFound(gameResult.Error.Message),
+                _ => BadRequest(gameResult.Error.Message),
+            };
         }
-        catch (Exception ex)
-        {
-            return BadRequest(ex.Message);
-        }
+
+        GameDTO gameDTO = Transform(gameResult.Value);
+
+        return Ok(gameDTO);
     }
 
     private GameDTO Transform(Game game)

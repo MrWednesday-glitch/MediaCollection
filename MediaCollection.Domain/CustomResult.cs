@@ -39,6 +39,7 @@ public class CustomResult<T>
         }
 
         IsSuccess = false;
+        // Change this into a standardized json body
         Error = error;
     }
 
