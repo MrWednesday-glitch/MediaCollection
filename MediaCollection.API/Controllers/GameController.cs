@@ -1,4 +1,6 @@
-﻿namespace MediaCollection.API.Controllers;
+﻿using MediaCollection.Domain.Exceptions;
+
+namespace MediaCollection.API.Controllers;
 
 [ApiController]
 [Route("games")]
@@ -54,7 +56,7 @@ public class GameController : ControllerBase
 
             return Ok(gameDTO);
         }
-        catch (KeyNotFoundException ex)
+        catch (RecordNotFoundException ex)
         {
             return NotFound(ex.Message);
         }
