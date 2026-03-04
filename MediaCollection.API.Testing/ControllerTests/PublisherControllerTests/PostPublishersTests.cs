@@ -1,4 +1,6 @@
-﻿namespace MediaCollection.API.Testing.ControllerTests.PublisherControllerTests;
+﻿using MediaCollection.Domain;
+
+namespace MediaCollection.API.Testing.ControllerTests.PublisherControllerTests;
 
 [ExcludeFromCodeCoverage]
 public class PostPublishersTests
@@ -25,7 +27,7 @@ public class PostPublishersTests
         };
         mockedService
             .Setup(s => s.Add(It.IsAny<IEnumerable<PublisherToBe>>()))
-            .Returns(Task.FromResult(createdPublishers.AsEnumerable()))
+            .Returns(Task.FromResult(CustomResult<IEnumerable<Publisher>>.Success(createdPublishers.AsEnumerable())))
             .Verifiable(Times.Once);
         PublisherController controller = new(mockedService.Object);
         PublisherToBe[] toBeCreatedPublishers =

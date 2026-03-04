@@ -5,24 +5,24 @@ public class GetTests
 {
     private readonly Book[] _mockedBooks =
     [
-        new Book 
-        { 
-            Id = Guid.NewGuid(), 
-            Name = "Huckleberry Finn", 
-            Author = new Author 
-            { 
+        new Book
+        {
+            Id = Guid.NewGuid(),
+            Name = "Huckleberry Finn",
+            Author = new Author
+            {
                 Name = "AuthorA",
             },
-            Publisher = new Publisher 
+            Publisher = new Publisher
             {
                 Name = "PublisherA",
             },
         },
-        new Book 
-        { 
-            Id = Guid.NewGuid(), 
+        new Book
+        {
+            Id = Guid.NewGuid(),
             Name = "Alice in Wonderland",
-            Author = new Author 
+            Author = new Author
             {
                 Name = "AuthorB"
             },
@@ -31,9 +31,9 @@ public class GetTests
                 Name = "PublisherA"
             },
         },
-        new Book 
-        { 
-            Id = Guid.NewGuid(), 
+        new Book
+        {
+            Id = Guid.NewGuid(),
             Name = "Kill all Normies",
             Author = new Author
             {
@@ -57,10 +57,10 @@ public class GetTests
         int pageSize = 10;
 
         // -- Act
-        var (books, metadata) = await bookService.Get(pageNumber, pageSize);
+        var (booksResult, metadata) = await bookService.Get(pageNumber, pageSize);
 
         // -- Assert
-        books.ToList().Should().HaveCount(3);
+        booksResult.Value.ToList().Should().HaveCount(3);
     }
 
     [Fact]
@@ -95,7 +95,7 @@ public class GetTests
         int pageNumber = 1;
         int pageSize = 10;
 
-        (IEnumerable<Book> books, PaginationMetadata metaData) = await bookService.Get(pageNumber, pageSize, searchTerm);
+        (CustomResult<IEnumerable<Book>> booksResult, PaginationMetadata metaData) = await bookService.Get(pageNumber, pageSize, searchTerm);
 
         metaData.TotalItemCount.Should().Be(expectedTotalItemCount);
     }
@@ -109,10 +109,10 @@ public class GetTests
         mockedBookRepository.Setup(bRepo => bRepo.Get(bookId))
             .ReturnsAsync(new Book { Id = bookId, Name = "Feet of Clay" });
 
-        Book book = await bookService.Get(bookId);
+        CustomResult<Book> bookResult = await bookService.Get(bookId);
 
-        book.Id.Should().Be(bookId);
-        book.Name.Should().BeEquivalentTo("Feet of Clay");
+        bookResult.Value.Id.Should().Be(bookId);
+        bookResult.Value.Name.Should().BeEquivalentTo("Feet of Clay");
     }
 
     [Fact]

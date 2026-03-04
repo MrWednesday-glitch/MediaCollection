@@ -58,10 +58,10 @@ public class GetTests
         int pageSize = 10;
 
         // -- Act
-        var (films, metadata) = await filmService.Get(pageNumber, pageSize);
+        var (filmsResult, metadata) = await filmService.Get(pageNumber, pageSize);
 
         // -- Assert
-        films.ToList().Should().HaveCount(3);
+        filmsResult.Value.ToList().Should().HaveCount(3);
     }
 
     [Fact]
@@ -93,9 +93,9 @@ public class GetTests
         mockedFilmRepository.Setup(fRepo => fRepo.Get()).ReturnsAsync(_mockedFilms.AsQueryable());
         int pageNumber = 1;
 
-        var (films, metadata) = await filmService.Get(pageNumber, pageSize);
+        var (filmsResult, metadata) = await filmService.Get(pageNumber, pageSize);
 
-        films.ToList().Should().HaveCount(expectedCollectionSize);
+        filmsResult.Value.ToList().Should().HaveCount(expectedCollectionSize);
     }
 
     [Theory]
@@ -110,7 +110,7 @@ public class GetTests
         int pageNumber = 1;
         int pageSize = 10;
 
-        (IEnumerable<Film> films, PaginationMetadata metaData) = await filmService.Get(pageNumber, pageSize, searchTerm);
+        (CustomResult<IEnumerable<Film>> filmsResult, PaginationMetadata metaData) = await filmService.Get(pageNumber, pageSize, searchTerm);
 
         metaData.TotalItemCount.Should().Be(expectedTotalItemCount);
     }
@@ -124,10 +124,10 @@ public class GetTests
         mockedFilmRepository.Setup(fRepo => fRepo.Get(filmId))
             .ReturnsAsync(new Film { Id = filmId, Name = "Alien" });
 
-        Film film = await filmService.Get(filmId);
+        CustomResult<Film> filmResult = await filmService.Get(filmId);
 
-        film.Id.Should().Be(filmId);
-        film.Name.Should().BeEquivalentTo("Alien");
+        filmResult.Value.Id.Should().Be(filmId);
+        filmResult.Value.Name.Should().BeEquivalentTo("Alien");
     }
 
     [Fact]

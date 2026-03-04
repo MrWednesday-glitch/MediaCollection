@@ -57,10 +57,10 @@ public class GetTests
         int pageSize = 10;
 
         // -- Act
-        var (games, metaData) = (await gameService.Get(pageNumber, pageSize));
+        var (gamesResult, metaData) = (await gameService.Get(pageNumber, pageSize));
 
         // -- Assert
-        games.ToList().Should().HaveCount(3);
+        gamesResult.Value.ToList().Should().HaveCount(3);
     }
 
     [Theory]
@@ -75,7 +75,7 @@ public class GetTests
         int pageNumber = 1;
         int pageSize = 10;
 
-        (IEnumerable<Game> games, PaginationMetadata metaData) = await gameService.Get(pageNumber, pageSize, searchTerm);
+        (CustomResult<IEnumerable<Game>> gamesResult, PaginationMetadata metaData) = await gameService.Get(pageNumber, pageSize, searchTerm);
 
         metaData.TotalItemCount.Should().Be(expectedTotalItemCount);
     }
@@ -89,9 +89,9 @@ public class GetTests
         mockedGameRepository.Setup(gRepo => gRepo.Get(gameId))
             .ReturnsAsync(new Game { Id = gameId, Name = "Call of Duty" });
 
-        Game game = await gameService.Get(gameId);
+        CustomResult<Game> gameResult = await gameService.Get(gameId);
 
-        game.Name.Should().BeEquivalentTo("Call of Duty");
+        gameResult.Value.Name.Should().BeEquivalentTo("Call of Duty");
     }
 
     [Fact]
@@ -119,9 +119,9 @@ public class GetTests
         mockedGameRepository.Setup(gRepo => gRepo.Get()).ReturnsAsync(_mockedGames.AsQueryable);
         int pageNumber = 1;
 
-        var (games, metaData) = (await gameService.Get(pageNumber, pageSize));
+        var (gamesResult, metaData) = (await gameService.Get(pageNumber, pageSize));
 
-        games.ToList().Should().HaveCount(expectedCollectionSize);
+        gamesResult.Value.ToList().Should().HaveCount(expectedCollectionSize);
     }
 
     [Fact]

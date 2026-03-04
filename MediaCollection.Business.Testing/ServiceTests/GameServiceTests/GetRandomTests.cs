@@ -57,12 +57,10 @@ public class GetRandomTests
         mockedGameRepository.Setup(gRepo => gRepo.Get()).ReturnsAsync(mockedGames.AsQueryable);
 
         // -- Act
-        Game? randomGame = await gameService.GetRandom();
+        CustomResult<Game> randomGameResult = await gameService.GetRandom();
 
         // -- Assert
-        randomGame
-            .Should().NotBeNull()
-            .And.Match<Game>(g => !string.IsNullOrEmpty(g.Name));
+        randomGameResult.Value.Name.Should().NotBeNullOrEmpty();
     }
 
     [Fact]
@@ -119,9 +117,9 @@ public class GetRandomTests
         mockedGameRepository.Setup(gRepo => gRepo.Get()).ReturnsAsync(mockedGames.AsQueryable);
 
         // -- Act
-        Game? randomGame = await gameService.GetRandom();
+        CustomResult<Game> randomGameResult = await gameService.GetRandom();
 
         // -- Assert
-        randomGame.Should().BeNull();
+        randomGameResult.Error.Message.Should().BeEquivalentTo("No unfinished game to be found.");
     }
 }

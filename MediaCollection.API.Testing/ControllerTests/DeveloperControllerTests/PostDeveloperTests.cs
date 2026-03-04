@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace MediaCollection.API.Testing.ControllerTests.DeveloperControllerTests;
+﻿namespace MediaCollection.API.Testing.ControllerTests.DeveloperControllerTests;
 
 [ExcludeFromCodeCoverage]
 public class PostDeveloperTests
@@ -29,7 +25,7 @@ public class PostDeveloperTests
         };
         mockedService
             .Setup(s => s.Add(It.IsAny<IEnumerable<DeveloperToBe>>()))
-            .Returns(Task.FromResult(createdDevelopers.AsEnumerable()))
+            .Returns(Task.FromResult(CustomResult<IEnumerable<Developer>>.Success(createdDevelopers.AsEnumerable())))
             .Verifiable(Times.Once);
         DeveloperController controller = new(mockedService.Object);
         DeveloperToBe[] toBeCreatedDevelopers =
