@@ -12,5 +12,5 @@ public interface IDeveloperService
     /// </summary>
     /// <param name="developersToBe">The objects that potentially need to be stored into the database.</param>
     /// <returns>The existing records out of the database.</returns>
-    Task<IEnumerable<Developer>> Add(IEnumerable<DeveloperToBe> developersToBe);
+    Task<CustomResult<IEnumerable<Developer>>> Add(IEnumerable<DeveloperToBe> developersToBe);
 }

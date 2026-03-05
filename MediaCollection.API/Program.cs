@@ -16,6 +16,7 @@ public class Program
         // Add services to the container.
 
         // TODO Learn how to make a service factory
+        // TODO Split these up in respective extension methods
         builder.Services.AddControllers();
 
         builder.Services.AddDbContext<MediaDbContext>((serviceProvider, options) =>

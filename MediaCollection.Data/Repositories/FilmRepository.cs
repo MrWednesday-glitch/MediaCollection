@@ -1,4 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using MediaCollection.Domain.Exceptions;
 
 namespace MediaCollection.Data.Repositories;
 
@@ -26,7 +26,7 @@ public class FilmRepository : EFRepository<Film>, IFilmRepository
 
     public override async Task<Film> Get(Guid id)
     {
-        return await base.Get(id) ?? throw new KeyNotFoundException($"No film with id {id} was found.");
+        return await base.Get(id) ?? throw new RecordNotFoundException($"No film with id {id} was found.");
     }
 
     public override async Task SaveChanges()

@@ -1,4 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using MediaCollection.Domain.Exceptions;
 
 namespace MediaCollection.Data.Repositories;
 
@@ -26,7 +26,7 @@ public class GameRepository : EFRepository<Game>, IGameRepository
 
     public override async Task<Game> Get(Guid id)
     {
-        return await base.Get(id) ?? throw new KeyNotFoundException($"No game with id {id} was found.");
+        return await base.Get(id) ?? throw new RecordNotFoundException($"No game with id {id} was found.");
     }
 
     public override async Task SaveChanges()

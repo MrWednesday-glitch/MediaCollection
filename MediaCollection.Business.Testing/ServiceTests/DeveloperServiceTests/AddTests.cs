@@ -11,7 +11,7 @@ public class AddTests
         IDeveloperService developerService = new DeveloperService(Mock.Of<IDeveloperRepository>());
 
         // -- Act
-        List<Developer> developers = (await developerService.Add(developersToBe)).ToList();
+        List<Developer> developers = (await developerService.Add(developersToBe)).Value.ToList();
 
         // -- Assert
         developers.Should().HaveCount(0);
@@ -40,7 +40,7 @@ public class AddTests
             .Verifiable(Times.Once);
         IDeveloperService developerService = new DeveloperService(mockedRepo.Object);
 
-        List<Developer> developers = (await developerService.Add(developersToBe)).ToList();
+        List<Developer> developers = (await developerService.Add(developersToBe)).Value.ToList();
 
         developers.Should().HaveCount(1);
         mockedRepo.Verify();
@@ -74,7 +74,7 @@ public class AddTests
             .Verifiable(Times.Once);
         IDeveloperService developerService = new DeveloperService(mockedRepo.Object);
 
-        List<Developer> developers = (await developerService.Add(developersToBe)).ToList();
+        List<Developer> developers = (await developerService.Add(developersToBe)).Value.ToList();
 
         developers.Should().HaveCount(1);
         mockedRepo.Verify();
@@ -118,7 +118,7 @@ public class AddTests
             .Verifiable(Times.Once);
         IDeveloperService developerService = new DeveloperService(mockedRepo.Object);
 
-        List<Developer> developers = (await developerService.Add(developersToBe)).ToList();
+        List<Developer> developers = (await developerService.Add(developersToBe)).Value.ToList();
 
         developers.Should().HaveCount(2);
         mockedRepo.Verify();

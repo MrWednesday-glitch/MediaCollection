@@ -1,4 +1,6 @@
-﻿namespace MediaCollection.Data.Repositories;
+﻿using MediaCollection.Domain.Exceptions;
+
+namespace MediaCollection.Data.Repositories;
 
 /// <summary>
 /// The repository pattern for <see cref="Publisher"/>.
@@ -45,7 +47,7 @@ public class PublisherRepository : EFRepository<Publisher>, IPublisherRepository
     /// <returns>The publisher.</returns>
     public override async Task<Publisher> Get(Guid id)
     {
-        return await base.Get(id) ?? throw new KeyNotFoundException($"No publisher with id {id} was found.");
+        return await base.Get(id) ?? throw new RecordNotFoundException($"No publisher with id {id} was found.");
     }
 
     /// <summary>

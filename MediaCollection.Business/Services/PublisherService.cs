@@ -22,11 +22,11 @@ public class PublisherService : IPublisherService
     /// </summary>
     /// <param name="publishersToBe">The collection of publishers that are to be added.</param>
     /// <returns>The publisher entities that are in the database.</returns>
-    public async Task<IEnumerable<Publisher>> Add(IEnumerable<PublisherToBe> publishersToBe)
+    public async Task<CustomResult<IEnumerable<Publisher>>> Add(IEnumerable<PublisherToBe> publishersToBe)
     {
         if (!publishersToBe.Any())
         {
-            return Enumerable.Empty<Publisher>();
+            return CustomResult<IEnumerable<Publisher>>.Success(Enumerable.Empty<Publisher>());
         }
 
         IEnumerable<PublisherToBe> distinctPublishersToBe = publishersToBe.DistinctBy(pTB => pTB.Name);
@@ -46,7 +46,7 @@ public class PublisherService : IPublisherService
 
         publishers = publishers.Concat(existingPublishers);
 
-        return publishers;
+        return CustomResult<IEnumerable<Publisher>>.Success(publishers);
     }
 
     /// <summary>

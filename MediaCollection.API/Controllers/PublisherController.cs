@@ -24,23 +24,22 @@ public class PublisherController : ControllerBase
     /// </summary>
     /// <param name="publishersToBe">The required information that needs to be send to the database.</param>
     [HttpPost(Name = "PostPublishers")]
-    public async Task<IActionResult> PostPublishers([FromBody]PublisherToBe[] publishersToBe)
+    public async Task<IActionResult> PostPublishers([FromBody] PublisherToBe[] publishersToBe)
     {
-        try
-        {
-            IEnumerable<Publisher> createdPublishers = await _publisherService.Add(publishersToBe);
+        CustomResult<IEnumerable<Publisher>> createdPublishersResult = await _publisherService.Add(publishersToBe);
 
-            StringBuilder stringBuilder = new();
-            foreach (Publisher createdPublisher in createdPublishers)
-            {
-                stringBuilder.Append($@"/publishers/{createdPublisher.Id},");
-            }
-
-            return Created(stringBuilder.ToString(), createdPublishers);
-        }
-        catch (Exception ex)
+        if (createdPublishersResult.IsFailure)
         {
-            return BadRequest(ex.Message);
+            return BadRequest(createdPublishersResult.Error.CustomErrorInformation);
         }
+
+        IEnumerable<Publisher> createdPublishers = createdPublishersResult.Value;
+        StringBuilder stringBuilder = new();
+        foreach (Publisher createdPublisher in createdPublishers)
+        {
+            stringBuilder.Append($@"/publishers/{createdPublisher.Id},");
+        }
+
+        return Created(stringBuilder.ToString(), createdPublishers);
     }
 }

@@ -26,11 +26,11 @@ public class DeveloperService : IDeveloperService
     /// </summary>
     /// <param name="developersToBe">The collection of <see cref="Developer"/> that are to be added.</param>
     /// <returns>The <see cref="Developer"/> entities that are in the database.</returns>
-    public async Task<IEnumerable<Developer>> Add(IEnumerable<DeveloperToBe> developersToBe)
+    public async Task<CustomResult<IEnumerable<Developer>>> Add(IEnumerable<DeveloperToBe> developersToBe)
     {
         if (!developersToBe.Any())
         {
-            return Enumerable.Empty<Developer>();
+            return CustomResult<IEnumerable<Developer>>.Success(Enumerable.Empty<Developer>());
         }
 
         IEnumerable<DeveloperToBe> distinctDevelopersToBe = developersToBe.DistinctBy(dTB => dTB.Name);
@@ -50,7 +50,7 @@ public class DeveloperService : IDeveloperService
 
         developers = developers.Concat(existingDevelopers);
 
-        return developers;
+        return CustomResult<IEnumerable<Developer>>.Success(developers);
     }
 
     /// <summary>

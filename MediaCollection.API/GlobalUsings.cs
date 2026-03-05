@@ -1,4 +1,5 @@
 ﻿global using MediaCollection.API.DTOModels;
+global using MediaCollection.Domain;
 global using MediaCollection.Domain.Entities;
 global using MediaCollection.Domain.Interfaces;
 global using Microsoft.AspNetCore.Mvc;

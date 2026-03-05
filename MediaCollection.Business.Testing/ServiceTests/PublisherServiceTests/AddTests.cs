@@ -11,7 +11,7 @@ public class AddTests
         IPublisherService publisherService = new PublisherService(Mock.Of<IPublisherRepository>());
 
         // -- Act
-        List<Publisher> publishers = (await publisherService.Add(publishersToBe)).ToList();
+        List<Publisher> publishers = (await publisherService.Add(publishersToBe)).Value.ToList();
 
         // -- Assert
         publishers.Should().HaveCount(0);
@@ -40,7 +40,7 @@ public class AddTests
             .Verifiable(Times.Once);
         IPublisherService publisherService = new PublisherService(mockedRepo.Object);
 
-        List<Publisher> publishers = (await publisherService.Add(publishersToBe)).ToList();
+        List<Publisher> publishers = (await publisherService.Add(publishersToBe)).Value.ToList();
 
         publishers.Should().HaveCount(1);
         mockedRepo.Verify();
@@ -74,7 +74,7 @@ public class AddTests
             .Verifiable(Times.Once);
         IPublisherService publisherService = new PublisherService(mockedRepo.Object);
 
-        List<Publisher> publishers = (await publisherService.Add(publishersToBe)).ToList();
+        List<Publisher> publishers = (await publisherService.Add(publishersToBe)).Value.ToList();
 
         publishers.Should().HaveCount(1);
         mockedRepo.Verify();
@@ -118,7 +118,7 @@ public class AddTests
             .Verifiable(Times.Once);
         IPublisherService publisherService = new PublisherService(mockedRepo.Object);
 
-        List<Publisher> publishers = (await publisherService.Add(publishersToBe)).ToList();
+        List<Publisher> publishers = (await publisherService.Add(publishersToBe)).Value.ToList();
 
         publishers.Should().HaveCount(2);
         mockedRepo.Verify();

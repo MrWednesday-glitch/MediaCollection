@@ -1,5 +1,6 @@
 ﻿namespace MediaCollection.API.Controllers;
 
+// TODO Unit test
 [ApiController]
 [Route("games")]
 public class GameController : ControllerBase
@@ -9,26 +10,31 @@ public class GameController : ControllerBase
 
     public GameController(IGameService gameService)
     {
+        ArgumentNullException.ThrowIfNull(gameService);
+
         _gameService = gameService;
     }
 
     [HttpGet("randomunfinished", Name = "GetRandomUnfinished")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
     public async Task<IActionResult> GetRandomUnfinished()
     {
-        Game? randomGame = await _gameService.GetRandom();
+        CustomResult<Game> randomGameResult = await _gameService.GetRandom();
 
-        if (randomGame is null) 
+        if (randomGameResult.IsFailure)
         {
-            // TODO Make something of an errorfactory that returns a standard set of json key=values per non standard result.
             return NoContent();
         }
 
-        GameDTO gameDTO = Transform(randomGame);
+        GameDTO gameDTO = Transform(randomGameResult.Value);
 
         return Ok(gameDTO);
     }
 
     [HttpGet(Name = "GetGames")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetGames(int pageNumber = 1, int pageSize = 10, string? searchTerm = "") //TODO add filters
     {
         if (pageSize > MaxPageSize)
@@ -36,8 +42,14 @@ public class GameController : ControllerBase
             pageSize = MaxPageSize;
         }
 
-        var (games, paginationMetadata) = await _gameService.Get(pageNumber, pageSize, searchTerm);
-        IEnumerable<GameDTO> gamesDTO = games.Select(g => Transform(g));
+        var (gameResults, paginationMetadata) = await _gameService.Get(pageNumber, pageSize, searchTerm);
+
+        if (gameResults.IsFailure)
+        {
+            return NotFound();
+        }
+
+        IEnumerable<GameDTO> gamesDTO = gameResults.Value.Select(g => Transform(g));
 
         Response.Headers.Append("X-Pagination", JsonSerializer.Serialize(paginationMetadata));
 
@@ -45,23 +57,27 @@ public class GameController : ControllerBase
     }
 
     [HttpGet("{id}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(500)]
     public async Task<IActionResult> GetGame(Guid id)
     {
-        try
-        {
-            Game game = await _gameService.Get(id);
-            GameDTO gameDTO = Transform(game);
+        CustomResult<Game> gameResult = await _gameService.Get(id);
 
-            return Ok(gameDTO);
-        }
-        catch (KeyNotFoundException ex)
+        if (gameResult.IsFailure)
         {
-            return NotFound(ex.Message);
+            return gameResult.Error.Code switch
+            {
+                ErrorCodes.RecordNotFound => NotFound(gameResult.Error.CustomErrorInformation),
+                ErrorCodes.UnknownError => BadRequest(gameResult.Error.CustomErrorInformation),
+                _ => StatusCode(500, gameResult.Error.CustomErrorInformation)
+            };
         }
-        catch (Exception ex)
-        {
-            return BadRequest(ex.Message);
-        }
+
+        GameDTO gameDTO = Transform(gameResult.Value);
+
+        return Ok(gameDTO);
     }
 
     private GameDTO Transform(Game game)

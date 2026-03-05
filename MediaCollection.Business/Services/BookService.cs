@@ -9,13 +9,13 @@ public class BookService : IBookService
         _bookRepository = bookRepository ?? throw new ArgumentNullException(nameof(bookRepository));
     }
 
-    public async Task<(IEnumerable<Book>, PaginationMetadata)> Get(int pageNumber, int pageSize, string? searchTerm = "")
+    public async Task<(CustomResult<IEnumerable<Book>>, PaginationMetadata)> Get(int pageNumber, int pageSize, string? searchTerm = "")
     {
         IQueryable<Book> bookCollection = await _bookRepository.Get();
 
         if (!searchTerm.IsNullOrEmpty())
         {
-            searchTerm = searchTerm.ToLower();
+            searchTerm = searchTerm!.ToLower();
 
             bookCollection = bookCollection.Where(book => book.Name.ToLower().Contains(searchTerm)
                                                            || book.Publisher.Name.ToLower().Contains(searchTerm)
@@ -30,11 +30,21 @@ public class BookService : IBookService
             .Take(pageSize)
             .ToList();
 
-        return (books, paginationMetadata);
+        return (CustomResult<IEnumerable<Book>>.Success(books), paginationMetadata);
     }
 
-    public async Task<Book> Get(Guid id)
+    public async Task<CustomResult<Book>> Get(Guid id)
     {
-        return await _bookRepository.Get(id);
+        try
+        {
+            Book book = await _bookRepository.Get(id);
+
+            return CustomResult<Book>.Success(book);
+        }
+        // TODO Unit test
+        catch (RecordNotFoundException ex)
+        {
+            return CustomResult<Book>.Failure(CustomError.RecordNotFound(ex.Message, 404));
+        }
     }
 }

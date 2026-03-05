@@ -1,4 +1,6 @@
-﻿namespace MediaCollection.Data.Repositories;
+﻿using MediaCollection.Domain.Exceptions;
+
+namespace MediaCollection.Data.Repositories;
 
 /// <summary>
 /// The repository pattern for <see cref="Developer"/>.
@@ -53,7 +55,7 @@ public class DeveloperRepository : EFRepository<Developer>, IDeveloperRepository
     /// <returns>The developer.</returns>
     public override async Task<Developer> Get(Guid id)
     {
-        return await base.Get(id) ?? throw new KeyNotFoundException($"No developer with id {id} was found.");
+        return await base.Get(id) ?? throw new RecordNotFoundException($"No developer with id {id} was found.");
     }
 
     /// <summary>
