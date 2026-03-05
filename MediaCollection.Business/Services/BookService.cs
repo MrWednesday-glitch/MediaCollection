@@ -6,7 +6,9 @@ public class BookService : IBookService
 
     public BookService(IBookRepository bookRepository)
     {
-        _bookRepository = bookRepository ?? throw new ArgumentNullException(nameof(bookRepository));
+        ArgumentNullException.ThrowIfNull(bookRepository);
+
+        _bookRepository = bookRepository;
     }
 
     public async Task<(CustomResult<IEnumerable<Book>>, PaginationMetadata)> Get(int pageNumber, int pageSize, string? searchTerm = "")
@@ -17,15 +19,18 @@ public class BookService : IBookService
         {
             searchTerm = searchTerm!.ToLower();
 
-            bookCollection = bookCollection.Where(book => book.Name.ToLower().Contains(searchTerm)
-                                                           || book.Publisher.Name.ToLower().Contains(searchTerm)
-                                                           || book.Author.Name.ToLower().Contains(searchTerm));
+            bookCollection = bookCollection
+                .TagWith("search")
+                .Where(book => book.Name.ToLower().Contains(searchTerm)
+                                || book.Publisher.Name.ToLower().Contains(searchTerm)
+                                || book.Author.Name.ToLower().Contains(searchTerm));
         }
 
         int totalItemCount = bookCollection.Count();
         PaginationMetadata paginationMetadata = new PaginationMetadata(totalItemCount, pageSize, pageNumber);
 
         List<Book> books = bookCollection
+            .TagWith("get")
             .Skip(pageSize * (pageNumber - 1))
             .Take(pageSize)
             .ToList();
