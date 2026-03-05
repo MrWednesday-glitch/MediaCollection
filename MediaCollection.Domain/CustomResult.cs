@@ -1,6 +1,5 @@
 ﻿namespace MediaCollection.Domain;
 
-// TODO Summaries 
 public class CustomResult<T> where T : class
 {
     private readonly T? _value;
