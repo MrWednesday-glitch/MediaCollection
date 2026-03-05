@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 18
-VisualStudioVersion = 18.1.11312.151 d18.0
+VisualStudioVersion = 18.1.11312.151
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediaCollection.API", "MediaCollection.API\MediaCollection.API.csproj", "{C6789F16-CFBA-419E-83A9-77319EA59434}"
 EndProject
@@ -22,6 +22,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaCollection.Business.Testing", "MediaCollection.Business.Testing\MediaCollection.Business.Testing.csproj", "{EA454422-2C56-4A2C-B0A8-B4C91EE639DC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaCollection.API.Testing", "MediaCollection.API.Testing\MediaCollection.API.Testing.csproj", "{48EE5F62-9AB3-4AFA-85DD-9F6EC8D66736}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaCollection.Domain.Testing", "MediaCollection.Domain.Testing\MediaCollection.Domain.Testing.csproj", "{58960DCF-8F0E-4872-AEB6-7EC2061DD662}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,6 +55,10 @@ Global
 		{48EE5F62-9AB3-4AFA-85DD-9F6EC8D66736}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{48EE5F62-9AB3-4AFA-85DD-9F6EC8D66736}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{48EE5F62-9AB3-4AFA-85DD-9F6EC8D66736}.Release|Any CPU.Build.0 = Release|Any CPU
+		{58960DCF-8F0E-4872-AEB6-7EC2061DD662}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{58960DCF-8F0E-4872-AEB6-7EC2061DD662}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{58960DCF-8F0E-4872-AEB6-7EC2061DD662}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{58960DCF-8F0E-4872-AEB6-7EC2061DD662}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -64,6 +70,7 @@ Global
 		{EC8541EC-0427-417D-8A06-181AC1907464} = {097B6D9A-68A1-4518-ADD1-B1FB43ED9FC4}
 		{EA454422-2C56-4A2C-B0A8-B4C91EE639DC} = {9C55E70A-A7BE-4929-9731-A2A6E6767907}
 		{48EE5F62-9AB3-4AFA-85DD-9F6EC8D66736} = {9C55E70A-A7BE-4929-9731-A2A6E6767907}
+		{58960DCF-8F0E-4872-AEB6-7EC2061DD662} = {9C55E70A-A7BE-4929-9731-A2A6E6767907}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0379E3C0-B9C1-456A-A846-219CB3C2226A}
