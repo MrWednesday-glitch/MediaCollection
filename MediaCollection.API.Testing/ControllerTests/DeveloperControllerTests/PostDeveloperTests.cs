@@ -64,7 +64,7 @@ public class PostDeveloperTests
         Mock<IDeveloperService> mockedService = new();
         mockedService
             .Setup(s => s.Add(It.IsAny<IEnumerable<DeveloperToBe>>()))
-            .ThrowsAsync(new Exception("Something went wrong!"));
+            .Returns(Task.FromResult(CustomResult<IEnumerable<Developer>>.Failure(new CustomError(ErrorCodes.UnknownError, new CustomErrorInformation(500, "Something went wrong!")))));
         DeveloperController controller = new(mockedService.Object);
         DeveloperToBe[] toBeCreatedDevelopers =
             [
@@ -87,6 +87,6 @@ public class PostDeveloperTests
         result
             .Should().BeOfType<BadRequestObjectResult>()
             .Which.Value
-            .Should().Be("Something went wrong!");
+            .Should().BeEquivalentTo(new CustomErrorInformation(500, "Something went wrong!"));
     }
 }

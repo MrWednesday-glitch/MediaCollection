@@ -45,7 +45,7 @@ public class BookController : ControllerBase
 
             if (bookResult.IsFailure)
             {
-                return NotFound(bookResult.Error.Message);
+                return NotFound(bookResult.Error.CustomErrorInformation);
             }
 
             BookDTO bookDTO = Transform(bookResult.Value);

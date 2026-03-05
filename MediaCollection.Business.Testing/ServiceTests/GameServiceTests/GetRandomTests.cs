@@ -120,6 +120,6 @@ public class GetRandomTests
         CustomResult<Game> randomGameResult = await gameService.GetRandom();
 
         // -- Assert
-        randomGameResult.Error.Message.Should().BeEquivalentTo("No unfinished game to be found.");
+        randomGameResult.Error.CustomErrorInformation.Should().BeEquivalentTo(new CustomErrorInformation(404, "No unfinished game to be found."));
     }
 }

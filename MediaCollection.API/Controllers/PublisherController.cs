@@ -30,7 +30,7 @@ public class PublisherController : ControllerBase
 
         if (createdPublishersResult.IsFailure)
         {
-            return BadRequest(createdPublishersResult.Error.Message);
+            return BadRequest(createdPublishersResult.Error.CustomErrorInformation);
         }
 
         IEnumerable<Publisher> createdPublishers = createdPublishersResult.Value;

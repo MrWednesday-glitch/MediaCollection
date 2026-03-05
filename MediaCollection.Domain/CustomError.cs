@@ -2,26 +2,31 @@
 
 // TODO Write summaries
 // TODO Unit test
-public sealed record CustomError(string Code, string Message)
+public sealed record CustomError(ErrorCodes Code, CustomErrorInformation CustomErrorInformation)
 {
-    private static readonly string _recordNotFoundCode = "RecordNotFound";
-    //private static readonly string _validationErrorCode = "ValidationError";
-    private static readonly string _unknownError = "UnknownError";
+    public static readonly CustomError None = new(ErrorCodes.Nothing,
+        new CustomErrorInformation(500, string.Empty));
 
-    public static readonly CustomError None = new(string.Empty, string.Empty);
-
-    public static CustomError RecordNotFound(string message)
+    public static CustomError RecordNotFound(string message, int statusCode)
     {
-        return new CustomError(_recordNotFoundCode, message);
+        return new CustomError(ErrorCodes.RecordNotFound,
+            new CustomErrorInformation(statusCode, message));
     }
-
-    //public static CustomError ValidationError(string message)
-    //{
-    //    return new CustomError(_validationErrorCode, message);
-    //}
-
-    public static CustomError UnknownError(string message)
+    
+    public static CustomError UnknownError(string message, int statusCode)
     {
-        return new CustomError(_unknownError, message);
+        return new CustomError(ErrorCodes.UnknownError, 
+            new CustomErrorInformation(statusCode, message));
     }
+}
+
+public enum ErrorCodes
+{
+    Nothing = 0,
+    UnknownError,
+    RecordNotFound
+}
+
+public record CustomErrorInformation(int StatusCode, string Message, string Owner = "Raven", string AppName = "Media Collection") 
+{ 
 }

@@ -43,7 +43,7 @@ public class FilmService : IFilmService
         }
         catch (RecordNotFoundException ex)
         {
-            return CustomResult<Film>.Failure(CustomError.RecordNotFound(ex.Message));
+            return CustomResult<Film>.Failure(CustomError.RecordNotFound(ex.Message, 404));
         }
     }
 }

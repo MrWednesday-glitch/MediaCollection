@@ -45,7 +45,7 @@ public class FilmController : ControllerBase
 
             if (filmResult.IsFailure)
             {
-                return NotFound(filmResult.Error.Message);
+                return NotFound(filmResult.Error.CustomErrorInformation);
             }
 
             FilmDTO filmDTO = Transform(filmResult.Value);

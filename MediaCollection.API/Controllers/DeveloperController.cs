@@ -30,7 +30,7 @@ public class DeveloperController : ControllerBase
 
         if (createdDevelopersResult.IsFailure)
         {
-            return BadRequest(createdDevelopersResult.Error.Message);
+            return BadRequest(createdDevelopersResult.Error.CustomErrorInformation);
         }
 
         IEnumerable<Developer> createdDevelopers = createdDevelopersResult.Value;
@@ -40,6 +40,6 @@ public class DeveloperController : ControllerBase
             stringBuilder.Append($@"/developers/{createdDeveloper.Id},");
         }
 
-        return Created(stringBuilder.ToString(), createdDevelopersResult);
+        return Created(stringBuilder.ToString(), createdDevelopers);
     }
 }

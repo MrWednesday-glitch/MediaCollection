@@ -45,7 +45,7 @@ public class BookService : IBookService
         }
         catch (RecordNotFoundException ex)
         {
-            return CustomResult<Book>.Failure(CustomError.RecordNotFound(ex.Message));
+            return CustomResult<Book>.Failure(CustomError.RecordNotFound(ex.Message, 404));
         }
     }
 }

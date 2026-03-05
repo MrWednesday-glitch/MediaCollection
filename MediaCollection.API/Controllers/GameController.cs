@@ -1,4 +1,6 @@
-﻿namespace MediaCollection.API.Controllers;
+﻿using Microsoft.AspNetCore.Http.HttpResults;
+
+namespace MediaCollection.API.Controllers;
 
 [ApiController]
 [Route("games")]
@@ -59,6 +61,7 @@ public class GameController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(500)]
     public async Task<IActionResult> GetGame(Guid id)
     {
         CustomResult<Game> gameResult = await _gameService.Get(id);
@@ -67,8 +70,9 @@ public class GameController : ControllerBase
         {
             return gameResult.Error.Code switch
             {
-                "RecordNotFound" => NotFound(gameResult.Error.Message),
-                _ => BadRequest(gameResult.Error.Message),
+                ErrorCodes.RecordNotFound => NotFound(gameResult.Error.CustomErrorInformation),
+                ErrorCodes.UnknownError => BadRequest(gameResult.Error.CustomErrorInformation),
+                _ => StatusCode(500, gameResult.Error.CustomErrorInformation)
             };
         }
 
