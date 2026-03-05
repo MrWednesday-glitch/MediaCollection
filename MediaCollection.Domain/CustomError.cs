@@ -20,6 +20,7 @@ public sealed record CustomError(ErrorCodes Code, CustomErrorInformation CustomE
     }
 }
 
+// TODO Move these to their own files
 public enum ErrorCodes
 {
     Nothing = 0,

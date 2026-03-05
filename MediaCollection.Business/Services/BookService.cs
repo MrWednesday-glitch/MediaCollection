@@ -1,6 +1,4 @@
-﻿using MediaCollection.Domain.Exceptions;
-
-namespace MediaCollection.Business.Services;
+﻿namespace MediaCollection.Business.Services;
 
 public class BookService : IBookService
 {
@@ -43,6 +41,7 @@ public class BookService : IBookService
 
             return CustomResult<Book>.Success(book);
         }
+        // TODO Unit test
         catch (RecordNotFoundException ex)
         {
             return CustomResult<Book>.Failure(CustomError.RecordNotFound(ex.Message, 404));

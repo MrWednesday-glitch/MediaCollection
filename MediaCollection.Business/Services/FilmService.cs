@@ -41,6 +41,7 @@ public class FilmService : IFilmService
 
             return CustomResult<Film>.Success(film);
         }
+        // TODO Unit test
         catch (RecordNotFoundException ex)
         {
             return CustomResult<Film>.Failure(CustomError.RecordNotFound(ex.Message, 404));

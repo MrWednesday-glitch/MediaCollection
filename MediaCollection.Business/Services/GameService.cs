@@ -17,6 +17,7 @@ public class GameService : IGameService
 
             return CustomResult<Game>.Success(game);
         }
+        // TODO Unit test
         catch (RecordNotFoundException ex)
         {
             return CustomResult<Game>.Failure(CustomError.RecordNotFound(ex.Message, 404));

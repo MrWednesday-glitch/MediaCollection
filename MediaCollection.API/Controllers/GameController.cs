@@ -1,7 +1,6 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
+﻿namespace MediaCollection.API.Controllers;
 
-namespace MediaCollection.API.Controllers;
-
+// TODO Unit test
 [ApiController]
 [Route("games")]
 public class GameController : ControllerBase
