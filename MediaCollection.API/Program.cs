@@ -57,6 +57,7 @@ public class Program
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())
         {
+            // TODO Change from swagger to the new one
             app.UseSwagger();
             app.UseSwaggerUI();
         }
