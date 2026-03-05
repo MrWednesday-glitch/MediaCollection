@@ -1,8 +1,7 @@
 ﻿namespace MediaCollection.Domain;
 
 // TODO Summaries 
-// TODO Unit test
-public class CustomResult<T>
+public class CustomResult<T> where T : class
 {
     private readonly T? _value;
 
@@ -39,7 +38,6 @@ public class CustomResult<T>
         }
 
         IsSuccess = false;
-        // Change this into a standardized json body
         Error = error;
     }
 
