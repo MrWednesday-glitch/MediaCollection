@@ -60,6 +60,7 @@ public class PublisherService : IPublisherService
             .Select(pTB => pTB.Name);
 
         IQueryable<Publisher> existingPublishers = (await _publisherRepository.Get())
+            .TagWith("existcheck")
             .Where(p => publisherNamesToCheck.Contains(p.Name));
 
         return existingPublishers;

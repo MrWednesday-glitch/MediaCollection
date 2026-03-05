@@ -6,7 +6,9 @@ public class GameService : IGameService
 
     public GameService(IGameRepository gameRepository)
     {
-        _gameRepository = gameRepository ?? throw new ArgumentNullException(nameof(gameRepository));
+        ArgumentNullException.ThrowIfNull(gameRepository);
+
+        _gameRepository = gameRepository;
     }
 
     public async Task<CustomResult<Game>> Get(Guid id)
@@ -32,15 +34,18 @@ public class GameService : IGameService
         {
             searchTerm = searchTerm!.ToLower();
 
-            gameCollection = gameCollection.Where(game => game.Name.ToLower().Contains(searchTerm)
-                                                           || game.Publisher.Name.ToLower().Contains(searchTerm)
-                                                           || game.Developer.Name.ToLower().Contains(searchTerm));
+            gameCollection = gameCollection
+                .TagWith("search")
+                .Where(game => game.Name.ToLower().Contains(searchTerm)
+                                || game.Publisher.Name.ToLower().Contains(searchTerm)
+                                || game.Developer.Name.ToLower().Contains(searchTerm));
         }
 
         int totalItemCount = gameCollection.Count();
         PaginationMetadata paginationMetadata = new(totalItemCount, pageSize, pageNumber);
 
         List<Game> games = gameCollection
+            .TagWith("get")
             .Skip(pageSize * (pageNumber - 1))
             .Take(pageSize)
             .ToList();
@@ -51,13 +56,14 @@ public class GameService : IGameService
     public async Task<CustomResult<Game>> GetRandom()
     {
         IQueryable<Game> unfinishedGames = (await _gameRepository.Get())
+            .TagWith("random")
             .Where(g => !g.Finished);
         int totalItemCount = unfinishedGames.Count();
 
         if (totalItemCount == 0)
         {
             string message = "No unfinished game to be found.";
-            
+
             return CustomResult<Game>.Failure(CustomError.RecordNotFound(message, 404));
         }
 
@@ -65,6 +71,7 @@ public class GameService : IGameService
         int randomNumber = random.Next(0, totalItemCount);
 
         Game randomGame = unfinishedGames
+            .TagWith("random")
             .Skip(randomNumber)
             .First();
 

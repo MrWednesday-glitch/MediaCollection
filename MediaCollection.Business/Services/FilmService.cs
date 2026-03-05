@@ -6,7 +6,9 @@ public class FilmService : IFilmService
 
     public FilmService(IFilmRepository filmRepository)
     {
-        _filmRepository = filmRepository ?? throw new ArgumentNullException(nameof(filmRepository));
+        ArgumentNullException.ThrowIfNull(filmRepository);
+
+        _filmRepository = filmRepository;
     }
 
     public async Task<(CustomResult<IEnumerable<Film>>, PaginationMetadata)> Get(int pageNumber, int pageSize, string? searchTerm = "")
@@ -17,18 +19,21 @@ public class FilmService : IFilmService
         {
             searchTerm = searchTerm!.ToLower();
 
-            filmCollection = filmCollection.Where(film => film.Name.ToLower().Contains(searchTerm)
-                                                           || film.Publisher.Name.ToLower().Contains(searchTerm)
-                                                           || film.Director.Name.ToLower().Contains(searchTerm));
+            filmCollection = filmCollection
+                .TagWith("search")
+                .Where(film => film.Name.ToLower().Contains(searchTerm)
+                                || film.Publisher.Name.ToLower().Contains(searchTerm)
+                                || film.Director.Name.ToLower().Contains(searchTerm));
         }
 
-       int totalItemCount = filmCollection.Count();
-       PaginationMetadata paginationMetadata = new PaginationMetadata(totalItemCount, pageSize, pageNumber);
+        int totalItemCount = filmCollection.Count();
+        PaginationMetadata paginationMetadata = new PaginationMetadata(totalItemCount, pageSize, pageNumber);
 
-       List<Film> films = filmCollection
-            .Skip(pageSize * (pageNumber - 1))
-            .Take(pageSize)
-            .ToList();
+        List<Film> films = filmCollection
+             .TagWith("get")
+             .Skip(pageSize * (pageNumber - 1))
+             .Take(pageSize)
+             .ToList();
 
         return (CustomResult<IEnumerable<Film>>.Success(films), paginationMetadata);
     }

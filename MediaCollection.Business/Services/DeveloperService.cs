@@ -64,6 +64,7 @@ public class DeveloperService : IDeveloperService
             .Select(dTB => dTB.Name);
 
         IQueryable<Developer> existingDevelopers = (await _developerRepository.Get())
+            .TagWith("existcheck")
             .Where(d => developersNamesToCheck.Contains(d.Name));
 
         return existingDevelopers;
