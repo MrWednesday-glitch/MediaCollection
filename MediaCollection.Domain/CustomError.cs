@@ -1,7 +1,6 @@
 ﻿namespace MediaCollection.Domain;
 
 // TODO Write summaries
-// TODO Unit test
 public sealed record CustomError(ErrorCodes Code, CustomErrorInformation CustomErrorInformation)
 {
     public static readonly CustomError None = new(ErrorCodes.Nothing,
@@ -20,14 +19,4 @@ public sealed record CustomError(ErrorCodes Code, CustomErrorInformation CustomE
     }
 }
 
-// TODO Move these to their own files
-public enum ErrorCodes
-{
-    Nothing = 0,
-    UnknownError,
-    RecordNotFound
-}
-
-public record CustomErrorInformation(int StatusCode, string Message, string Owner = "Raven", string AppName = "Media Collection") 
-{ 
-}
+// TODO Edit the readme about the result pattern and why I want it
