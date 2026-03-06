@@ -10,8 +10,8 @@ public class Program
     public static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
-        string connectionString = builder.Configuration.GetConnectionString("LocalDb")
-            ?? throw new ArgumentNullException("No Connectionstring found.");
+        //string connectionString = builder.Configuration.GetConnectionString("LocalDb")
+        //    ?? throw new ArgumentNullException("No Connectionstring found.");
 
         // Add services to the container.
 
@@ -19,12 +19,14 @@ public class Program
         // TODO Split these up in respective extension methods
         builder.Services.AddControllers();
 
-        builder.Services.AddDbContext<MediaDbContext>((serviceProvider, options) =>
-        {
-            options
-                .UseLazyLoadingProxies()
-                .UseSqlServer(connectionString);
-        }, ServiceLifetime.Scoped);
+        //builder.Services.AddDbContext<MediaDbContext>((serviceProvider, options) =>
+        //{
+        //    options
+        //        .UseLazyLoadingProxies()
+        //        .UseSqlServer(connectionString);
+        //}, ServiceLifetime.Scoped);
+
+        builder.Services.AddDataServices(builder.Configuration);
 
         builder.Services.AddScoped<IGameService, GameService>();
         builder.Services.AddScoped<IBookService, BookService>();
