@@ -1,27 +1,31 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using MediaCollection.Data.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace MediaCollection.Data;
 
+// TODO Unit test
+// TODO Summaries
 public static class DataServiceCollectionExtensions
 {
     public static IServiceCollection AddDataServices(this IServiceCollection services, IConfiguration configuration)
     {
-        string connectionString = configuration.GetConnectionString("localDb") ?? throw new Exception("No dbConString found.");
+        string connectionString = configuration.GetConnectionString("localDb") 
+            ?? throw new ArgumentNullException("No database connectionstring found.");
 
         services.AddDbContext<MediaDbContext>(options =>
         {
             options
-            // TODO fix this
                 .UseLazyLoadingProxies()
                 .UseSqlServer(connectionString);
         }, ServiceLifetime.Scoped);
 
-        // TODO Add the repositories services
+        services.AddScoped<IGameRepository, GameRepository>();
+        services.AddScoped<IBookRepository, BookRepository>();
+        services.AddScoped<IFilmRepository, FilmRepository>();
+        services.AddScoped<IPublisherRepository, PublisherRepository>();
+        services.AddScoped<IDeveloperRepository, DeveloperRepository>();
 
         return services;
     }

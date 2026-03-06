@@ -1,6 +1,5 @@
 using MediaCollection.Business.Services;
 using MediaCollection.Data;
-using MediaCollection.Data.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace MediaCollection.API;
@@ -9,22 +8,9 @@ public class Program
 {
     public static void Main(string[] args)
     {
-        var builder = WebApplication.CreateBuilder(args);
-        //string connectionString = builder.Configuration.GetConnectionString("LocalDb")
-        //    ?? throw new ArgumentNullException("No Connectionstring found.");
+        WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
-        // Add services to the container.
-
-        // TODO Learn how to make a service factory
-        // TODO Split these up in respective extension methods
         builder.Services.AddControllers();
-
-        //builder.Services.AddDbContext<MediaDbContext>((serviceProvider, options) =>
-        //{
-        //    options
-        //        .UseLazyLoadingProxies()
-        //        .UseSqlServer(connectionString);
-        //}, ServiceLifetime.Scoped);
 
         builder.Services.AddDataServices(builder.Configuration);
 
@@ -33,11 +19,6 @@ public class Program
         builder.Services.AddScoped<IFilmService, FilmService>();
         builder.Services.AddScoped<IPublisherService, PublisherService>();
         builder.Services.AddScoped<IDeveloperService, DeveloperService>();
-        builder.Services.AddScoped<IGameRepository, GameRepository>();
-        builder.Services.AddScoped<IBookRepository, BookRepository>();
-        builder.Services.AddScoped<IFilmRepository, FilmRepository>();
-        builder.Services.AddScoped<IPublisherRepository, PublisherRepository>();
-        builder.Services.AddScoped<IDeveloperRepository, DeveloperRepository>();
 
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
@@ -50,9 +31,9 @@ public class Program
              .AllowAnyHeader();
         }));
 
-        var app = builder.Build();
+        WebApplication app = builder.Build();
 
-        using var scope = app.Services.CreateScope();
+        using IServiceScope scope = app.Services.CreateScope();
         scope.ServiceProvider.GetRequiredService<MediaDbContext>()
             .Database.Migrate();
 
