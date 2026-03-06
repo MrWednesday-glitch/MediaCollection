@@ -1,4 +1,4 @@
-using MediaCollection.Business.Services;
+using MediaCollection.Business;
 using MediaCollection.Data;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,12 +13,7 @@ public class Program
         builder.Services.AddControllers();
 
         builder.Services.AddDataServices(builder.Configuration);
-
-        builder.Services.AddScoped<IGameService, GameService>();
-        builder.Services.AddScoped<IBookService, BookService>();
-        builder.Services.AddScoped<IFilmService, FilmService>();
-        builder.Services.AddScoped<IPublisherService, PublisherService>();
-        builder.Services.AddScoped<IDeveloperService, DeveloperService>();
+        builder.Services.AddBusinessServices();
 
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
