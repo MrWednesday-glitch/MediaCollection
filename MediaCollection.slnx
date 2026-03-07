@@ -1,0 +1,18 @@
+<Solution>
+  <Folder Name="/1. Data/">
+    <Project Path="MediaCollection.Data/MediaCollection.Data.csproj" />
+  </Folder>
+  <Folder Name="/2. Business/">
+    <Project Path="MediaCollection.Business/MediaCollection.Business.csproj" />
+    <Project Path="MediaCollection.Domain/MediaCollection.Domain.csproj" />
+  </Folder>
+  <Folder Name="/3. Executables/">
+    <Project Path="MediaCollection.API/MediaCollection.API.csproj" />
+  </Folder>
+  <Folder Name="/9. Unit testing/">
+    <Project Path="MediaCollection.API.Testing/MediaCollection.API.Testing.csproj" />
+    <Project Path="MediaCollection.Business.Testing/MediaCollection.Business.Testing.csproj" />
+    <Project Path="MediaCollection.Data.Testing/MediaCollection.Data.Testing.csproj" />
+    <Project Path="MediaCollection.Domain.Testing/MediaCollection.Domain.Testing.csproj" />
+  </Folder>
+</Solution>
