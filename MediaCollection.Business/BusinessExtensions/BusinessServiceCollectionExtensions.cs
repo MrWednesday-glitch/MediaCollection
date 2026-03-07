@@ -3,9 +3,11 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace MediaCollection.Business;
 
-// TODO Summaries
 public static class BusinessServiceCollectionExtensions
 {
+    /// <summary>
+    /// Adds the business logic classes to the DI container.
+    /// </summary>
     public static IServiceCollection AddBusinessServices(this IServiceCollection services)
     {
         services.AddScoped<IGameService, GameService>();

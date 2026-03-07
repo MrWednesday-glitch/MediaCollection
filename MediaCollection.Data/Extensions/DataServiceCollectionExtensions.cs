@@ -5,12 +5,14 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace MediaCollection.Data;
 
-// TODO Summaries
 public static class DataServiceCollectionExtensions
 {
+    /// <summary>
+    /// Add the DbContext and the repositories to the DI Container.
+    /// </summary>
     public static IServiceCollection AddDataServices(this IServiceCollection services, IConfiguration configuration)
     {
-        string connectionString = configuration.GetConnectionString("localDb") 
+        string connectionString = configuration.GetConnectionString("localDb")
             ?? throw new ArgumentNullException("No database connectionstring found.");
 
         services.AddDbContext<MediaDbContext>(options =>
