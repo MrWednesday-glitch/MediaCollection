@@ -3,7 +3,6 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace MediaCollection.Business;
 
-// TODO Unit test
 // TODO Summaries
 public static class BusinessServiceCollectionExtensions
 {
