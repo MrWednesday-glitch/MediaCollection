@@ -5,7 +5,6 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace MediaCollection.Data;
 
-// TODO Unit test
 // TODO Summaries
 public static class DataServiceCollectionExtensions
 {
