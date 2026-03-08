@@ -49,7 +49,7 @@ public class BookService : IBookService
         // TODO Unit test
         catch (RecordNotFoundException ex)
         {
-            return CustomResult<Book>.Failure(CustomError.RecordNotFound(ex.Message, 404));
+            return CustomResult<Book>.Failure(CustomError.RecordNotFound(ex.Message));
         }
     }
 }

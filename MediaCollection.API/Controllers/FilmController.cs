@@ -32,7 +32,7 @@ public class FilmController : ControllerBase
             return NotFound(new ErrorDetails(
                 string.Empty,
                 filmsResult.Error.CustomErrorInformation.Message,
-                filmsResult.Error.CustomErrorInformation.StatusCode,
+                404,
                 string.Empty,
                 HttpContext.Request.Path));
         }
@@ -59,7 +59,7 @@ public class FilmController : ControllerBase
                 return NotFound(new ErrorDetails(
                     string.Empty,
                     filmResult.Error.CustomErrorInformation.Message,
-                    filmResult .Error.CustomErrorInformation.StatusCode,
+                    404,
                     string.Empty,
                     HttpContext.Request.Path));
             }

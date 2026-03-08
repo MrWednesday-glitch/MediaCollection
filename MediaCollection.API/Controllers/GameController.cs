@@ -24,10 +24,10 @@ public class GameController : ControllerBase
 
         if (randomGameResult.IsFailure)
         {
-            return StatusCode(randomGameResult.Error.CustomErrorInformation.StatusCode, new ErrorDetails(
+            return StatusCode(204, new ErrorDetails(
                 string.Empty,
                 randomGameResult.Error.CustomErrorInformation.Message,
-                randomGameResult.Error.CustomErrorInformation.StatusCode,
+                204,
                 string.Empty,
                 HttpContext.Request.Path));
         }
@@ -54,7 +54,7 @@ public class GameController : ControllerBase
             return NotFound(new ErrorDetails(
                 string.Empty,
                 gameResults.Error.CustomErrorInformation.Message,
-                gameResults.Error.CustomErrorInformation.StatusCode,
+                404,
                 string.Empty,
                 HttpContext.Request.Path));
         }
@@ -82,19 +82,19 @@ public class GameController : ControllerBase
                 ErrorCodes.RecordNotFound => NotFound(new ErrorDetails(
                     string.Empty,
                     gameResult.Error.CustomErrorInformation.Message,
-                    gameResult.Error.CustomErrorInformation.StatusCode,
+                    404,
                     string.Empty,
                     HttpContext.Request.Path)),
                 ErrorCodes.UnknownError => BadRequest(new ErrorDetails(
                     string.Empty,
                     gameResult.Error.CustomErrorInformation.Message,
-                    gameResult.Error.CustomErrorInformation.StatusCode,
+                    400,
                     string.Empty,
                     HttpContext.Request.Path)),
-                _ => StatusCode(gameResult.Error.CustomErrorInformation.StatusCode, new ErrorDetails(
+                _ => StatusCode(500, new ErrorDetails(
                     string.Empty,
                     gameResult.Error.CustomErrorInformation.Message,
-                    gameResult.Error.CustomErrorInformation.StatusCode,
+                    500,
                     string.Empty,
                     HttpContext.Request.Path))
             };

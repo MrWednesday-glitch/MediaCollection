@@ -35,7 +35,7 @@ public class PublisherController : ControllerBase
             return BadRequest(new ErrorDetails(
                 string.Empty,
                 createdPublishersResult.Error.CustomErrorInformation.Message,
-                createdPublishersResult.Error.CustomErrorInformation.StatusCode,
+                400,
                 string.Empty,
                 HttpContext.Request.Path));
         }

@@ -49,7 +49,7 @@ public class FilmService : IFilmService
         // TODO Unit test
         catch (RecordNotFoundException ex)
         {
-            return CustomResult<Film>.Failure(CustomError.RecordNotFound(ex.Message, 404));
+            return CustomResult<Film>.Failure(CustomError.RecordNotFound(ex.Message));
         }
     }
 }

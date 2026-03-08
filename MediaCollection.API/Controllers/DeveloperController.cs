@@ -35,7 +35,7 @@ public class DeveloperController : ControllerBase
             return BadRequest(new ErrorDetails(
                 string.Empty,
                 createdDevelopersResult.Error.CustomErrorInformation.Message,
-                createdDevelopersResult.Error.CustomErrorInformation.StatusCode,
+                400,
                 string.Empty,
                 HttpContext.Request.Path));
         }

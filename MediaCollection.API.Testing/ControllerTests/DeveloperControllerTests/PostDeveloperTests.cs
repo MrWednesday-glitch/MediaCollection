@@ -64,7 +64,7 @@ public class PostDeveloperTests
         Mock<IDeveloperService> mockedService = new();
         mockedService
             .Setup(s => s.Add(It.IsAny<IEnumerable<DeveloperToBe>>()))
-            .Returns(Task.FromResult(CustomResult<IEnumerable<Developer>>.Failure(new CustomError(ErrorCodes.UnknownError, new CustomErrorInformation(500, "Something went wrong!")))));
+            .Returns(Task.FromResult(CustomResult<IEnumerable<Developer>>.Failure(new CustomError(ErrorCodes.UnknownError, new CustomErrorInformation("Something went wrong!")))));
         DeveloperController controller = new(mockedService.Object);
         controller.ControllerContext = new ControllerContext
         {
@@ -94,7 +94,7 @@ public class PostDeveloperTests
             .Should().BeEquivalentTo(new ErrorDetails(
                 Instance: string.Empty,
                 Detail: string.Empty,
-                Status: 500,
+                Status: 400,
                 Title: "Something went wrong!",
                 Type: string.Empty));
     }

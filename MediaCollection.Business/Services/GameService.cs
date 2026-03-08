@@ -22,7 +22,7 @@ public class GameService : IGameService
         // TODO Unit test
         catch (RecordNotFoundException ex)
         {
-            return CustomResult<Game>.Failure(CustomError.RecordNotFound(ex.Message, 404));
+            return CustomResult<Game>.Failure(CustomError.RecordNotFound(ex.Message));
         }
     }
 
@@ -64,7 +64,7 @@ public class GameService : IGameService
         {
             string message = "No unfinished game to be found.";
 
-            return CustomResult<Game>.Failure(CustomError.RecordNotFound(message, 404));
+            return CustomResult<Game>.Failure(CustomError.RecordNotFound(message));
         }
 
         Random random = new();

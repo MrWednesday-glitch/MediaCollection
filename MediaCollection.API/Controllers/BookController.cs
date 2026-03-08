@@ -32,7 +32,7 @@ public class BookController : ControllerBase
             return NotFound(new ErrorDetails(
                 string.Empty,
                 bookResults.Error.CustomErrorInformation.Message,
-                bookResults.Error.CustomErrorInformation.StatusCode,
+                404,
                 string.Empty,
                 HttpContext.Request.Path));
         }
@@ -59,7 +59,7 @@ public class BookController : ControllerBase
                 return NotFound(new ErrorDetails(
                 string.Empty,
                 bookResult.Error.CustomErrorInformation.Message,
-                bookResult.Error.CustomErrorInformation.StatusCode,
+                404,
                 string.Empty,
                 HttpContext.Request.Path));
             }
