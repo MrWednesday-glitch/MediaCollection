@@ -66,6 +66,10 @@ public class PostPublishersTests
             .Setup(s => s.Add(It.IsAny<IEnumerable<PublisherToBe>>()))
             .Returns(Task.FromResult(CustomResult<IEnumerable<Publisher>>.Failure(new CustomError(ErrorCodes.UnknownError, new CustomErrorInformation(500, "Something went wrong!")))));
         PublisherController controller = new(mockedService.Object);
+        controller.ControllerContext = new ControllerContext
+        {
+            HttpContext = new DefaultHttpContext()
+        };
         PublisherToBe[] toBeCreatedPublishers =
             [
             new()
@@ -87,6 +91,11 @@ public class PostPublishersTests
         result
             .Should().BeOfType<BadRequestObjectResult>()
             .Which.Value
-            .Should().BeEquivalentTo(new CustomErrorInformation(500,"Something went wrong!"));
+            .Should().BeEquivalentTo(new ErrorDetails(
+                Instance: string.Empty,
+                Detail: string.Empty,
+                Status: 500,
+                Title: "Something went wrong!",
+                Type: string.Empty));
     }
 }
