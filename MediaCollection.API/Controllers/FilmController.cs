@@ -16,7 +16,8 @@ public class FilmController : ControllerBase
     }
 
     [HttpGet(Name = "GetFilms")]
-    // TODO Add ProducesResponseType
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetFilms(int pageNumber = 1, int pageSize = 10, string? searchTerm = "")
     {
         if (pageSize > MaxPageSize)
@@ -44,7 +45,9 @@ public class FilmController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    // TODO Add ProducesResponseType
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> Getfilm(Guid id)
     {
         try

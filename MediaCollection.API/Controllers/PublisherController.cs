@@ -24,7 +24,8 @@ public class PublisherController : ControllerBase
     /// </summary>
     /// <param name="publishersToBe">The required information that needs to be send to the database.</param>
     [HttpPost(Name = "PostPublishers")]
-    // TODO Add ProducesResponseType
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> PostPublishers([FromBody] PublisherToBe[] publishersToBe)
     {
         CustomResult<IEnumerable<Publisher>> createdPublishersResult = await _publisherService.Add(publishersToBe);

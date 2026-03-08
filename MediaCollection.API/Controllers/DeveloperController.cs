@@ -24,7 +24,8 @@ public class DeveloperController : ControllerBase
     /// </summary>
     /// <param name="DeveloperToBe">The information needed to store developers into the database.</param>
     [HttpPost(Name = "PostDevelopers")]
-    // TODO Add ProducesResponseType
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> PostDevelopers([FromBody] DeveloperToBe[] DeveloperToBe)
     {
         CustomResult<IEnumerable<Developer>> createdDevelopersResult = await _developerService.Add(DeveloperToBe);
