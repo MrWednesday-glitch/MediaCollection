@@ -8,14 +8,13 @@ public class RecordNotFoundTests
     {
         // -- Arrange
         string message = "Record not found";
-        int statusCode = 404;
 
         // -- Act
-        CustomError customError = CustomError.RecordNotFound(message, statusCode);
+        CustomError customError = CustomError.RecordNotFound(message);
 
         // -- Assert
         customError.Code.Should().Be(ErrorCodes.RecordNotFound);
         customError.Should().BeEquivalentTo(new CustomError(ErrorCodes.RecordNotFound,
-            new CustomErrorInformation(404, "Record not found")));
+            new CustomErrorInformation("Record not found")));
     }
 }

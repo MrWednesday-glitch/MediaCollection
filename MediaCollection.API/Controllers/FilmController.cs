@@ -16,6 +16,8 @@ public class FilmController : ControllerBase
     }
 
     [HttpGet(Name = "GetFilms")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetFilms(int pageNumber = 1, int pageSize = 10, string? searchTerm = "")
     {
         if (pageSize > MaxPageSize)
@@ -27,7 +29,12 @@ public class FilmController : ControllerBase
 
         if (filmsResult.IsFailure)
         {
-            return NotFound();
+            return NotFound(new ErrorDetails(
+                string.Empty,
+                filmsResult.Error.CustomErrorInformation.Message,
+                404,
+                string.Empty,
+                HttpContext.Request.Path));
         }
 
         IEnumerable<FilmDTO> filmsDTO = filmsResult.Value.Select(f => Transform(f));
@@ -38,6 +45,9 @@ public class FilmController : ControllerBase
     }
 
     [HttpGet("{id}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> Getfilm(Guid id)
     {
         try
@@ -46,7 +56,12 @@ public class FilmController : ControllerBase
 
             if (filmResult.IsFailure)
             {
-                return NotFound(filmResult.Error.CustomErrorInformation);
+                return NotFound(new ErrorDetails(
+                    string.Empty,
+                    filmResult.Error.CustomErrorInformation.Message,
+                    404,
+                    string.Empty,
+                    HttpContext.Request.Path));
             }
 
             FilmDTO filmDTO = Transform(filmResult.Value);
@@ -55,6 +70,7 @@ public class FilmController : ControllerBase
         }
         catch (Exception ex)
         {
+            // TODO Fix this
             return BadRequest(ex.Message);
         }
     }

@@ -3,17 +3,17 @@
 public sealed record CustomError(ErrorCodes Code, CustomErrorInformation CustomErrorInformation)
 {
     public static readonly CustomError None = new(ErrorCodes.Nothing,
-        new CustomErrorInformation(500, string.Empty));
+        new CustomErrorInformation(string.Empty));
 
-    public static CustomError RecordNotFound(string message, int statusCode)
+    public static CustomError RecordNotFound(string message)
     {
         return new CustomError(ErrorCodes.RecordNotFound,
-            new CustomErrorInformation(statusCode, message));
+            new CustomErrorInformation(message));
     }
     
-    public static CustomError UnknownError(string message, int statusCode)
+    public static CustomError UnknownError(string message)
     {
         return new CustomError(ErrorCodes.UnknownError, 
-            new CustomErrorInformation(statusCode, message));
+            new CustomErrorInformation(message));
     }
 }

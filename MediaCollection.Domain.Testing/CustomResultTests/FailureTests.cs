@@ -7,7 +7,7 @@ public class FailureTests
     public void Should_CreateFailureResultWithError()
     {
         // -- Arrange
-        CustomError error = CustomError.UnknownError("Banana overrijp.", 355);
+        CustomError error = CustomError.UnknownError("Banana overrijp.");
 
         // -- Act
         CustomResult<Banana> bananaResult = CustomResult<Banana>.Failure(error);
