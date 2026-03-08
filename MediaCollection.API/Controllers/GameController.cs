@@ -24,7 +24,12 @@ public class GameController : ControllerBase
 
         if (randomGameResult.IsFailure)
         {
-            return NoContent();
+            return StatusCode(randomGameResult.Error.CustomErrorInformation.StatusCode, new ErrorDetails(
+                string.Empty,
+                randomGameResult.Error.CustomErrorInformation.Message,
+                randomGameResult.Error.CustomErrorInformation.StatusCode,
+                string.Empty,
+                HttpContext.Request.Path));
         }
 
         GameDTO gameDTO = Transform(randomGameResult.Value);
@@ -46,7 +51,12 @@ public class GameController : ControllerBase
 
         if (gameResults.IsFailure)
         {
-            return NotFound();
+            return NotFound(new ErrorDetails(
+                string.Empty,
+                gameResults.Error.CustomErrorInformation.Message,
+                gameResults.Error.CustomErrorInformation.StatusCode,
+                string.Empty,
+                HttpContext.Request.Path));
         }
 
         IEnumerable<GameDTO> gamesDTO = gameResults.Value.Select(g => Transform(g));
@@ -69,9 +79,24 @@ public class GameController : ControllerBase
         {
             return gameResult.Error.Code switch
             {
-                ErrorCodes.RecordNotFound => NotFound(gameResult.Error.CustomErrorInformation),
-                ErrorCodes.UnknownError => BadRequest(gameResult.Error.CustomErrorInformation),
-                _ => StatusCode(500, gameResult.Error.CustomErrorInformation)
+                ErrorCodes.RecordNotFound => NotFound(new ErrorDetails(
+                    string.Empty,
+                    gameResult.Error.CustomErrorInformation.Message,
+                    gameResult.Error.CustomErrorInformation.StatusCode,
+                    string.Empty,
+                    HttpContext.Request.Path)),
+                ErrorCodes.UnknownError => BadRequest(new ErrorDetails(
+                    string.Empty,
+                    gameResult.Error.CustomErrorInformation.Message,
+                    gameResult.Error.CustomErrorInformation.StatusCode,
+                    string.Empty,
+                    HttpContext.Request.Path)),
+                _ => StatusCode(gameResult.Error.CustomErrorInformation.StatusCode, new ErrorDetails(
+                    string.Empty,
+                    gameResult.Error.CustomErrorInformation.Message,
+                    gameResult.Error.CustomErrorInformation.StatusCode,
+                    string.Empty,
+                    HttpContext.Request.Path))
             };
         }
 

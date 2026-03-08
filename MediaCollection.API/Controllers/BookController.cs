@@ -16,6 +16,7 @@ public class BookController : ControllerBase
     }
 
     [HttpGet(Name = "GetBooks")]
+    // TODO Add ProducesResponseType
     public async Task<IActionResult> GetBooks(int pageNumber = 1, int pageSize = 10, string? searchTerm = "")
     {
         if (pageSize > MaxPageSize)
@@ -27,7 +28,12 @@ public class BookController : ControllerBase
 
         if (bookResults.IsFailure)
         {
-            return NotFound();
+            return NotFound(new ErrorDetails(
+                string.Empty,
+                bookResults.Error.CustomErrorInformation.Message,
+                bookResults.Error.CustomErrorInformation.StatusCode,
+                string.Empty,
+                HttpContext.Request.Path));
         }
 
         IEnumerable<BookDTO> booksDTO = bookResults.Value.Select(b => Transform(b));
@@ -38,6 +44,7 @@ public class BookController : ControllerBase
     }
 
     [HttpGet("{id}")]
+    // TODO Add ProducesResponseType
     public async Task<IActionResult> GetBook(Guid id)
     {
         try
@@ -46,7 +53,12 @@ public class BookController : ControllerBase
 
             if (bookResult.IsFailure)
             {
-                return NotFound(bookResult.Error.CustomErrorInformation);
+                return NotFound(new ErrorDetails(
+                string.Empty,
+                bookResult.Error.CustomErrorInformation.Message,
+                bookResult.Error.CustomErrorInformation.StatusCode,
+                string.Empty,
+                HttpContext.Request.Path));
             }
 
             BookDTO bookDTO = Transform(bookResult.Value);
@@ -55,6 +67,7 @@ public class BookController : ControllerBase
         }
         catch (Exception ex)
         {
+            // TODO Fix this
             return BadRequest(ex.Message);
         }
     }

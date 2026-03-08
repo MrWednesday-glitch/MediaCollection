@@ -24,13 +24,19 @@ public class DeveloperController : ControllerBase
     /// </summary>
     /// <param name="DeveloperToBe">The information needed to store developers into the database.</param>
     [HttpPost(Name = "PostDevelopers")]
+    // TODO Add ProducesResponseType
     public async Task<IActionResult> PostDevelopers([FromBody] DeveloperToBe[] DeveloperToBe)
     {
         CustomResult<IEnumerable<Developer>> createdDevelopersResult = await _developerService.Add(DeveloperToBe);
 
         if (createdDevelopersResult.IsFailure)
         {
-            return BadRequest(createdDevelopersResult.Error.CustomErrorInformation);
+            return BadRequest(new ErrorDetails(
+                string.Empty,
+                createdDevelopersResult.Error.CustomErrorInformation.Message,
+                createdDevelopersResult.Error.CustomErrorInformation.StatusCode,
+                string.Empty,
+                HttpContext.Request.Path));
         }
 
         IEnumerable<Developer> createdDevelopers = createdDevelopersResult.Value;
