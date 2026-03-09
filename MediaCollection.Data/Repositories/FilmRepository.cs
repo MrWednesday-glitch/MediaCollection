@@ -1,6 +1,4 @@
-﻿using MediaCollection.Domain.Exceptions;
-
-namespace MediaCollection.Data.Repositories;
+﻿namespace MediaCollection.Data.Repositories;
 
 [ExcludeFromCodeCoverage]
 public class FilmRepository : EFRepository<Film>, IFilmRepository
@@ -9,9 +7,9 @@ public class FilmRepository : EFRepository<Film>, IFilmRepository
     {
     }
 
-    public override async Task CreateRecord(Film entity)
+    public override async Task CreateRecord(Film entity, CancellationToken cancellationToken = default)
     {
-        await base.CreateRecord(entity);
+        await base.CreateRecord(entity, cancellationToken);
     }
 
     public override async Task DeleteRecord(Film entity)
@@ -24,13 +22,13 @@ public class FilmRepository : EFRepository<Film>, IFilmRepository
         return await base.Get();
     }
 
-    public override async Task<Film> Get(Guid id)
+    public override async Task<Film> Get(Guid id, CancellationToken cancellationToken = default)
     {
-        return await base.Get(id) ?? throw new RecordNotFoundException($"No film with id {id} was found.");
+        return await base.Get(id, cancellationToken) ?? throw new RecordNotFoundException($"No film with id {id} was found.");
     }
 
-    public override async Task SaveChanges()
+    public override async Task SaveChanges(CancellationToken cancellationToken = default)
     {
-        await base.SaveChanges();
+        await base.SaveChanges(cancellationToken);
     }
 }

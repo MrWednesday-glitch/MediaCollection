@@ -26,7 +26,9 @@ public class DeveloperService : IDeveloperService
     /// </summary>
     /// <param name="developersToBe">The collection of <see cref="Developer"/> that are to be added.</param>
     /// <returns>The <see cref="Developer"/> entities that are in the database.</returns>
-    public async Task<CustomResult<IEnumerable<Developer>>> Add(IEnumerable<DeveloperToBe> developersToBe)
+    public async Task<CustomResult<IEnumerable<Developer>>> Add(
+        IEnumerable<DeveloperToBe> developersToBe, 
+        CancellationToken cancellationToken = default)
     {
         if (!developersToBe.Any())
         {
@@ -45,8 +47,8 @@ public class DeveloperService : IDeveloperService
                 PictureUri = dTB.PictureUri
             });
 
-        await _developerRepository.CreateRecords(developers);
-        await _developerRepository.SaveChanges();
+        await _developerRepository.CreateRecords(developers, cancellationToken);
+        await _developerRepository.SaveChanges(cancellationToken);
 
         developers = developers.Concat(existingDevelopers);
 

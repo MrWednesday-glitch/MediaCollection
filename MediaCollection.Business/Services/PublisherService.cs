@@ -22,7 +22,7 @@ public class PublisherService : IPublisherService
     /// </summary>
     /// <param name="publishersToBe">The collection of publishers that are to be added.</param>
     /// <returns>The publisher entities that are in the database.</returns>
-    public async Task<CustomResult<IEnumerable<Publisher>>> Add(IEnumerable<PublisherToBe> publishersToBe)
+    public async Task<CustomResult<IEnumerable<Publisher>>> Add(IEnumerable<PublisherToBe> publishersToBe, CancellationToken cancellationToken = default)
     {
         if (!publishersToBe.Any())
         {
@@ -41,8 +41,8 @@ public class PublisherService : IPublisherService
                 PictureUri = pTB.PictureUri
             });
 
-        await _publisherRepository.CreateRecords(publishers);
-        await _publisherRepository.SaveChanges();
+        await _publisherRepository.CreateRecords(publishers, cancellationToken);
+        await _publisherRepository.SaveChanges(cancellationToken);
 
         publishers = publishers.Concat(existingPublishers);
 

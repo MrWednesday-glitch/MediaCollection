@@ -1,6 +1,4 @@
-﻿using MediaCollection.Domain.Exceptions;
-
-namespace MediaCollection.Data.Repositories;
+﻿namespace MediaCollection.Data.Repositories;
 
 [ExcludeFromCodeCoverage]
 public class GameRepository : EFRepository<Game>, IGameRepository
@@ -9,9 +7,9 @@ public class GameRepository : EFRepository<Game>, IGameRepository
     {
     }
 
-    public override async Task CreateRecord(Game entity)
+    public override async Task CreateRecord(Game entity, CancellationToken cancellationToken = default)
     {
-        await base.CreateRecord(entity);
+        await base.CreateRecord(entity, cancellationToken);
     }
 
     public override async Task DeleteRecord(Game entity)
@@ -24,13 +22,13 @@ public class GameRepository : EFRepository<Game>, IGameRepository
         return await base.Get();
     }
 
-    public override async Task<Game> Get(Guid id)
+    public override async Task<Game> Get(Guid id, CancellationToken cancellationToken = default)
     {
-        return await base.Get(id) ?? throw new RecordNotFoundException($"No game with id {id} was found.");
+        return await base.Get(id, cancellationToken) ?? throw new RecordNotFoundException($"No game with id {id} was found.");
     }
 
-    public override async Task SaveChanges()
+    public override async Task SaveChanges(CancellationToken cancellationToken = default)
     {
-        await base.SaveChanges();
+        await base.SaveChanges(cancellationToken);
     }
 }

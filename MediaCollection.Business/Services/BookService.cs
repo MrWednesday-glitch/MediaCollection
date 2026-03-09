@@ -11,7 +11,11 @@ public class BookService : IBookService
         _bookRepository = bookRepository;
     }
 
-    public async Task<(CustomResult<IEnumerable<Book>>, PaginationMetadata)> Get(int pageNumber, int pageSize, string? searchTerm = "")
+    public async Task<(CustomResult<IEnumerable<Book>>, PaginationMetadata)> Get(
+        int pageNumber, 
+        int pageSize, 
+        string? searchTerm = "", 
+        CancellationToken cancellationToken = default)
     {
         IQueryable<Book> bookCollection = await _bookRepository.Get();
 
@@ -27,7 +31,7 @@ public class BookService : IBookService
         }
 
         int totalItemCount = bookCollection.Count();
-        PaginationMetadata paginationMetadata = new PaginationMetadata(totalItemCount, pageSize, pageNumber);
+        PaginationMetadata paginationMetadata = new(totalItemCount, pageSize, pageNumber);
 
         List<Book> books = bookCollection
             .TagWith("get")
@@ -38,11 +42,11 @@ public class BookService : IBookService
         return (CustomResult<IEnumerable<Book>>.Success(books), paginationMetadata);
     }
 
-    public async Task<CustomResult<Book>> Get(Guid id)
+    public async Task<CustomResult<Book>> Get(Guid id, CancellationToken cancellationToken = default)
     {
         try
         {
-            Book book = await _bookRepository.Get(id);
+            Book book = await _bookRepository.Get(id, cancellationToken);
 
             return CustomResult<Book>.Success(book);
         }

@@ -18,14 +18,14 @@ public class FilmController : ControllerBase
     [HttpGet(Name = "GetFilms")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> GetFilms(int pageNumber = 1, int pageSize = 10, string? searchTerm = "")
+    public async Task<IActionResult> GetFilms(int pageNumber = 1, int pageSize = 10, string? searchTerm = "", CancellationToken cancellationToken = default)
     {
         if (pageSize > MaxPageSize)
         {
             pageSize = MaxPageSize;
         }
 
-        var (filmsResult, paginationMetadata) = await _filmService.Get(pageNumber, pageSize, searchTerm);
+        var (filmsResult, paginationMetadata) = await _filmService.Get(pageNumber, pageSize, searchTerm, cancellationToken);
 
         if (filmsResult.IsFailure)
         {
@@ -48,11 +48,11 @@ public class FilmController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> Getfilm(Guid id)
+    public async Task<IActionResult> Getfilm(Guid id, CancellationToken cancellationToken = default)
     {
         try
         {
-            CustomResult<Film> filmResult = await _filmService.Get(id);
+            CustomResult<Film> filmResult = await _filmService.Get(id, cancellationToken);
 
             if (filmResult.IsFailure)
             {

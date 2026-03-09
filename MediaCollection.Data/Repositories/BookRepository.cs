@@ -1,6 +1,4 @@
-﻿using MediaCollection.Domain.Exceptions;
-
-namespace MediaCollection.Data.Repositories;
+﻿namespace MediaCollection.Data.Repositories;
 
 [ExcludeFromCodeCoverage]
 public class BookRepository : EFRepository<Book>, IBookRepository
@@ -9,9 +7,9 @@ public class BookRepository : EFRepository<Book>, IBookRepository
     {
     }
 
-    public override async Task CreateRecord(Book entity)
+    public override async Task CreateRecord(Book entity, CancellationToken cancellationToken = default)
     {
-        await base.CreateRecord(entity);
+        await base.CreateRecord(entity, cancellationToken);
     }
 
     public override async Task DeleteRecord(Book entity)
@@ -24,13 +22,13 @@ public class BookRepository : EFRepository<Book>, IBookRepository
         return await base.Get();
     }
 
-    public override async Task<Book> Get(Guid id)
+    public override async Task<Book> Get(Guid id, CancellationToken cancellationToken = default)
     {
-        return await base.Get(id) ?? throw new RecordNotFoundException($"No book with id {id} was found."); ;
+        return await base.Get(id, cancellationToken) ?? throw new RecordNotFoundException($"No book with id {id} was found."); ;
     }
 
-    public override async Task SaveChanges()
+    public override async Task SaveChanges(CancellationToken cancellationToken = default)
     {
-        await base.SaveChanges();
+        await base.SaveChanges(cancellationToken);
     }
 }
