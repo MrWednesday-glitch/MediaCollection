@@ -18,14 +18,14 @@ public class BookController : ControllerBase
     [HttpGet(Name = "GetBooks")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> GetBooks(int pageNumber = 1, int pageSize = 10, string? searchTerm = "")
+    public async Task<IActionResult> GetBooks(int pageNumber = 1, int pageSize = 10, string? searchTerm = "", CancellationToken cancellationToken = default)
     {
         if (pageSize > MaxPageSize)
         {
             pageSize = MaxPageSize;
         }
 
-        var (bookResults, paginationMetadata) = await _bookService.Get(pageNumber, pageSize, searchTerm);
+        var (bookResults, paginationMetadata) = await _bookService.Get(pageNumber, pageSize, searchTerm, cancellationToken);
 
         if (bookResults.IsFailure)
         {
@@ -48,20 +48,20 @@ public class BookController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> GetBook(Guid id)
+    public async Task<IActionResult> GetBook(Guid id, CancellationToken cancellationToken = default)
     {
         try
         {
-            CustomResult<Book> bookResult = await _bookService.Get(id);
+            CustomResult<Book> bookResult = await _bookService.Get(id, cancellationToken);
 
             if (bookResult.IsFailure)
             {
                 return NotFound(new ErrorDetails(
-                string.Empty,
-                bookResult.Error.CustomErrorInformation.Message,
-                404,
-                string.Empty,
-                HttpContext.Request.Path));
+                    string.Empty,
+                    bookResult.Error.CustomErrorInformation.Message,
+                    404,
+                    string.Empty,
+                    HttpContext.Request.Path));
             }
 
             BookDTO bookDTO = Transform(bookResult.Value);

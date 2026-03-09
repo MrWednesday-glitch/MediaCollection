@@ -23,22 +23,22 @@ public interface IRepository<TEntity> where TEntity : EntityBase
     /// </summary>
     /// <param name="id">the id that corresponds with a record.</param>
     /// <returns>The record as an object of type TEntity.</returns>
-    Task<TEntity> Get(Guid id);
+    Task<TEntity> Get(Guid id, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds a created entity to the database to become a record.
     /// </summary>
     /// <param name="entity">The entity that needs to be stored into the database.</param>
-    Task CreateRecord(TEntity entity);
+    Task CreateRecord(TEntity entity, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Sends a previous command to the database to be executed.
     /// </summary>
-    Task SaveChanges();
+    Task SaveChanges(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds a multitude of <see cref="TEntity"/> entities to the database to become records.
     /// </summary>
     /// <param name="entities">The entities that need to be stored into the database.</param>
-    Task CreateRecords(IEnumerable<TEntity> entities);
+    Task CreateRecords(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default);
 }

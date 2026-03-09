@@ -11,7 +11,11 @@ public class FilmService : IFilmService
         _filmRepository = filmRepository;
     }
 
-    public async Task<(CustomResult<IEnumerable<Film>>, PaginationMetadata)> Get(int pageNumber, int pageSize, string? searchTerm = "")
+    public async Task<(CustomResult<IEnumerable<Film>>, PaginationMetadata)> Get(
+        int pageNumber, 
+        int pageSize, 
+        string? searchTerm = "",
+        CancellationToken cancellationToken = default)
     {
         IQueryable<Film> filmCollection = await _filmRepository.Get();
 
@@ -38,11 +42,11 @@ public class FilmService : IFilmService
         return (CustomResult<IEnumerable<Film>>.Success(films), paginationMetadata);
     }
 
-    public async Task<CustomResult<Film>> Get(Guid id)
+    public async Task<CustomResult<Film>> Get(Guid id, CancellationToken cancellationToken = default)
     {
         try
         {
-            Film film = await _filmRepository.Get(id);
+            Film film = await _filmRepository.Get(id, cancellationToken);
 
             return CustomResult<Film>.Success(film);
         }

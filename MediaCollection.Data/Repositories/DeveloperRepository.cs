@@ -1,6 +1,4 @@
-﻿using MediaCollection.Domain.Exceptions;
-
-namespace MediaCollection.Data.Repositories;
+﻿namespace MediaCollection.Data.Repositories;
 
 /// <summary>
 /// The repository pattern for <see cref="Developer"/>.
@@ -19,17 +17,17 @@ public class DeveloperRepository : EFRepository<Developer>, IDeveloperRepository
     /// <summary>
     /// Enters a singular developer entity into the database.
     /// </summary>
-    public override async Task CreateRecord(Developer entity)
+    public override async Task CreateRecord(Developer entity, CancellationToken cancellationToken = default)
     {
-        await base.CreateRecord(entity);
+        await base.CreateRecord(entity, cancellationToken);
     }
 
     /// <summary>
     /// Enters multiple developer entities into the database.
     /// </summary>
-    public override async Task CreateRecords(IEnumerable<Developer> entities)
+    public override async Task CreateRecords(IEnumerable<Developer> entities, CancellationToken cancellationToken = default)
     {
-        await base.CreateRecords(entities);
+        await base.CreateRecords(entities, cancellationToken);
     }
 
     /// <summary>
@@ -53,16 +51,16 @@ public class DeveloperRepository : EFRepository<Developer>, IDeveloperRepository
     /// </summary>
     /// <param name="id">The id of the developer.</param>
     /// <returns>The developer.</returns>
-    public override async Task<Developer> Get(Guid id)
+    public override async Task<Developer> Get(Guid id, CancellationToken cancellationToken = default)
     {
-        return await base.Get(id) ?? throw new RecordNotFoundException($"No developer with id {id} was found.");
+        return await base.Get(id, cancellationToken) ?? throw new RecordNotFoundException($"No developer with id {id} was found.");
     }
 
     /// <summary>
     /// Save changes to the database.
     /// </summary>
-    public override async Task SaveChanges()
+    public override async Task SaveChanges(CancellationToken cancellationToken = default)
     {
-        await base.SaveChanges();
+        await base.SaveChanges(cancellationToken);
     }
 }

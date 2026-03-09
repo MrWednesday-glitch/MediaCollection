@@ -9,12 +9,12 @@ public interface IBookService
     /// <param name="pageSize">The amount of book records retrieved.</param>
     /// <param name="searchTerm">A term that ensures only matching records are retrieved.</param>
     /// <returns>A task holding a collection of book and matching metadata.</returns>
-    Task<(CustomResult<IEnumerable<Book>>, PaginationMetadata)> Get(int pageNumber, int pageSize, string? searchTerm = "");
+    Task<(CustomResult<IEnumerable<Book>>, PaginationMetadata)> Get(int pageNumber, int pageSize, string? searchTerm = "", CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a record matching the id.
     /// </summary>
     /// <param name="id">The id of the wanted record.</param>
     /// <returns>A task with a book value.</returns>
-    Task<CustomResult<Book>> Get(Guid id);
+    Task<CustomResult<Book>> Get(Guid id, CancellationToken cancellationToken = default);
 }

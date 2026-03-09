@@ -1,6 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
-
-namespace MediaCollection.Data.Repositories;
+﻿namespace MediaCollection.Data.Repositories;
 
 [ExcludeFromCodeCoverage]
 public class EFRepository<TEntity> : IRepository<TEntity> where TEntity : EntityBase
@@ -12,14 +10,14 @@ public class EFRepository<TEntity> : IRepository<TEntity> where TEntity : Entity
         _mediaDbContext = mediaDbContext;
     }
 
-    public virtual async Task CreateRecord(TEntity entity)
+    public virtual async Task CreateRecord(TEntity entity, CancellationToken cancellationToken = default)
     {
-        await _mediaDbContext.Set<TEntity>().AddAsync(entity);
+        await _mediaDbContext.Set<TEntity>().AddAsync(entity, cancellationToken);
     }
 
-    public virtual async Task CreateRecords(IEnumerable<TEntity> entities)
+    public virtual async Task CreateRecords(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default)
     {
-        await _mediaDbContext.Set<TEntity>().AddRangeAsync(entities);
+        await _mediaDbContext.Set<TEntity>().AddRangeAsync(entities, cancellationToken);
     }
 
     public virtual async Task DeleteRecord(TEntity entity)
@@ -32,13 +30,13 @@ public class EFRepository<TEntity> : IRepository<TEntity> where TEntity : Entity
         return _mediaDbContext.Set<TEntity>().AsQueryable();
     }
 
-    public virtual async Task<TEntity> Get(Guid id)
+    public virtual async Task<TEntity> Get(Guid id, CancellationToken cancellationToken = default)
     {
-        return (await _mediaDbContext.Set<TEntity>().FindAsync(id))!;
+        return (await _mediaDbContext.Set<TEntity>().FindAsync(id, cancellationToken))!;
     }
 
-    public virtual async Task SaveChanges()
+    public virtual async Task SaveChanges(CancellationToken cancellationToken = default)
     {
-        await _mediaDbContext.SaveChangesAsync();
+        await _mediaDbContext.SaveChangesAsync(cancellationToken);
     }
 }

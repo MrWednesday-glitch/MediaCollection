@@ -1,6 +1,4 @@
-﻿using MediaCollection.Domain.Exceptions;
-
-namespace MediaCollection.Data.Repositories;
+﻿namespace MediaCollection.Data.Repositories;
 
 /// <summary>
 /// The repository pattern for <see cref="Publisher"/>.
@@ -19,9 +17,9 @@ public class PublisherRepository : EFRepository<Publisher>, IPublisherRepository
     /// <summary>
     /// Enters a singular <see cref="Publisher"/> entity into the database.
     /// </summary>
-    public override async Task CreateRecord(Publisher entity)
+    public override async Task CreateRecord(Publisher entity, CancellationToken cancellationToken = default)
     {
-        await base.CreateRecord(entity);
+        await base.CreateRecord(entity, cancellationToken);
     }
 
     /// <summary>
@@ -45,24 +43,24 @@ public class PublisherRepository : EFRepository<Publisher>, IPublisherRepository
     /// </summary>
     /// <param name="id">The id of the publisher.</param>
     /// <returns>The publisher.</returns>
-    public override async Task<Publisher> Get(Guid id)
+    public override async Task<Publisher> Get(Guid id, CancellationToken cancellationToken = default)
     {
-        return await base.Get(id) ?? throw new RecordNotFoundException($"No publisher with id {id} was found.");
+        return await base.Get(id, cancellationToken) ?? throw new RecordNotFoundException($"No publisher with id {id} was found.");
     }
 
     /// <summary>
     /// Save changes to the database.
     /// </summary>
-    public override async Task SaveChanges()
+    public override async Task SaveChanges(CancellationToken cancellationToken = default)
     {
-        await base.SaveChanges();
+        await base.SaveChanges(cancellationToken);
     }
 
     /// <summary>
     /// Enters multiple developer entities into the database.
     /// </summary>
-    public override async Task CreateRecords(IEnumerable<Publisher> entities)
+    public override async Task CreateRecords(IEnumerable<Publisher> entities, CancellationToken cancellationToken = default)
     {
-        await base.CreateRecords(entities);
+        await base.CreateRecords(entities, cancellationToken);
     }
 }

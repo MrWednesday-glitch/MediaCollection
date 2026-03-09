@@ -11,11 +11,11 @@ public class GameService : IGameService
         _gameRepository = gameRepository;
     }
 
-    public async Task<CustomResult<Game>> Get(Guid id)
+    public async Task<CustomResult<Game>> Get(Guid id, CancellationToken cancellationToken = default)
     {
         try
         {
-            Game game = await _gameRepository.Get(id);
+            Game game = await _gameRepository.Get(id, cancellationToken);
 
             return CustomResult<Game>.Success(game);
         }
@@ -26,7 +26,11 @@ public class GameService : IGameService
         }
     }
 
-    public async Task<(CustomResult<IEnumerable<Game>>, PaginationMetadata)> Get(int pageNumber, int pageSize, string? searchTerm = "")
+    public async Task<(CustomResult<IEnumerable<Game>>, PaginationMetadata)> Get(
+        int pageNumber, 
+        int pageSize, 
+        string? searchTerm = "",
+        CancellationToken cancellationToken = default)
     {
         IQueryable<Game> gameCollection = await _gameRepository.Get();
 
@@ -53,7 +57,7 @@ public class GameService : IGameService
         return (CustomResult<IEnumerable<Game>>.Success(games), paginationMetadata);
     }
 
-    public async Task<CustomResult<Game>> GetRandom()
+    public async Task<CustomResult<Game>> GetRandom(CancellationToken cancellationToken = default)
     {
         IQueryable<Game> unfinishedGames = (await _gameRepository.Get())
             .TagWith("random")
