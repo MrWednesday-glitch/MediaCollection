@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace MediaCollection.Domain;
+﻿namespace MediaCollection.Domain.Enums;
 
 public enum ErrorCodes
 {

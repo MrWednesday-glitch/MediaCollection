@@ -17,33 +17,33 @@ public class DeveloperRepository : EFRepository<Developer>, IDeveloperRepository
     /// <summary>
     /// Enters a singular developer entity into the database.
     /// </summary>
-    public override async Task CreateRecord(Developer entity, CancellationToken cancellationToken = default)
+    public override async Task CreateRecordAsync(Developer entity, CancellationToken cancellationToken = default)
     {
-        await base.CreateRecord(entity, cancellationToken);
+        await base.CreateRecordAsync(entity, cancellationToken);
     }
 
     /// <summary>
     /// Enters multiple developer entities into the database.
     /// </summary>
-    public override async Task CreateRecords(IEnumerable<Developer> entities, CancellationToken cancellationToken = default)
+    public override async Task CreateRecordsAsync(IEnumerable<Developer> entities, CancellationToken cancellationToken = default)
     {
-        await base.CreateRecords(entities, cancellationToken);
+        await base.CreateRecordsAsync(entities, cancellationToken);
     }
 
     /// <summary>
     /// Delete a developer record.
     /// </summary>
-    public override async Task DeleteRecord(Developer entity)
+    public override async Task DeleteRecordAsync(Developer entity)
     {
-        await base.DeleteRecord(entity);
+        await base.DeleteRecordAsync(entity);
     }
 
     /// <summary>
     /// Returns all the developer records from the database.
     /// </summary>
-    public override async Task<IQueryable<Developer>> Get()
+    public override async Task<IQueryable<Developer>> GetAsync()
     {
-        return await base.Get();
+        return await base.GetAsync();
     }
 
     /// <summary>
@@ -51,16 +51,16 @@ public class DeveloperRepository : EFRepository<Developer>, IDeveloperRepository
     /// </summary>
     /// <param name="id">The id of the developer.</param>
     /// <returns>The developer.</returns>
-    public override async Task<Developer> Get(Guid id, CancellationToken cancellationToken = default)
+    public override async Task<Developer> GetAsync(Guid id, CancellationToken cancellationToken = default)
     {
-        return await base.Get(id, cancellationToken) ?? throw new RecordNotFoundException($"No developer with id {id} was found.");
+        return await base.GetAsync(id, cancellationToken) ?? throw new RecordNotFoundException($"No developer with id {id} was found.");
     }
 
     /// <summary>
     /// Save changes to the database.
     /// </summary>
-    public override async Task SaveChanges(CancellationToken cancellationToken = default)
+    public override async Task SaveChangesAsync(CancellationToken cancellationToken = default)
     {
-        await base.SaveChanges(cancellationToken);
+        await base.SaveChangesAsync(cancellationToken);
     }
 }

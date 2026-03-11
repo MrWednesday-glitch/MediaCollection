@@ -10,18 +10,18 @@ public interface IGameService
     /// <param name="pageSize">The amount of entities that will be in the given selection.</param>
     /// <param name="searchTerm">A search term used to go through the database and grab a selection of game entities.</param>
     /// <returns>A task that contains the selection of game entities.</returns>
-    Task<(CustomResult<IEnumerable<Game>>, PaginationMetadata)> Get(int pageNumber, int pageSize, string? searchTerm = "", CancellationToken cancellationToken = default);
+    Task<(CustomResult<IEnumerable<Game>>, PaginationMetadata)> GetAsync(int pageNumber, int pageSize, string? searchTerm = "", CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds logic to a single game entity that was retrieved from the database.
     /// </summary>
     /// <param name="id">The id of the game entity that is required from the database.</param>
     /// <returns>A game entity.</returns>
-    Task<CustomResult<Game>> Get(Guid id, CancellationToken cancellationToken = default);
+    Task<CustomResult<Game>> GetAsync(Guid id, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Logic to select a random unfinished game from the database.
     /// </summary>
     /// <returns>A random game, or null if no unfinished games exist in the database.</returns>
-    Task<CustomResult<Game>> GetRandom(CancellationToken cancellationToken = default);
+    Task<CustomResult<Game>> GetRandomAsync(CancellationToken cancellationToken = default);
 }

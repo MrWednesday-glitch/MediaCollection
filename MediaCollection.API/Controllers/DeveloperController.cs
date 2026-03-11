@@ -26,9 +26,9 @@ public class DeveloperController : ControllerBase
     [HttpPost(Name = "PostDevelopers")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> PostDevelopers([FromBody] DeveloperToBe[] DeveloperToBe, CancellationToken cancellationToken = default)
+    public async Task<IActionResult> PostDevelopersAsync([FromBody] DeveloperToBe[] DeveloperToBe, CancellationToken cancellationToken = default)
     {
-        CustomResult<IEnumerable<Developer>> createdDevelopersResult = await _developerService.Add(DeveloperToBe, cancellationToken);
+        CustomResult<IEnumerable<Developer>> createdDevelopersResult = await _developerService.AddAsync(DeveloperToBe, cancellationToken);
 
         if (createdDevelopersResult.IsFailure)
         {

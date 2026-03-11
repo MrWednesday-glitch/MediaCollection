@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using MediaCollection.Data.Extensions;
 using MediaCollection.Data.Repositories;
 using MediaCollection.Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;

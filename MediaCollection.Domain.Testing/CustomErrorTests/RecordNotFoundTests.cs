@@ -1,4 +1,7 @@
-﻿namespace MediaCollection.Domain.Testing.CustomErrorTests;
+﻿using MediaCollection.Domain.Enums;
+using MediaCollection.Domain.Models;
+
+namespace MediaCollection.Domain.Testing.CustomErrorTests;
 
 [ExcludeFromCodeCoverage]
 public class RecordNotFoundTests

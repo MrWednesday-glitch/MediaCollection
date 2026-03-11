@@ -1,7 +1,7 @@
 ﻿using MediaCollection.Business.Services;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace MediaCollection.Business;
+namespace MediaCollection.Business.BusinessExtensions;
 
 public static class BusinessServiceCollectionExtensions
 {

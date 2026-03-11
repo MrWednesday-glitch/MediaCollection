@@ -1,4 +1,6 @@
-﻿namespace MediaCollection.API.Controllers;
+﻿using MediaCollection.API.Models;
+
+namespace MediaCollection.API.Controllers;
 
 // TODO Unit test
 [ApiController]
@@ -18,14 +20,14 @@ public class BookController : ControllerBase
     [HttpGet(Name = "GetBooks")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> GetBooks(int pageNumber = 1, int pageSize = 10, string? searchTerm = "", CancellationToken cancellationToken = default)
+    public async Task<IActionResult> GetBooksAsync(int pageNumber = 1, int pageSize = 10, string? searchTerm = "", CancellationToken cancellationToken = default)
     {
         if (pageSize > MaxPageSize)
         {
             pageSize = MaxPageSize;
         }
 
-        var (bookResults, paginationMetadata) = await _bookService.Get(pageNumber, pageSize, searchTerm, cancellationToken);
+        var (bookResults, paginationMetadata) = await _bookService.GetAsync(pageNumber, pageSize, searchTerm, cancellationToken);
 
         if (bookResults.IsFailure)
         {
@@ -48,7 +50,7 @@ public class BookController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> GetBook(Guid id, CancellationToken cancellationToken = default)
+    public async Task<IActionResult> GetBookAsync(Guid id, CancellationToken cancellationToken = default)
     {
         try
         {
@@ -75,7 +77,7 @@ public class BookController : ControllerBase
         }
     }
 
-    private BookDTO Transform(Book book)
+    private static BookDTO Transform(Book book)
     {
         return new BookDTO
         {

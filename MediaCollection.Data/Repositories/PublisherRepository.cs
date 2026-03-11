@@ -17,25 +17,25 @@ public class PublisherRepository : EFRepository<Publisher>, IPublisherRepository
     /// <summary>
     /// Enters a singular <see cref="Publisher"/> entity into the database.
     /// </summary>
-    public override async Task CreateRecord(Publisher entity, CancellationToken cancellationToken = default)
+    public override async Task CreateRecordAsync(Publisher entity, CancellationToken cancellationToken = default)
     {
-        await base.CreateRecord(entity, cancellationToken);
+        await base.CreateRecordAsync(entity, cancellationToken);
     }
 
     /// <summary>
     /// Delete a <see cref="Publisher"/> record.
     /// </summary>
-    public override async Task DeleteRecord(Publisher entity)
+    public override async Task DeleteRecordAsync(Publisher entity)
     {
-        await base.DeleteRecord(entity);
+        await base.DeleteRecordAsync(entity);
     }
 
     /// <summary>
     /// Returns all the <see cref="Publisher"/> records from the database.
     /// </summary>
-    public override async Task<IQueryable<Publisher>> Get()
+    public override async Task<IQueryable<Publisher>> GetAsync()
     {
-        return await base.Get();
+        return await base.GetAsync();
     }
 
     /// <summary>
@@ -43,24 +43,24 @@ public class PublisherRepository : EFRepository<Publisher>, IPublisherRepository
     /// </summary>
     /// <param name="id">The id of the publisher.</param>
     /// <returns>The publisher.</returns>
-    public override async Task<Publisher> Get(Guid id, CancellationToken cancellationToken = default)
+    public override async Task<Publisher> GetAsync(Guid id, CancellationToken cancellationToken = default)
     {
-        return await base.Get(id, cancellationToken) ?? throw new RecordNotFoundException($"No publisher with id {id} was found.");
+        return await base.GetAsync(id, cancellationToken) ?? throw new RecordNotFoundException($"No publisher with id {id} was found.");
     }
 
     /// <summary>
     /// Save changes to the database.
     /// </summary>
-    public override async Task SaveChanges(CancellationToken cancellationToken = default)
+    public override async Task SaveChangesAsync(CancellationToken cancellationToken = default)
     {
-        await base.SaveChanges(cancellationToken);
+        await base.SaveChangesAsync(cancellationToken);
     }
 
     /// <summary>
     /// Enters multiple developer entities into the database.
     /// </summary>
-    public override async Task CreateRecords(IEnumerable<Publisher> entities, CancellationToken cancellationToken = default)
+    public override async Task CreateRecordsAsync(IEnumerable<Publisher> entities, CancellationToken cancellationToken = default)
     {
-        await base.CreateRecords(entities, cancellationToken);
+        await base.CreateRecordsAsync(entities, cancellationToken);
     }
 }
