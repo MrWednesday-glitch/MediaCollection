@@ -52,12 +52,12 @@ public class GetTests
         // -- Arrange
         Mock<IGameRepository> mockedGameRepository = new();
         IGameService gameService = new GameService(mockedGameRepository.Object);
-        mockedGameRepository.Setup(gRepo => gRepo.Get()).ReturnsAsync(_mockedGames.AsQueryable);
+        mockedGameRepository.Setup(gRepo => gRepo.GetAsync()).ReturnsAsync(_mockedGames.AsQueryable);
         int pageNumber = 1;
         int pageSize = 10;
 
         // -- Act
-        var (gamesResult, metaData) = (await gameService.Get(pageNumber, pageSize));
+        var (gamesResult, metaData) = (await gameService.GetAsync(pageNumber, pageSize));
 
         // -- Assert
         gamesResult.Value.ToList().Should().HaveCount(3);
@@ -71,11 +71,11 @@ public class GetTests
     {
         Mock<IGameRepository> mockedGameRepository = new();
         IGameService gameService = new GameService(mockedGameRepository.Object);
-        mockedGameRepository.Setup(gRepo => gRepo.Get()).ReturnsAsync(_mockedGames.AsQueryable);
+        mockedGameRepository.Setup(gRepo => gRepo.GetAsync()).ReturnsAsync(_mockedGames.AsQueryable);
         int pageNumber = 1;
         int pageSize = 10;
 
-        (CustomResult<IEnumerable<Game>> gamesResult, PaginationMetadata metaData) = await gameService.Get(pageNumber, pageSize, searchTerm);
+        (CustomResult<IEnumerable<Game>> gamesResult, PaginationMetadata metaData) = await gameService.GetAsync(pageNumber, pageSize, searchTerm);
 
         metaData.TotalItemCount.Should().Be(expectedTotalItemCount);
     }
@@ -86,10 +86,10 @@ public class GetTests
         Mock<IGameRepository> mockedGameRepository = new();
         IGameService gameService = new GameService(mockedGameRepository.Object);
         Guid gameId = Guid.NewGuid();
-        mockedGameRepository.Setup(gRepo => gRepo.Get(gameId))
+        mockedGameRepository.Setup(gRepo => gRepo.GetAsync(gameId))
             .ReturnsAsync(new Game { Id = gameId, Name = "Call of Duty" });
 
-        CustomResult<Game> gameResult = await gameService.Get(gameId);
+        CustomResult<Game> gameResult = await gameService.GetAsync(gameId);
 
         gameResult.Value.Name.Should().BeEquivalentTo("Call of Duty");
     }
@@ -99,10 +99,10 @@ public class GetTests
     {
         Mock<IGameRepository>? mockedGameRepository = new();
         IGameService gameService = new GameService(mockedGameRepository.Object);
-        mockedGameRepository.Setup(gRepo => gRepo.Get(It.IsAny<Guid>()))
+        mockedGameRepository.Setup(gRepo => gRepo.GetAsync(It.IsAny<Guid>()))
             .ThrowsAsync(new KeyNotFoundException());
 
-        Func<Task> task = async () => await gameService.Get(Guid.NewGuid());
+        Func<Task> task = async () => await gameService.GetAsync(Guid.NewGuid());
 
         await task.Should().ThrowAsync<KeyNotFoundException>();
     }
@@ -116,10 +116,10 @@ public class GetTests
     {
         Mock<IGameRepository>? mockedGameRepository = new();
         IGameService gameService = new GameService(mockedGameRepository.Object);
-        mockedGameRepository.Setup(gRepo => gRepo.Get()).ReturnsAsync(_mockedGames.AsQueryable);
+        mockedGameRepository.Setup(gRepo => gRepo.GetAsync()).ReturnsAsync(_mockedGames.AsQueryable);
         int pageNumber = 1;
 
-        var (gamesResult, metaData) = (await gameService.Get(pageNumber, pageSize));
+        var (gamesResult, metaData) = (await gameService.GetAsync(pageNumber, pageSize));
 
         gamesResult.Value.ToList().Should().HaveCount(expectedCollectionSize);
     }
@@ -129,11 +129,11 @@ public class GetTests
     {
         Mock<IGameRepository> mockedGameRepository = new();
         IGameService gameService = new GameService(mockedGameRepository.Object);
-        mockedGameRepository.Setup(gRepo => gRepo.Get()).ReturnsAsync(_mockedGames.AsQueryable);
+        mockedGameRepository.Setup(gRepo => gRepo.GetAsync()).ReturnsAsync(_mockedGames.AsQueryable);
         int pageNumber = 1;
         int pageSize = 2;
 
-        var (games, metaData) = await gameService.Get(pageNumber, pageSize);
+        var (games, metaData) = await gameService.GetAsync(pageNumber, pageSize);
 
         metaData
             .Should().NotBeNull()

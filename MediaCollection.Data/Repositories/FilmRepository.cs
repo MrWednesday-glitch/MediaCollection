@@ -7,28 +7,28 @@ public class FilmRepository : EFRepository<Film>, IFilmRepository
     {
     }
 
-    public override async Task CreateRecord(Film entity, CancellationToken cancellationToken = default)
+    public override async Task CreateRecordAsync(Film entity, CancellationToken cancellationToken = default)
     {
-        await base.CreateRecord(entity, cancellationToken);
+        await base.CreateRecordAsync(entity, cancellationToken);
     }
 
-    public override async Task DeleteRecord(Film entity)
+    public override async Task DeleteRecordAsync(Film entity)
     {
-        await base.DeleteRecord(entity);
+        await base.DeleteRecordAsync(entity);
     }
 
-    public override async Task<IQueryable<Film>> Get()
+    public override async Task<IQueryable<Film>> GetAsync()
     {
-        return await base.Get();
+        return await base.GetAsync();
     }
 
-    public override async Task<Film> Get(Guid id, CancellationToken cancellationToken = default)
+    public override async Task<Film> GetAsync(Guid id, CancellationToken cancellationToken = default)
     {
-        return await base.Get(id, cancellationToken) ?? throw new RecordNotFoundException($"No film with id {id} was found.");
+        return await base.GetAsync(id, cancellationToken) ?? throw new RecordNotFoundException($"No film with id {id} was found.");
     }
 
-    public override async Task SaveChanges(CancellationToken cancellationToken = default)
+    public override async Task SaveChangesAsync(CancellationToken cancellationToken = default)
     {
-        await base.SaveChanges(cancellationToken);
+        await base.SaveChangesAsync(cancellationToken);
     }
 }

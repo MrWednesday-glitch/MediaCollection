@@ -7,28 +7,28 @@ public class BookRepository : EFRepository<Book>, IBookRepository
     {
     }
 
-    public override async Task CreateRecord(Book entity, CancellationToken cancellationToken = default)
+    public override async Task CreateRecordAsync(Book entity, CancellationToken cancellationToken = default)
     {
-        await base.CreateRecord(entity, cancellationToken);
+        await base.CreateRecordAsync(entity, cancellationToken);
     }
 
-    public override async Task DeleteRecord(Book entity)
+    public override async Task DeleteRecordAsync(Book entity)
     {
-        await base.DeleteRecord(entity);
+        await base.DeleteRecordAsync(entity);
     }
 
-    public override async Task<IQueryable<Book>> Get()
+    public override async Task<IQueryable<Book>> GetAsync()
     {
-        return await base.Get();
+        return await base.GetAsync();
     }
 
-    public override async Task<Book> Get(Guid id, CancellationToken cancellationToken = default)
+    public override async Task<Book> GetAsync(Guid id, CancellationToken cancellationToken = default)
     {
-        return await base.Get(id, cancellationToken) ?? throw new RecordNotFoundException($"No book with id {id} was found."); ;
+        return await base.GetAsync(id, cancellationToken) ?? throw new RecordNotFoundException($"No book with id {id} was found."); ;
     }
 
-    public override async Task SaveChanges(CancellationToken cancellationToken = default)
+    public override async Task SaveChangesAsync(CancellationToken cancellationToken = default)
     {
-        await base.SaveChanges(cancellationToken);
+        await base.SaveChangesAsync(cancellationToken);
     }
 }

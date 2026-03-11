@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using MediaCollection.Business.BusinessExtensions;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace MediaCollection.Business.Testing.ExtensionsTests.BusinessServiceCollectionExtensionsTests;
 

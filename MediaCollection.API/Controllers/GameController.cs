@@ -1,4 +1,6 @@
-﻿namespace MediaCollection.API.Controllers;
+﻿using MediaCollection.Domain.Enums;
+
+namespace MediaCollection.API.Controllers;
 
 // TODO Unit test
 [ApiController]
@@ -18,9 +20,9 @@ public class GameController : ControllerBase
     [HttpGet("randomunfinished", Name = "GetRandomUnfinished")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
-    public async Task<IActionResult> GetRandomUnfinished(CancellationToken cancellationToken = default)
+    public async Task<IActionResult> GetRandomUnfinishedAsync(CancellationToken cancellationToken = default)
     {
-        CustomResult<Game> randomGameResult = await _gameService.GetRandom(cancellationToken);
+        CustomResult<Game> randomGameResult = await _gameService.GetRandomAsync(cancellationToken);
 
         if (randomGameResult.IsFailure)
         {
@@ -40,10 +42,10 @@ public class GameController : ControllerBase
     [HttpGet(Name = "GetGames")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> GetGames(
-        int pageNumber = 1, 
-        int pageSize = 10, 
-        string? searchTerm = "", 
+    public async Task<IActionResult> GetGamesAsync(
+        int pageNumber = 1,
+        int pageSize = 10,
+        string? searchTerm = "",
         CancellationToken cancellationToken = default) //TODO add filters
     {
         if (pageSize > MaxPageSize)
@@ -51,8 +53,8 @@ public class GameController : ControllerBase
             pageSize = MaxPageSize;
         }
 
-        var (gameResults, paginationMetadata) = 
-            await _gameService.Get(pageNumber, pageSize, searchTerm, cancellationToken);
+        var (gameResults, paginationMetadata) =
+            await _gameService.GetAsync(pageNumber, pageSize, searchTerm, cancellationToken);
 
         if (gameResults.IsFailure)
         {
@@ -76,9 +78,9 @@ public class GameController : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(500)]
-    public async Task<IActionResult> GetGame(Guid id, CancellationToken cancellationToken = default)
+    public async Task<IActionResult> GetGameAsync(Guid id, CancellationToken cancellationToken = default)
     {
-        CustomResult<Game> gameResult = await _gameService.Get(id, cancellationToken);
+        CustomResult<Game> gameResult = await _gameService.GetAsync(id, cancellationToken);
 
         if (gameResult.IsFailure)
         {
@@ -110,7 +112,7 @@ public class GameController : ControllerBase
         return Ok(gameDTO);
     }
 
-    private GameDTO Transform(Game game)
+    private static GameDTO Transform(Game game)
     {
         return new GameDTO
         {

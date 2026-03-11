@@ -1,4 +1,6 @@
-﻿namespace MediaCollection.API.Testing.ControllerTests.PublisherControllerTests;
+﻿using MediaCollection.Domain.Enums;
+
+namespace MediaCollection.API.Testing.ControllerTests.PublisherControllerTests;
 
 [ExcludeFromCodeCoverage]
 public class PostPublishersTests
@@ -24,7 +26,7 @@ public class PostPublishersTests
             },
         };
         mockedService
-            .Setup(s => s.Add(It.IsAny<IEnumerable<PublisherToBe>>()))
+            .Setup(s => s.AddAsync(It.IsAny<IEnumerable<PublisherToBe>>()))
             .Returns(Task.FromResult(CustomResult<IEnumerable<Publisher>>.Success(createdPublishers.AsEnumerable())))
             .Verifiable(Times.Once);
         PublisherController controller = new(mockedService.Object);
@@ -43,7 +45,7 @@ public class PostPublishersTests
             ];
 
         // -- Act
-        IActionResult result = await controller.PostPublishers(toBeCreatedPublishers);
+        IActionResult result = await controller.PostPublishersAsync(toBeCreatedPublishers);
 
         // -- Assert
         mockedService.Verify();
@@ -63,7 +65,7 @@ public class PostPublishersTests
         // -- Arrange
         Mock<IPublisherService> mockedService = new();
         mockedService
-            .Setup(s => s.Add(It.IsAny<IEnumerable<PublisherToBe>>()))
+            .Setup(s => s.AddAsync(It.IsAny<IEnumerable<PublisherToBe>>()))
             .Returns(Task.FromResult(CustomResult<IEnumerable<Publisher>>.Failure(new CustomError(ErrorCodes.UnknownError, new CustomErrorInformation("Something went wrong!")))));
         PublisherController controller = new(mockedService.Object);
         controller.ControllerContext = new ControllerContext
@@ -85,7 +87,7 @@ public class PostPublishersTests
             ];
 
         // -- Act
-        IActionResult result = await controller.PostPublishers(toBeCreatedPublishers);
+        IActionResult result = await controller.PostPublishersAsync(toBeCreatedPublishers);
 
         // -- Assert
         result

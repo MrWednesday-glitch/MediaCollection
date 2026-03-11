@@ -54,10 +54,10 @@ public class GetRandomTests
         ];
         Mock<IGameRepository> mockedGameRepository = new();
         IGameService gameService = new GameService(mockedGameRepository.Object);
-        mockedGameRepository.Setup(gRepo => gRepo.Get()).ReturnsAsync(mockedGames.AsQueryable);
+        mockedGameRepository.Setup(gRepo => gRepo.GetAsync()).ReturnsAsync(mockedGames.AsQueryable);
 
         // -- Act
-        CustomResult<Game> randomGameResult = await gameService.GetRandom();
+        CustomResult<Game> randomGameResult = await gameService.GetRandomAsync();
 
         // -- Assert
         randomGameResult.Value.Name.Should().NotBeNullOrEmpty();
@@ -114,10 +114,10 @@ public class GetRandomTests
         ];
         Mock<IGameRepository> mockedGameRepository = new();
         IGameService gameService = new GameService(mockedGameRepository.Object);
-        mockedGameRepository.Setup(gRepo => gRepo.Get()).ReturnsAsync(mockedGames.AsQueryable);
+        mockedGameRepository.Setup(gRepo => gRepo.GetAsync()).ReturnsAsync(mockedGames.AsQueryable);
 
         // -- Act
-        CustomResult<Game> randomGameResult = await gameService.GetRandom();
+        CustomResult<Game> randomGameResult = await gameService.GetRandomAsync();
 
         // -- Assert
         randomGameResult.Error.CustomErrorInformation.Should().BeEquivalentTo(new CustomErrorInformation("No unfinished game to be found."));

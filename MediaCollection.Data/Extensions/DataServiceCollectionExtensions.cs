@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace MediaCollection.Data;
+namespace MediaCollection.Data.Extensions;
 
 public static class DataServiceCollectionExtensions
 {

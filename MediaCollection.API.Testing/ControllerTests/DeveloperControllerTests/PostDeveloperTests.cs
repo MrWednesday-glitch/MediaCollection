@@ -1,4 +1,6 @@
-﻿namespace MediaCollection.API.Testing.ControllerTests.DeveloperControllerTests;
+﻿using MediaCollection.Domain.Enums;
+
+namespace MediaCollection.API.Testing.ControllerTests.DeveloperControllerTests;
 
 [ExcludeFromCodeCoverage]
 public class PostDeveloperTests
@@ -24,7 +26,7 @@ public class PostDeveloperTests
             },
         };
         mockedService
-            .Setup(s => s.Add(It.IsAny<IEnumerable<DeveloperToBe>>()))
+            .Setup(s => s.AddAsync(It.IsAny<IEnumerable<DeveloperToBe>>()))
             .Returns(Task.FromResult(CustomResult<IEnumerable<Developer>>.Success(createdDevelopers.AsEnumerable())))
             .Verifiable(Times.Once);
         DeveloperController controller = new(mockedService.Object);
@@ -43,7 +45,7 @@ public class PostDeveloperTests
             ];
 
         // -- Act
-        IActionResult result = await controller.PostDevelopers(toBeCreatedDevelopers);
+        IActionResult result = await controller.PostDevelopersAsync(toBeCreatedDevelopers);
 
         // -- Assert
         mockedService.Verify();
@@ -63,7 +65,7 @@ public class PostDeveloperTests
         // -- Arrange
         Mock<IDeveloperService> mockedService = new();
         mockedService
-            .Setup(s => s.Add(It.IsAny<IEnumerable<DeveloperToBe>>()))
+            .Setup(s => s.AddAsync(It.IsAny<IEnumerable<DeveloperToBe>>()))
             .Returns(Task.FromResult(CustomResult<IEnumerable<Developer>>.Failure(new CustomError(ErrorCodes.UnknownError, new CustomErrorInformation("Something went wrong!")))));
         DeveloperController controller = new(mockedService.Object);
         controller.ControllerContext = new ControllerContext
@@ -85,7 +87,7 @@ public class PostDeveloperTests
             ];
 
         // -- Act
-        IActionResult result = await controller.PostDevelopers(toBeCreatedDevelopers);
+        IActionResult result = await controller.PostDevelopersAsync(toBeCreatedDevelopers);
 
         // -- Assert
         result

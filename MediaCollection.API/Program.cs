@@ -1,5 +1,6 @@
-using MediaCollection.Business;
+using MediaCollection.Business.BusinessExtensions;
 using MediaCollection.Data;
+using MediaCollection.Data.Extensions;
 using Microsoft.EntityFrameworkCore;
 
 namespace MediaCollection.API;

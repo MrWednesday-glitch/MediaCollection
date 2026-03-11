@@ -18,14 +18,14 @@ public class FilmController : ControllerBase
     [HttpGet(Name = "GetFilms")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> GetFilms(int pageNumber = 1, int pageSize = 10, string? searchTerm = "", CancellationToken cancellationToken = default)
+    public async Task<IActionResult> GetFilmsAsync(int pageNumber = 1, int pageSize = 10, string? searchTerm = "", CancellationToken cancellationToken = default)
     {
         if (pageSize > MaxPageSize)
         {
             pageSize = MaxPageSize;
         }
 
-        var (filmsResult, paginationMetadata) = await _filmService.Get(pageNumber, pageSize, searchTerm, cancellationToken);
+        var (filmsResult, paginationMetadata) = await _filmService.GetAsync(pageNumber, pageSize, searchTerm, cancellationToken);
 
         if (filmsResult.IsFailure)
         {
@@ -48,11 +48,11 @@ public class FilmController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> Getfilm(Guid id, CancellationToken cancellationToken = default)
+    public async Task<IActionResult> GetfilmAsync(Guid id, CancellationToken cancellationToken = default)
     {
         try
         {
-            CustomResult<Film> filmResult = await _filmService.Get(id, cancellationToken);
+            CustomResult<Film> filmResult = await _filmService.GetAsync(id, cancellationToken);
 
             if (filmResult.IsFailure)
             {
@@ -75,7 +75,7 @@ public class FilmController : ControllerBase
         }
     }
 
-    private FilmDTO Transform(Film film)
+    private static FilmDTO Transform(Film film)
     {
         return new FilmDTO
         {

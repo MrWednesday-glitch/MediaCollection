@@ -7,28 +7,28 @@ public class GameRepository : EFRepository<Game>, IGameRepository
     {
     }
 
-    public override async Task CreateRecord(Game entity, CancellationToken cancellationToken = default)
+    public override async Task CreateRecordAsync(Game entity, CancellationToken cancellationToken = default)
     {
-        await base.CreateRecord(entity, cancellationToken);
+        await base.CreateRecordAsync(entity, cancellationToken);
     }
 
-    public override async Task DeleteRecord(Game entity)
+    public override async Task DeleteRecordAsync(Game entity)
     {
-        await base.DeleteRecord(entity);
+        await base.DeleteRecordAsync(entity);
     }
 
-    public override async Task<IQueryable<Game>> Get()
+    public override async Task<IQueryable<Game>> GetAsync()
     {
-        return await base.Get();
+        return await base.GetAsync();
     }
 
-    public override async Task<Game> Get(Guid id, CancellationToken cancellationToken = default)
+    public override async Task<Game> GetAsync(Guid id, CancellationToken cancellationToken = default)
     {
-        return await base.Get(id, cancellationToken) ?? throw new RecordNotFoundException($"No game with id {id} was found.");
+        return await base.GetAsync(id, cancellationToken) ?? throw new RecordNotFoundException($"No game with id {id} was found.");
     }
 
-    public override async Task SaveChanges(CancellationToken cancellationToken = default)
+    public override async Task SaveChangesAsync(CancellationToken cancellationToken = default)
     {
-        await base.SaveChanges(cancellationToken);
+        await base.SaveChangesAsync(cancellationToken);
     }
 }

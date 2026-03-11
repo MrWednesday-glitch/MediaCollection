@@ -53,12 +53,12 @@ public class GetTests
         // -- Arrange
         Mock<IFilmRepository> mockedFilmRepository = new();
         IFilmService filmService = new FilmService(mockedFilmRepository.Object);
-        mockedFilmRepository.Setup(fRepo => fRepo.Get()).ReturnsAsync(_mockedFilms.AsQueryable());
+        mockedFilmRepository.Setup(fRepo => fRepo.GetAsync()).ReturnsAsync(_mockedFilms.AsQueryable());
         int pageNumber = 1;
         int pageSize = 10;
 
         // -- Act
-        var (filmsResult, metadata) = await filmService.Get(pageNumber, pageSize);
+        var (filmsResult, metadata) = await filmService.GetAsync(pageNumber, pageSize);
 
         // -- Assert
         filmsResult.Value.ToList().Should().HaveCount(3);
@@ -69,11 +69,11 @@ public class GetTests
     {
         Mock<IFilmRepository> mockedFilmRepository = new();
         IFilmService filmService = new FilmService(mockedFilmRepository.Object);
-        mockedFilmRepository.Setup(fRepo => fRepo.Get()).ReturnsAsync(_mockedFilms.AsQueryable());
+        mockedFilmRepository.Setup(fRepo => fRepo.GetAsync()).ReturnsAsync(_mockedFilms.AsQueryable());
         int pageNumber = 1;
         int pageSize = 2;
 
-        var (films, metadata) = await filmService.Get(pageNumber, pageSize);
+        var (films, metadata) = await filmService.GetAsync(pageNumber, pageSize);
 
         metadata.PageSize.Should().Be(2);
         metadata.CurrentPage.Should().Be(1);
@@ -90,10 +90,10 @@ public class GetTests
     {
         Mock<IFilmRepository> mockedFilmRepository = new();
         IFilmService filmService = new FilmService(mockedFilmRepository.Object);
-        mockedFilmRepository.Setup(fRepo => fRepo.Get()).ReturnsAsync(_mockedFilms.AsQueryable());
+        mockedFilmRepository.Setup(fRepo => fRepo.GetAsync()).ReturnsAsync(_mockedFilms.AsQueryable());
         int pageNumber = 1;
 
-        var (filmsResult, metadata) = await filmService.Get(pageNumber, pageSize);
+        var (filmsResult, metadata) = await filmService.GetAsync(pageNumber, pageSize);
 
         filmsResult.Value.ToList().Should().HaveCount(expectedCollectionSize);
     }
@@ -106,11 +106,11 @@ public class GetTests
     {
         Mock<IFilmRepository> mockedFilmRepository = new();
         IFilmService filmService = new FilmService(mockedFilmRepository.Object);
-        mockedFilmRepository.Setup(fRepo => fRepo.Get()).ReturnsAsync(_mockedFilms.AsQueryable());
+        mockedFilmRepository.Setup(fRepo => fRepo.GetAsync()).ReturnsAsync(_mockedFilms.AsQueryable());
         int pageNumber = 1;
         int pageSize = 10;
 
-        (CustomResult<IEnumerable<Film>> filmsResult, PaginationMetadata metaData) = await filmService.Get(pageNumber, pageSize, searchTerm);
+        (CustomResult<IEnumerable<Film>> filmsResult, PaginationMetadata metaData) = await filmService.GetAsync(pageNumber, pageSize, searchTerm);
 
         metaData.TotalItemCount.Should().Be(expectedTotalItemCount);
     }
@@ -121,10 +121,10 @@ public class GetTests
         Mock<IFilmRepository> mockedFilmRepository = new();
         IFilmService filmService = new FilmService(mockedFilmRepository.Object);
         Guid filmId = Guid.NewGuid();
-        mockedFilmRepository.Setup(fRepo => fRepo.Get(filmId))
+        mockedFilmRepository.Setup(fRepo => fRepo.GetAsync(filmId))
             .ReturnsAsync(new Film { Id = filmId, Name = "Alien" });
 
-        CustomResult<Film> filmResult = await filmService.Get(filmId);
+        CustomResult<Film> filmResult = await filmService.GetAsync(filmId);
 
         filmResult.Value.Id.Should().Be(filmId);
         filmResult.Value.Name.Should().BeEquivalentTo("Alien");
@@ -135,10 +135,10 @@ public class GetTests
     {
         Mock<IFilmRepository> mockedFilmRepository = new();
         IFilmService filmService = new FilmService(mockedFilmRepository.Object);
-        mockedFilmRepository.Setup(fRepo => fRepo.Get(It.IsAny<Guid>()))
+        mockedFilmRepository.Setup(fRepo => fRepo.GetAsync(It.IsAny<Guid>()))
             .ThrowsAsync(new KeyNotFoundException());
 
-        Func<Task> getAction = async () => await filmService.Get(Guid.NewGuid());
+        Func<Task> getAction = async () => await filmService.GetAsync(Guid.NewGuid());
 
         await getAction.Should().ThrowAsync<KeyNotFoundException>();
     }

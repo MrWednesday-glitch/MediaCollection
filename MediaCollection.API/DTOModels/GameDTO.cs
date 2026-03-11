@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace MediaCollection.API.DTOModels;
+﻿namespace MediaCollection.API.DTOModels;
 
 public class GameDTO
 {

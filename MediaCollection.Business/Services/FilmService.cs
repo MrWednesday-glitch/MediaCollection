@@ -11,13 +11,13 @@ public class FilmService : IFilmService
         _filmRepository = filmRepository;
     }
 
-    public async Task<(CustomResult<IEnumerable<Film>>, PaginationMetadata)> Get(
+    public async Task<(CustomResult<IEnumerable<Film>>, PaginationMetadata)> GetAsync(
         int pageNumber, 
         int pageSize, 
         string? searchTerm = "",
         CancellationToken cancellationToken = default)
     {
-        IQueryable<Film> filmCollection = await _filmRepository.Get();
+        IQueryable<Film> filmCollection = await _filmRepository.GetAsync();
 
         if (!searchTerm.IsNullOrEmpty())
         {
@@ -42,11 +42,11 @@ public class FilmService : IFilmService
         return (CustomResult<IEnumerable<Film>>.Success(films), paginationMetadata);
     }
 
-    public async Task<CustomResult<Film>> Get(Guid id, CancellationToken cancellationToken = default)
+    public async Task<CustomResult<Film>> GetAsync(Guid id, CancellationToken cancellationToken = default)
     {
         try
         {
-            Film film = await _filmRepository.Get(id, cancellationToken);
+            Film film = await _filmRepository.GetAsync(id, cancellationToken);
 
             return CustomResult<Film>.Success(film);
         }

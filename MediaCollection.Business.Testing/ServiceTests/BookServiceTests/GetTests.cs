@@ -52,12 +52,12 @@ public class GetTests
         // -- Arrange
         Mock<IBookRepository> mockedBookRepository = new Mock<IBookRepository>();
         IBookService bookService = new BookService(mockedBookRepository.Object);
-        mockedBookRepository.Setup(bRepo => bRepo.Get()).ReturnsAsync(_mockedBooks.AsQueryable());
+        mockedBookRepository.Setup(bRepo => bRepo.GetAsync()).ReturnsAsync(_mockedBooks.AsQueryable());
         int pageNumber = 1;
         int pageSize = 10;
 
         // -- Act
-        var (booksResult, metadata) = await bookService.Get(pageNumber, pageSize);
+        var (booksResult, metadata) = await bookService.GetAsync(pageNumber, pageSize);
 
         // -- Assert
         booksResult.Value.ToList().Should().HaveCount(3);
@@ -69,12 +69,12 @@ public class GetTests
         // -- Arrange
         Mock<IBookRepository> mockedBookRepository = new Mock<IBookRepository>();
         IBookService bookService = new BookService(mockedBookRepository.Object);
-        mockedBookRepository.Setup(bRepo => bRepo.Get()).ReturnsAsync(_mockedBooks.AsQueryable());
+        mockedBookRepository.Setup(bRepo => bRepo.GetAsync()).ReturnsAsync(_mockedBooks.AsQueryable());
         int pageNumber = 1;
         int pageSize = 2;
 
         // -- Act
-        var (books, metadata) = await bookService.Get(pageNumber, pageSize);
+        var (books, metadata) = await bookService.GetAsync(pageNumber, pageSize);
 
         // -- Assert
         metadata.PageSize.Should().Be(2);
@@ -91,11 +91,11 @@ public class GetTests
     {
         Mock<IBookRepository> mockedBookRepository = new Mock<IBookRepository>();
         IBookService bookService = new BookService(mockedBookRepository.Object);
-        mockedBookRepository.Setup(bRepo => bRepo.Get()).ReturnsAsync(_mockedBooks.AsQueryable());
+        mockedBookRepository.Setup(bRepo => bRepo.GetAsync()).ReturnsAsync(_mockedBooks.AsQueryable());
         int pageNumber = 1;
         int pageSize = 10;
 
-        (CustomResult<IEnumerable<Book>> booksResult, PaginationMetadata metaData) = await bookService.Get(pageNumber, pageSize, searchTerm);
+        (CustomResult<IEnumerable<Book>> booksResult, PaginationMetadata metaData) = await bookService.GetAsync(pageNumber, pageSize, searchTerm);
 
         metaData.TotalItemCount.Should().Be(expectedTotalItemCount);
     }
@@ -106,7 +106,7 @@ public class GetTests
         Mock<IBookRepository> mockedBookRepository = new Mock<IBookRepository>();
         IBookService bookService = new BookService(mockedBookRepository.Object);
         Guid bookId = Guid.NewGuid();
-        mockedBookRepository.Setup(bRepo => bRepo.Get(bookId))
+        mockedBookRepository.Setup(bRepo => bRepo.GetAsync(bookId))
             .ReturnsAsync(new Book { Id = bookId, Name = "Feet of Clay" });
 
         CustomResult<Book> bookResult = await bookService.Get(bookId);
@@ -120,7 +120,7 @@ public class GetTests
     {
         Mock<IBookRepository> mockedBookRepository = new Mock<IBookRepository>();
         IBookService bookService = new BookService(mockedBookRepository.Object);
-        mockedBookRepository.Setup(bRepo => bRepo.Get(It.IsAny<Guid>()))
+        mockedBookRepository.Setup(bRepo => bRepo.GetAsync(It.IsAny<Guid>()))
             .ThrowsAsync(new KeyNotFoundException());
 
         Func<Task> getAction = async () => await bookService.Get(Guid.NewGuid());

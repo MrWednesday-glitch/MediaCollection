@@ -15,4 +15,7 @@
     <Project Path="MediaCollection.Data.Testing/MediaCollection.Data.Testing.csproj" />
     <Project Path="MediaCollection.Domain.Testing/MediaCollection.Domain.Testing.csproj" />
   </Folder>
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+  </Folder>
 </Solution>

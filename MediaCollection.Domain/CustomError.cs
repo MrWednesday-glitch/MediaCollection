@@ -1,4 +1,7 @@
-﻿namespace MediaCollection.Domain;
+﻿using MediaCollection.Domain.Enums;
+using MediaCollection.Domain.Models;
+
+namespace MediaCollection.Domain;
 
 public sealed record CustomError(ErrorCodes Code, CustomErrorInformation CustomErrorInformation)
 {
@@ -10,10 +13,10 @@ public sealed record CustomError(ErrorCodes Code, CustomErrorInformation CustomE
         return new CustomError(ErrorCodes.RecordNotFound,
             new CustomErrorInformation(message));
     }
-    
+
     public static CustomError UnknownError(string message)
     {
-        return new CustomError(ErrorCodes.UnknownError, 
+        return new CustomError(ErrorCodes.UnknownError,
             new CustomErrorInformation(message));
     }
 }

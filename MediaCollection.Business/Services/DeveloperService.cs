@@ -26,7 +26,7 @@ public class DeveloperService : IDeveloperService
     /// </summary>
     /// <param name="developersToBe">The collection of <see cref="Developer"/> that are to be added.</param>
     /// <returns>The <see cref="Developer"/> entities that are in the database.</returns>
-    public async Task<CustomResult<IEnumerable<Developer>>> Add(
+    public async Task<CustomResult<IEnumerable<Developer>>> AddAsync(
         IEnumerable<DeveloperToBe> developersToBe, 
         CancellationToken cancellationToken = default)
     {
@@ -37,7 +37,7 @@ public class DeveloperService : IDeveloperService
 
         IEnumerable<DeveloperToBe> distinctDevelopersToBe = developersToBe.DistinctBy(dTB => dTB.Name);
 
-        IQueryable<Developer> existingDevelopers = await FilterOutExisting(distinctDevelopersToBe);
+        IQueryable<Developer> existingDevelopers = await FilterOutExistingAsync(distinctDevelopersToBe);
 
         IEnumerable<Developer> developers = distinctDevelopersToBe
             .Where(dTB => !existingDevelopers.Any(p => p.Name.Equals(dTB.Name)))
@@ -47,8 +47,8 @@ public class DeveloperService : IDeveloperService
                 PictureUri = dTB.PictureUri
             });
 
-        await _developerRepository.CreateRecords(developers, cancellationToken);
-        await _developerRepository.SaveChanges(cancellationToken);
+        await _developerRepository.CreateRecordsAsync(developers, cancellationToken);
+        await _developerRepository.SaveChangesAsync(cancellationToken);
 
         developers = developers.Concat(existingDevelopers);
 
@@ -60,12 +60,12 @@ public class DeveloperService : IDeveloperService
     /// </summary>
     /// <param name="developersToBe">The collection of developers that are to be added.</param>
     /// <returns>A collection of already existing <see cref="Developer"/> entities.</returns>
-    private async Task<IQueryable<Developer>> FilterOutExisting(IEnumerable<DeveloperToBe> developersToBe)
+    private async Task<IQueryable<Developer>> FilterOutExistingAsync(IEnumerable<DeveloperToBe> developersToBe)
     {
         IEnumerable<string> developersNamesToCheck = developersToBe
             .Select(dTB => dTB.Name);
 
-        IQueryable<Developer> existingDevelopers = (await _developerRepository.Get())
+        IQueryable<Developer> existingDevelopers = (await _developerRepository.GetAsync())
             .TagWith("existcheck")
             .Where(d => developersNamesToCheck.Contains(d.Name));
 

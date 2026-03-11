@@ -26,9 +26,9 @@ public class PublisherController : ControllerBase
     [HttpPost(Name = "PostPublishers")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> PostPublishers([FromBody] PublisherToBe[] publishersToBe, CancellationToken cancellationToken = default)
+    public async Task<IActionResult> PostPublishersAsync([FromBody] PublisherToBe[] publishersToBe, CancellationToken cancellationToken = default)
     {
-        CustomResult<IEnumerable<Publisher>> createdPublishersResult = await _publisherService.Add(publishersToBe, cancellationToken);
+        CustomResult<IEnumerable<Publisher>> createdPublishersResult = await _publisherService.AddAsync(publishersToBe, cancellationToken);
 
         if (createdPublishersResult.IsFailure)
         {

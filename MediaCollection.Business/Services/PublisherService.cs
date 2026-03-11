@@ -22,7 +22,7 @@ public class PublisherService : IPublisherService
     /// </summary>
     /// <param name="publishersToBe">The collection of publishers that are to be added.</param>
     /// <returns>The publisher entities that are in the database.</returns>
-    public async Task<CustomResult<IEnumerable<Publisher>>> Add(IEnumerable<PublisherToBe> publishersToBe, CancellationToken cancellationToken = default)
+    public async Task<CustomResult<IEnumerable<Publisher>>> AddAsync(IEnumerable<PublisherToBe> publishersToBe, CancellationToken cancellationToken = default)
     {
         if (!publishersToBe.Any())
         {
@@ -31,7 +31,7 @@ public class PublisherService : IPublisherService
 
         IEnumerable<PublisherToBe> distinctPublishersToBe = publishersToBe.DistinctBy(pTB => pTB.Name);
 
-        IQueryable<Publisher> existingPublishers = await FilterOutExisting(distinctPublishersToBe);
+        IQueryable<Publisher> existingPublishers = await FilterOutExistingAsync(distinctPublishersToBe);
 
         IEnumerable<Publisher> publishers = distinctPublishersToBe
             .Where(pTB => !existingPublishers.Any(p => p.Name.Equals(pTB.Name)))
@@ -41,8 +41,8 @@ public class PublisherService : IPublisherService
                 PictureUri = pTB.PictureUri
             });
 
-        await _publisherRepository.CreateRecords(publishers, cancellationToken);
-        await _publisherRepository.SaveChanges(cancellationToken);
+        await _publisherRepository.CreateRecordsAsync(publishers, cancellationToken);
+        await _publisherRepository.SaveChangesAsync(cancellationToken);
 
         publishers = publishers.Concat(existingPublishers);
 
@@ -54,12 +54,12 @@ public class PublisherService : IPublisherService
     /// </summary>
     /// <param name="publishersToBe">The collection of publishers that are to be added.</param>
     /// <returns>A collection of already existing <see cref="Publisher"/> entities.</returns>
-    private async Task<IQueryable<Publisher>> FilterOutExisting(IEnumerable<PublisherToBe> publishersToBe)
+    private async Task<IQueryable<Publisher>> FilterOutExistingAsync(IEnumerable<PublisherToBe> publishersToBe)
     {
         IEnumerable<string> publisherNamesToCheck = publishersToBe
             .Select(pTB => pTB.Name);
 
-        IQueryable<Publisher> existingPublishers = (await _publisherRepository.Get())
+        IQueryable<Publisher> existingPublishers = (await _publisherRepository.GetAsync())
             .TagWith("existcheck")
             .Where(p => publisherNamesToCheck.Contains(p.Name));
 

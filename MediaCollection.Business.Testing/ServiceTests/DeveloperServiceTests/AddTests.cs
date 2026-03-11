@@ -11,7 +11,7 @@ public class AddTests
         IDeveloperService developerService = new DeveloperService(Mock.Of<IDeveloperRepository>());
 
         // -- Act
-        List<Developer> developers = (await developerService.Add(developersToBe)).Value.ToList();
+        List<Developer> developers = (await developerService.AddAsync(developersToBe)).Value.ToList();
 
         // -- Assert
         developers.Should().HaveCount(0);
@@ -30,17 +30,17 @@ public class AddTests
         };
         Mock<IDeveloperRepository> mockedRepo = new();
         mockedRepo
-            .Setup(dR => dR.Get())
+            .Setup(dR => dR.GetAsync())
             .Verifiable(Times.Once);
         mockedRepo
-            .Setup(dR => dR.CreateRecords(It.IsAny<IEnumerable<Developer>>()))
+            .Setup(dR => dR.CreateRecordsAsync(It.IsAny<IEnumerable<Developer>>()))
             .Verifiable(Times.Once);
         mockedRepo
-            .Setup(dR => dR.SaveChanges())
+            .Setup(dR => dR.SaveChangesAsync())
             .Verifiable(Times.Once);
         IDeveloperService developerService = new DeveloperService(mockedRepo.Object);
 
-        List<Developer> developers = (await developerService.Add(developersToBe)).Value.ToList();
+        List<Developer> developers = (await developerService.AddAsync(developersToBe)).Value.ToList();
 
         developers.Should().HaveCount(1);
         mockedRepo.Verify();
@@ -64,17 +64,17 @@ public class AddTests
         };
         Mock<IDeveloperRepository> mockedRepo = new();
         mockedRepo
-            .Setup(dR => dR.Get())
+            .Setup(dR => dR.GetAsync())
             .Verifiable(Times.Once);
         mockedRepo
-            .Setup(dR => dR.CreateRecords(It.IsAny<IEnumerable<Developer>>()))
+            .Setup(dR => dR.CreateRecordsAsync(It.IsAny<IEnumerable<Developer>>()))
             .Verifiable(Times.Once);
         mockedRepo
-            .Setup(dR => dR.SaveChanges())
+            .Setup(dR => dR.SaveChangesAsync())
             .Verifiable(Times.Once);
         IDeveloperService developerService = new DeveloperService(mockedRepo.Object);
 
-        List<Developer> developers = (await developerService.Add(developersToBe)).Value.ToList();
+        List<Developer> developers = (await developerService.AddAsync(developersToBe)).Value.ToList();
 
         developers.Should().HaveCount(1);
         mockedRepo.Verify();
@@ -107,18 +107,18 @@ public class AddTests
             }
         };
         mockedRepo
-            .Setup(dR => dR.Get())
+            .Setup(dR => dR.GetAsync())
             .ReturnsAsync(existingDevelopers.AsQueryable)
             .Verifiable(Times.Once);
         mockedRepo
-            .Setup(dR => dR.CreateRecords(It.IsAny<IEnumerable<Developer>>()))
+            .Setup(dR => dR.CreateRecordsAsync(It.IsAny<IEnumerable<Developer>>()))
             .Verifiable(Times.Once);
         mockedRepo
-            .Setup(dR => dR.SaveChanges())
+            .Setup(dR => dR.SaveChangesAsync())
             .Verifiable(Times.Once);
         IDeveloperService developerService = new DeveloperService(mockedRepo.Object);
 
-        List<Developer> developers = (await developerService.Add(developersToBe)).Value.ToList();
+        List<Developer> developers = (await developerService.AddAsync(developersToBe)).Value.ToList();
 
         developers.Should().HaveCount(2);
         mockedRepo.Verify();
