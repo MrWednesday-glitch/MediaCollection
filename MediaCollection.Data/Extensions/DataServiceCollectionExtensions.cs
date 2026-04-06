@@ -1,4 +1,5 @@
 ﻿using MediaCollection.Data.Repositories;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -21,6 +22,8 @@ public static class DataServiceCollectionExtensions
                 .UseLazyLoadingProxies()
                 .UseSqlServer(connectionString);
         }, ServiceLifetime.Scoped);
+        services.AddIdentity<ApplicationUser, IdentityRole>()
+            .AddEntityFrameworkStores<MediaDbContext>();
 
         services.AddScoped<IGameRepository, GameRepository>();
         services.AddScoped<IBookRepository, BookRepository>();
