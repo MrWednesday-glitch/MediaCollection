@@ -11,5 +11,5 @@ public class Media : EntityBase
 
     public DateTime ReleaseDate { get; set; }
 
-    public bool Owned { get; set; }
+    //public bool Owned { get; set; }
 }

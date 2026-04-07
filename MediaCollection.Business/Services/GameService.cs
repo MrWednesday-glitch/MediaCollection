@@ -57,11 +57,15 @@ public class GameService : IGameService
         return (CustomResult<IEnumerable<Game>>.Success(games), paginationMetadata);
     }
 
+    // TODO Add userId to the parameter list
+    // TODO Fix unit tests
     public async Task<CustomResult<Game>> GetRandomAsync(CancellationToken cancellationToken = default)
     {
         IQueryable<Game> unfinishedGames = (await _gameRepository.GetAsync())
             .TagWith("random")
-            .Where(g => !g.Finished);
+            .Where(g => g.UserGames.Any(ug => /* ug.UserId == userId && */ !ug.Finished))
+            //.Where(g => !g.Finished)
+            ;
         int totalItemCount = unfinishedGames.Count();
 
         if (totalItemCount == 0)

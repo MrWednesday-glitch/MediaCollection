@@ -1,10 +1,11 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace MediaCollection.Data;
 
 [ExcludeFromCodeCoverage]
-public class MediaDbContext : IdentityDbContext<ApplicationUser>
+public class MediaDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, Guid>
 {
     public MediaDbContext()
     {
@@ -30,7 +31,7 @@ public class MediaDbContext : IdentityDbContext<ApplicationUser>
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        // Uncomment this and add the proper connString when I need to do a migration jgj
+        // Uncomment this and add the proper connString when I need to do a migration
         //if (!optionsBuilder.IsConfigured)
         //{
         //    string connectionString = "";
@@ -191,5 +192,46 @@ public class MediaDbContext : IdentityDbContext<ApplicationUser>
         //modelBuilder.Entity<Book>().HasData(americanGods);
 
         base.OnModelCreating(modelBuilder);
+
+        modelBuilder.Entity<ApplicationUser>().ToTable("Users");
+        modelBuilder.Entity<ApplicationRole>().ToTable("Roles");
+        modelBuilder.Entity<IdentityUserRole<Guid>>().ToTable("UserRoles");
+        modelBuilder.Entity<IdentityUserClaim<Guid>>().ToTable("UserClaims");
+        modelBuilder.Entity<IdentityUserLogin<Guid>>().ToTable("UserLogins");
+        modelBuilder.Entity<IdentityRoleClaim<Guid>>().ToTable("RoleClaims");
+        modelBuilder.Entity<IdentityUserToken<Guid>>().ToTable("UserTokens");
+
+        modelBuilder.Entity<UserGame>()
+            .HasKey(ug => new { ug.UserId, ug.GameId });
+        modelBuilder.Entity<UserGame>()
+            .HasOne(ug => ug.User)
+            .WithMany(u => u.UserGames)
+            .HasForeignKey(ug => ug.UserId);
+        modelBuilder.Entity<UserGame>()
+            .HasOne(ug => ug.Game)
+            .WithMany(g => g.UserGames)
+            .HasForeignKey(ug => ug.GameId);
+
+        modelBuilder.Entity<UserFilm>()
+            .HasKey(uF => new { uF.UserId, uF.FilmId });
+        modelBuilder.Entity<UserFilm>()
+            .HasOne(uF => uF.User)
+            .WithMany(u => u.UserFilms)
+            .HasForeignKey(uF => uF.UserId);
+        modelBuilder.Entity<UserFilm>()
+            .HasOne(uF => uF.Film)
+            .WithMany(f => f.UserFilms)
+            .HasForeignKey(uF => uF.FilmId);
+
+        modelBuilder.Entity<UserBook>()
+            .HasKey(uB => new { uB.UserId, uB.BookId });
+        modelBuilder.Entity<UserBook>()
+            .HasOne(uB => uB.User)
+            .WithMany(u => u.UserBooks)
+            .HasForeignKey(uB => uB.UserId);
+        modelBuilder.Entity<UserBook>()
+            .HasOne(uB => uB.Book)
+            .WithMany(b => b.UserBooks)
+            .HasForeignKey(uB => uB.BookId);
     }
 }
