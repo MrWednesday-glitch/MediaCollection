@@ -32,18 +32,20 @@ public class MediaDbContext : IdentityDbContext<ApplicationUser, ApplicationRole
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         // Uncomment this and add the proper connString when I need to do a migration
-        if (!optionsBuilder.IsConfigured)
-        {
-            string connectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=MediaCollection;Integrated Security=True;Connect Timeout=30;Encrypt=True;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False;Command Timeout=30";
+        //if (!optionsBuilder.IsConfigured)
+        //{
+        //    string connectionString = "";
 
-            optionsBuilder.UseSqlServer(connectionString);
-        }
+        //    optionsBuilder.UseSqlServer(connectionString);
+        //}
 
         base.OnConfiguring(optionsBuilder);
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        base.OnModelCreating(modelBuilder);
+
         ApplicationUser ravenUser = new()
         {
             Id = Guid.Parse("00000000-0000-0000-0000-000000000100"),
@@ -297,7 +299,5 @@ public class MediaDbContext : IdentityDbContext<ApplicationUser, ApplicationRole
             .HasOne(uB => uB.Book)
             .WithMany(b => b.UserBooks)
             .HasForeignKey(uB => uB.BookId);
-
-        base.OnModelCreating(modelBuilder);
     }
 }
