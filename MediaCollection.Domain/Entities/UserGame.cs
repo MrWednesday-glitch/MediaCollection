@@ -21,5 +21,5 @@ public class UserGame
 
     public bool Finished { get; set; }
 
-    public DateTime? OwnedOn { get; set; }
+    public string? OwnedOn { get; set; }
 }

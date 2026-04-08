@@ -7,9 +7,5 @@ public class Game : Media
 
     public virtual Developer Developer { get; set; } = null!;
 
-    //public string? OwnedOn { get; set; }
-
-    //public bool Finished { get; set; }
-
     public virtual ICollection<UserGame> UserGames { get; set; } = new List<UserGame>();
 }
