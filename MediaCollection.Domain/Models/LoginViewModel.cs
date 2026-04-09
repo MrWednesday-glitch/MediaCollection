@@ -1,4 +1,6 @@
-﻿namespace MediaCollection.API.DTOModels;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace MediaCollection.Domain.Models;
 
 public class LoginViewModel
 {

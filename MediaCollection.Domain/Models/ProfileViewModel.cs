@@ -1,4 +1,4 @@
-﻿namespace MediaCollection.API.DTOModels;
+﻿namespace MediaCollection.Domain.Models;
 
 public class ProfileViewModel
 {
