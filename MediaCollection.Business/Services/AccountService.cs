@@ -12,22 +12,22 @@ public class AccountService : IAccountService
 {
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly SignInManager<ApplicationUser> _signInManager;
-    private readonly IConfiguration _configuration;
+    private readonly RoleManager<ApplicationRole> _roleManager;
     private readonly DateTimeWrapper _dateTimeWrapper;
 
     public AccountService(UserManager<ApplicationUser> userManager,
         SignInManager<ApplicationUser> signInManager,
-        IConfiguration configuration,
+        RoleManager<ApplicationRole> roleManager,
         DateTimeWrapper dateTimeWrapper)
     {
         ArgumentNullException.ThrowIfNull(userManager);
         ArgumentNullException.ThrowIfNull(signInManager);
-        ArgumentNullException.ThrowIfNull(configuration);
+        ArgumentNullException.ThrowIfNull(roleManager);
         ArgumentNullException.ThrowIfNull(dateTimeWrapper);
 
         _userManager = userManager;
         _signInManager = signInManager;
-        _configuration = configuration;
+        _roleManager = roleManager;
         _dateTimeWrapper = dateTimeWrapper;
     }
 
@@ -88,6 +88,16 @@ public class AccountService : IAccountService
         }
 
         // Assign "User" role by default
+        // TODO Ensure that roles excist
+
+        // Ensure role exists
+        // TODO REplace this and seed an user and admin role and connect it to the raven@email.me
+        //if (!await _roleManager.RoleExistsAsync("User"))
+        //{
+        //    await _roleManager.CreateAsync(new ApplicationRole() { Name = "User", NormalizedName = "USER" });
+        //}
+
+
         IdentityResult roleAssignResult = await _userManager.AddToRoleAsync(user, "User");
 
         if (!roleAssignResult.Succeeded)
@@ -107,7 +117,7 @@ public class AccountService : IAccountService
 // TODO Explain this in the readme
 public class DateTimeWrapper
 {
-    private DateTime? _dateTime;
+    private readonly DateTime? _dateTime;
 
     public DateTimeWrapper()
     {
@@ -120,7 +130,8 @@ public class DateTimeWrapper
     }
 
     public DateTime Now
-    { get
+    {
+        get
         {
             return _dateTime ?? DateTime.Now;
         }
