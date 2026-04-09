@@ -15,6 +15,9 @@ public static class BusinessServiceCollectionExtensions
         services.AddScoped<IFilmService, FilmService>();
         services.AddScoped<IPublisherService, PublisherService>();
         services.AddScoped<IDeveloperService, DeveloperService>();
+        services.AddScoped<IAccountService, AccountService>();
+
+        services.AddSingleton<DateTimeWrapper>();
 
         return services;
     }
