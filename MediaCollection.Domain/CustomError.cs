@@ -19,4 +19,10 @@ public sealed record CustomError(ErrorCodes Code, CustomErrorInformation CustomE
         return new CustomError(ErrorCodes.UnknownError,
             new CustomErrorInformation(message));
     }
+
+    public static CustomError UserNotConfirmed(string message)
+    {
+        return new CustomError(ErrorCodes.UserNotConfirmed,
+            new CustomErrorInformation(message));
+    }
 }

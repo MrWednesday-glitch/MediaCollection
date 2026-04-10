@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
+using System.Security.Claims;
 using System.Text;
 
 namespace MediaCollection.Business.Services;
@@ -14,21 +15,25 @@ public class AccountService : IAccountService
     private readonly SignInManager<ApplicationUser> _signInManager;
     private readonly RoleManager<ApplicationRole> _roleManager;
     private readonly DateTimeWrapper _dateTimeWrapper;
+    private readonly IJwtAuthorityManager _jwtAuthorityManager;
 
     public AccountService(UserManager<ApplicationUser> userManager,
         SignInManager<ApplicationUser> signInManager,
         RoleManager<ApplicationRole> roleManager,
-        DateTimeWrapper dateTimeWrapper)
+        DateTimeWrapper dateTimeWrapper,
+        IJwtAuthorityManager jwtAuthorityManager)
     {
         ArgumentNullException.ThrowIfNull(userManager);
         ArgumentNullException.ThrowIfNull(signInManager);
         ArgumentNullException.ThrowIfNull(roleManager);
         ArgumentNullException.ThrowIfNull(dateTimeWrapper);
+        ArgumentNullException.ThrowIfNull(jwtAuthorityManager);
 
         _userManager = userManager;
         _signInManager = signInManager;
         _roleManager = roleManager;
         _dateTimeWrapper = dateTimeWrapper;
+        _jwtAuthorityManager = jwtAuthorityManager;
     }
 
     public async Task<ProfileViewModel> GetUserProfileByEmailAsync(string email)
@@ -50,23 +55,45 @@ public class AccountService : IAccountService
         };
     }
 
-    public async Task<SignInResult> LoginUserAsync(LoginViewModel model)
+    public async Task<CustomResult<LogInResult>> LoginUserAsync(LoginViewModel model)
     {
         ApplicationUser? user = await _userManager.FindByEmailAsync(model.Email);
 
         if (user is null)
         {
-            return SignInResult.Failed;
+            //return SignInResult.Failed;
+            return CustomResult<LogInResult>.Failure(CustomError.RecordNotFound("No user found."));
         }
 
         if (!await _userManager.IsEmailConfirmedAsync(user))
         {
-            return SignInResult.NotAllowed;
+            //return SignInResult.NotAllowed;
+            return CustomResult<LogInResult>.Failure(CustomError.UserNotConfirmed("User is not confirmed."));
         }
 
         SignInResult result = await _signInManager.PasswordSignInAsync(user.UserName!, model.Password, model.RememberMe, lockoutOnFailure: false);
 
-        return result;
+        if (result.Succeeded)
+        {
+            Claim[]? claims =
+            [
+                new Claim("Username", user.UserName),
+                new Claim("Role", "user"),
+                new Claim("Email", user.Email)
+            ];
+
+            JwtAuthorityResult jwtResult = _jwtAuthorityManager.GenerateTokens(user.UserName, claims, _dateTimeWrapper.UtcNow);
+
+            return CustomResult<LogInResult>.Success(new LogInResult
+            {
+                Role = "User",
+                UserName = user.UserName,
+                AccessToken = jwtResult.AccessToken,
+                RefreshToken = jwtResult.RefreshToken.TokenString
+            });
+        }
+
+        return CustomResult<LogInResult>.Failure(CustomError.UnknownError("Something went wrong."));
     }
 
     public async Task<IdentityResult> RegisterUserAsync(RegisterViewModel model)
@@ -145,3 +172,16 @@ public class DateTimeWrapper
         }
     }
 }
+
+//// TODO Move this to the domain
+//// TODO SUmmaries
+//public record LogInResult()
+//{
+//    public string UserName { get; init; }
+
+//    public string Role { get; init; }
+
+//    public string AccessToken { get; init; }
+
+//    public string RefreshToken { get; init; }
+//}

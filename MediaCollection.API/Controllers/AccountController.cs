@@ -64,28 +64,24 @@ public class AccountController : ControllerBase
                 return BadRequest(ModelState);
             }
 
-            Microsoft.AspNetCore.Identity.SignInResult result = await _accountService.LoginUserAsync(model);
+            CustomResult<LogInResult> result = await _accountService.LoginUserAsync(model);
 
-            if (result.Succeeded)
-            {
-                return Ok(new
-                {
-                    Message = "Login successfull"
-                });
-            }
+            return Ok(result.Value);
 
-            if (result.IsNotAllowed)
-            {
-                return Unauthorized(new
-                {
-                    Message = "Email is not confirmed."
-                });
-            }
+            // Move this to the service
 
-            return Unauthorized(new
-            {
-                Message = "Invalid login attempt."
-            });
+            //if (result.IsNotAllowed)
+            //{
+            //    return Unauthorized(new
+            //    {
+            //        Message = "Email is not confirmed."
+            //    });
+            //}
+
+            //return Unauthorized(new
+            //{
+            //    Message = "Invalid login attempt."
+            //});
         }
         catch (Exception)
         {

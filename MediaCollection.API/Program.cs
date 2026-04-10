@@ -14,7 +14,7 @@ public class Program
         builder.Services.AddControllers();
 
         builder.Services.AddDataServices(builder.Configuration);
-        builder.Services.AddBusinessServices();
+        builder.Services.AddBusinessServices(builder.Configuration);
 
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();

@@ -11,7 +11,20 @@ public interface IAccountService
 {
     Task<IdentityResult> RegisterUserAsync(RegisterViewModel model);
 
-    Task<SignInResult> LoginUserAsync(LoginViewModel model);
+    Task<CustomResult<LogInResult>> LoginUserAsync(LoginViewModel model);
 
     Task<ProfileViewModel> GetUserProfileByEmailAsync(string email);
+}
+
+// TODO Move this to the domain
+// TODO SUmmaries
+public record LogInResult()
+{
+    public string UserName { get; init; }
+
+    public string Role { get; init; }
+
+    public string AccessToken { get; init; }
+
+    public string RefreshToken { get; init; }
 }
