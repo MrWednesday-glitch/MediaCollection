@@ -1,4 +1,5 @@
-﻿using MediaCollection.Domain.Models;
+﻿using MediaCollection.Domain.Enums;
+using MediaCollection.Domain.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
@@ -7,14 +8,12 @@ namespace MediaCollection.API.Controllers;
 
 // TODO Unit test
 // TODO Write summaries
-// TODO Rewrite this to the result pattern
 [ApiController]
 [Route("api/account")]
 public class AccountController : ControllerBase
 {
     private readonly IAccountService _accountService;
 
-    // TODO Ensure that IAccountService and AccountService are in the DI container
     public AccountController(IAccountService accountService)
     {
         _accountService = accountService;
@@ -23,73 +22,77 @@ public class AccountController : ControllerBase
     [HttpPost("register")]
     public async Task<IActionResult> RegisterAsync([FromBody] RegisterViewModel model)
     {
-        try
+        if (!ModelState.IsValid)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            IdentityResult result = await _accountService.RegisterUserAsync(model);
-
-            if (result.Succeeded)
-            {
-                return Ok(new
-                {
-                    Message = "Registration successful."
-                });
-            }
-
-            return BadRequest(new
-            {
-                Errors = result.Errors.Select(e => e.Description)
-            });
+            return BadRequest(ModelState);
         }
-        catch (Exception)
+
+        CustomResult<IdentityResult> customResult = await _accountService.RegisterUserAsync(model);
+
+        if (customResult.IsSuccess)
         {
-            return StatusCode(500, new
-            {
-                Message = "An unexpected error occurred."
-            });
+            return Ok(customResult.Value);
         }
+
+        return customResult.Error.Code switch
+        {
+            ErrorCodes.UnknownError => BadRequest(new ErrorDetails(
+                string.Empty,
+                customResult.Error.CustomErrorInformation.Message,
+                400,
+                string.Empty,
+                HttpContext.Request.Path)),
+            _ => StatusCode(500, new ErrorDetails(
+                string.Empty,
+                customResult.Error.CustomErrorInformation.Message,
+                 500,
+                string.Empty,
+                HttpContext.Request.Path))
+        };
     }
 
     [HttpPost("login")]
     public async Task<IActionResult> LoginAsync([FromBody] LoginViewModel model)
     {
-        try
+        if (!ModelState.IsValid)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+            return BadRequest(ModelState);
+        }
 
-            CustomResult<LogInResult> result = await _accountService.LoginUserAsync(model);
+        CustomResult<LogInResult> result = await _accountService.LoginUserAsync(model);
 
+        if (result.IsSuccess)
+        {
             return Ok(result.Value);
-
-            // Move this to the service
-
-            //if (result.IsNotAllowed)
-            //{
-            //    return Unauthorized(new
-            //    {
-            //        Message = "Email is not confirmed."
-            //    });
-            //}
-
-            //return Unauthorized(new
-            //{
-            //    Message = "Invalid login attempt."
-            //});
         }
-        catch (Exception)
+
+        return result.Error.Code switch
         {
-            return StatusCode(500, new
-            {
-                Message = "An unexpected error occurred."
-            });
-        }
+            ErrorCodes.RecordNotFound => NotFound(new ErrorDetails(
+                string.Empty,
+                result.Error.CustomErrorInformation.Message,
+                404,
+                string.Empty,
+                HttpContext.Request.Path)),
+            ErrorCodes.UserNotConfirmed => BadRequest(new ErrorDetails(
+                string.Empty,
+                result.Error.CustomErrorInformation.Message,
+                400,
+                string.Empty,
+                HttpContext.Request.Path)),
+            ErrorCodes.Unauthorized => Unauthorized(new ErrorDetails(
+                string.Empty,
+                result.Error.CustomErrorInformation.Message,
+                401,
+                string.Empty,
+                HttpContext.Request.Path)),
+            _ => StatusCode(500, new ErrorDetails(
+                string.Empty,
+                result.Error.CustomErrorInformation.Message,
+                 500,
+                string.Empty,
+                HttpContext.Request.Path))
+        };
     }
 
     [HttpGet("profile")]
@@ -106,25 +109,33 @@ public class AccountController : ControllerBase
             });
         }
 
-        try
-        {
-            ProfileViewModel model = await _accountService.GetUserProfileByEmailAsync(email);
+        CustomResult<ProfileViewModel> userResult = await _accountService.GetUserProfileByEmailAsync(email);
 
-            return Ok(model);
-        }
-        catch (ArgumentException)
+        if (userResult.IsSuccess)
         {
-            return NotFound(new
-            {
-                Message = "User not found."
-            });
+            return Ok(userResult.Value);
         }
-        catch (Exception)
+
+        return userResult.Error.Code switch
         {
-            return StatusCode(500, new
-            {
-                Message = "An unexpected error occurred."
-            });
-        }
+            ErrorCodes.UnknownError => BadRequest(new ErrorDetails(
+                string.Empty,
+                userResult.Error.CustomErrorInformation.Message,
+                400,
+                string.Empty,
+                HttpContext.Request.Path)),
+            ErrorCodes.RecordNotFound => NotFound(new ErrorDetails(
+                string.Empty,
+                userResult.Error.CustomErrorInformation.Message,
+                404,
+                string.Empty,
+                HttpContext.Request.Path)),
+            _ => StatusCode(500, new ErrorDetails(
+                string.Empty,
+                userResult.Error.CustomErrorInformation.Message,
+                 500,
+                string.Empty,
+                HttpContext.Request.Path))
+        };
     }
 }

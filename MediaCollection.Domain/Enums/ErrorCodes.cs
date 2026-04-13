@@ -5,5 +5,6 @@ public enum ErrorCodes
     Nothing = 0,
     UnknownError,
     RecordNotFound,
-    UserNotConfirmed
+    UserNotConfirmed,
+    Unauthorized
 }
