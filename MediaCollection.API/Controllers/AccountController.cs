@@ -31,7 +31,7 @@ public class AccountController : ControllerBase
 
         if (customResult.IsSuccess)
         {
-            return Ok(customResult.Value);
+            return StatusCode(201, customResult.Value);
         }
 
         return customResult.Error.Code switch
