@@ -9,25 +9,25 @@ public class AccountService : IAccountService
 {
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly SignInManager<ApplicationUser> _signInManager;
-    //private readonly RoleManager<ApplicationRole> _roleManager;
+    private readonly RoleManager<ApplicationRole> _roleManager;
     private readonly DateTimeWrapper _dateTimeWrapper;
     private readonly IJwtAuthorityManager _jwtAuthorityManager;
 
     public AccountService(UserManager<ApplicationUser> userManager,
         SignInManager<ApplicationUser> signInManager,
-        //RoleManager<ApplicationRole> roleManager,
+        RoleManager<ApplicationRole> roleManager,
         DateTimeWrapper dateTimeWrapper,
         IJwtAuthorityManager jwtAuthorityManager)
     {
         ArgumentNullException.ThrowIfNull(userManager);
         ArgumentNullException.ThrowIfNull(signInManager);
-        //ArgumentNullException.ThrowIfNull(roleManager);
+        ArgumentNullException.ThrowIfNull(roleManager);
         ArgumentNullException.ThrowIfNull(dateTimeWrapper);
         ArgumentNullException.ThrowIfNull(jwtAuthorityManager);
 
         _userManager = userManager;
         _signInManager = signInManager;
-        //_roleManager = roleManager;
+        _roleManager = roleManager;
         _dateTimeWrapper = dateTimeWrapper;
         _jwtAuthorityManager = jwtAuthorityManager;
     }
@@ -123,14 +123,11 @@ public class AccountService : IAccountService
         }
 
         // Assign "User" role by default
-        // TODO Ensure that roles excist
-
-        // Ensure role exists
-        // TODO REplace this and seed an user and admin role and connect it to the raven@email.me
-        //if (!await _roleManager.RoleExistsAsync("User"))
-        //{
-        //    await _roleManager.CreateAsync(new ApplicationRole() { Name = "User", NormalizedName = "USER" });
-        //}
+        // TODO Get rid of this eventually when I find a better place for it
+        if (!await _roleManager.RoleExistsAsync("User"))
+        {
+            await _roleManager.CreateAsync(new ApplicationRole() { Name = "User", NormalizedName = "USER" });
+        }
 
 
         IdentityResult roleAssignResult = await _userManager.AddToRoleAsync(user, "User");
