@@ -7,7 +7,6 @@ using System.Security.Claims;
 namespace MediaCollection.API.Controllers;
 
 // TODO Unit test
-// TODO Write summaries
 [ApiController]
 [Route("api/account")]
 public class AccountController : ControllerBase
@@ -20,6 +19,9 @@ public class AccountController : ControllerBase
     }
 
     [HttpPost("register")]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> RegisterAsync([FromBody] RegisterViewModel model)
     {
         if (!ModelState.IsValid)
@@ -52,6 +54,11 @@ public class AccountController : ControllerBase
     }
 
     [HttpPost("login")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> LoginAsync([FromBody] LoginViewModel model)
     {
         if (!ModelState.IsValid)
@@ -96,6 +103,10 @@ public class AccountController : ControllerBase
     }
 
     [HttpGet("profile")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [Authorize]
     public async Task<IActionResult> ShowProfileAsync()
     {

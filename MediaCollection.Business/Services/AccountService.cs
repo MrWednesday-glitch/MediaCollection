@@ -3,7 +3,6 @@ using System.Security.Claims;
 
 namespace MediaCollection.Business.Services;
 
-// TODO Write summaries
 // TODO Write unit tests
 public class AccountService : IAccountService
 {
@@ -32,6 +31,9 @@ public class AccountService : IAccountService
         _jwtAuthorityManager = jwtAuthorityManager;
     }
 
+    /// <summary>
+    /// <inheritdoc/>
+    /// </summary>
     public async Task<CustomResult<ProfileViewModel>> GetUserProfileByEmailAsync(string email)
     {
         if (string.IsNullOrEmpty(email))
@@ -57,6 +59,9 @@ public class AccountService : IAccountService
         });
     }
 
+    /// <summary>
+    /// <inheritdoc/>
+    /// </summary>
     public async Task<CustomResult<LogInResult>> LoginUserAsync(LoginViewModel model)
     {
         ApplicationUser? user = await _userManager.FindByEmailAsync(model.Email);
@@ -103,6 +108,9 @@ public class AccountService : IAccountService
         return CustomResult<LogInResult>.Failure(CustomError.UnknownError("Something went wrong."));
     }
 
+    /// <summary>
+    /// <inheritdoc/>
+    /// </summary>
     public async Task<CustomResult<IdentityResult>> RegisterUserAsync(RegisterViewModel model)
     {
         ApplicationUser user = new()
