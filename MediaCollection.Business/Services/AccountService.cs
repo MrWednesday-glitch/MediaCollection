@@ -3,7 +3,6 @@ using System.Security.Claims;
 
 namespace MediaCollection.Business.Services;
 
-// TODO Write unit tests
 public class AccountService : IAccountService
 {
     private readonly UserManager<ApplicationUser> _userManager;
@@ -38,7 +37,6 @@ public class AccountService : IAccountService
     {
         if (string.IsNullOrEmpty(email))
         {
-            // TODO Test if this gives a proper 40x error, Perhaps change it regardless to another custom error
             return CustomResult<ProfileViewModel>.Failure(CustomError.UnknownError("Email cannot be null or empty."));
         }
 
@@ -59,6 +57,7 @@ public class AccountService : IAccountService
         });
     }
 
+    // TODO Write unit tests
     /// <summary>
     /// <inheritdoc/>
     /// </summary>
@@ -108,6 +107,7 @@ public class AccountService : IAccountService
         return CustomResult<LogInResult>.Failure(CustomError.UnknownError("Something went wrong."));
     }
 
+    // TODO Write unit tests
     /// <summary>
     /// <inheritdoc/>
     /// </summary>

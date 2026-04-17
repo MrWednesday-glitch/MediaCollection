@@ -1,4 +1,7 @@
-﻿namespace MediaCollection.Business.Testing.ServiceTests.BookServiceTests;
+﻿using MediaCollection.Domain.Exceptions;
+using Xunit.Sdk;
+
+namespace MediaCollection.Business.Testing.ServiceTests.BookServiceTests;
 
 [ExcludeFromCodeCoverage]
 public class GetTests
@@ -116,15 +119,20 @@ public class GetTests
     }
 
     [Fact]
-    public async Task Should_ThrowKeyNotFoundException_When_TheGivenIdDoesNotMatchABook()
+    public async Task Should_ReturnFailureResult_When_RecordNotFoundException_IsThrown()
     {
         Mock<IBookRepository> mockedBookRepository = new Mock<IBookRepository>();
         IBookService bookService = new BookService(mockedBookRepository.Object);
-        mockedBookRepository.Setup(bRepo => bRepo.GetAsync(It.IsAny<Guid>()))
-            .ThrowsAsync(new KeyNotFoundException());
+        Guid bookId = Guid.NewGuid();
+        mockedBookRepository.Setup(bRepo => bRepo.GetAsync(bookId))
+            .ThrowsAsync(new RecordNotFoundException("Book not found."));
 
-        Func<Task> getAction = async () => await bookService.Get(Guid.NewGuid());
+        CustomResult<Book> result = await bookService.Get(bookId);
 
-        await getAction.Should().ThrowAsync<KeyNotFoundException>();
+        result.Should().NotBeNull();
+        result.IsSuccess.Should().BeFalse();
+
+        result.Error.Should().NotBeNull();
+        result.Error.Should().BeEquivalentTo(CustomError.RecordNotFound("Book not found."));
     }
 }
