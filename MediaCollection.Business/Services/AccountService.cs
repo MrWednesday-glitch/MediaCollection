@@ -84,27 +84,27 @@ public class AccountService : IAccountService
             return CustomResult<LogInResult>.Failure(CustomError.Unauthorized("Something went wrong logging in."));
         }
 
-        if (result.Succeeded)
+        if (!result.Succeeded)
         {
-            Claim[]? claims =
-            [
-                new Claim("Username", user.UserName!),
-                new Claim("Role", "user"),
-                new Claim("Email", user.Email!)
-            ];
-
-            JwtAuthorityResult jwtResult = _jwtAuthorityManager.GenerateTokens(user.UserName!, claims, _dateTimeWrapper.UtcNow);
-
-            return CustomResult<LogInResult>.Success(new LogInResult
-            {
-                Role = "User",
-                UserName = user.UserName!,
-                AccessToken = jwtResult.AccessToken,
-                RefreshToken = jwtResult.RefreshToken.TokenString
-            });
+            return CustomResult<LogInResult>.Failure(CustomError.UnknownError("Something went wrong."));
         }
 
-        return CustomResult<LogInResult>.Failure(CustomError.UnknownError("Something went wrong."));
+        Claim[]? claims =
+        [
+            new Claim("Username", user.UserName!),
+                new Claim("Role", "user"),
+                new Claim("Email", user.Email!)
+        ];
+
+        JwtAuthorityResult jwtResult = _jwtAuthorityManager.GenerateTokens(user.UserName!, claims, _dateTimeWrapper.UtcNow);
+
+        return CustomResult<LogInResult>.Success(new LogInResult
+        {
+            Role = "User",
+            UserName = user.UserName!,
+            AccessToken = jwtResult.AccessToken,
+            RefreshToken = jwtResult.RefreshToken.TokenString
+        });
     }
 
     // TODO Write unit tests
