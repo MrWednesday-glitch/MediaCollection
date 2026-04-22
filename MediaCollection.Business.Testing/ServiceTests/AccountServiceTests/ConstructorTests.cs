@@ -1,10 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
-
-namespace MediaCollection.Business.Testing.ServiceTests.AccountServiceTests;
+﻿namespace MediaCollection.Business.Testing.ServiceTests.AccountServiceTests;
 
 [ExcludeFromCodeCoverage]
-public class ConstructorTests
+public class ConstructorTests : AccountServiceTestsBase
 {
     [Fact]
     public void Should_ThrowAnArgumentNullException_When_UserManagerIsNull()
@@ -99,58 +96,5 @@ public class ConstructorTests
         testIncovation
             .Should().ThrowExactly<ArgumentNullException>()
             .WithParameterName("jwtAuthorityManager");
-    }
-
-    private static Mock<UserManager<ApplicationUser>> CreateUserManagerMock()
-    {
-        Mock<IUserStore<ApplicationUser>> userStore = new();
-        Mock<UserManager<ApplicationUser>> userManagerMock = new(
-            userStore.Object,
-            null!,
-            null!,
-            Array.Empty<IUserValidator<ApplicationUser>>(),
-            Array.Empty<IPasswordValidator<ApplicationUser>>(),
-            null!,
-            null!,
-            null!,
-            null!
-        );
-
-        return userManagerMock;
-    }
-
-    private static Mock<SignInManager<ApplicationUser>> CreateSignInManagerMock(UserManager<ApplicationUser>? userManager = null)
-    {
-        userManager ??= CreateUserManagerMock().Object;
-
-        Mock<IHttpContextAccessor> contextAccessor = new();
-        Mock<IUserClaimsPrincipalFactory<ApplicationUser>> claimsFactory = new();
-
-        Mock<SignInManager<ApplicationUser>> signInManagerMock = new(
-            userManager,
-            contextAccessor.Object,
-            claimsFactory.Object,
-            null!,
-            null!,
-            null!,
-            null!
-        );
-
-        return signInManagerMock;
-    }
-
-    private static Mock<RoleManager<ApplicationRole>> CreateRoleManagerMock()
-    {
-        Mock<IRoleStore<ApplicationRole>> roleStore = new();
-
-        Mock<RoleManager<ApplicationRole>> roleManagerMock = new Mock<RoleManager<ApplicationRole>>(
-            roleStore.Object,
-            Array.Empty<IRoleValidator<ApplicationRole>>(),
-            null!,
-            null!,
-            null!
-        );
-
-        return roleManagerMock;
     }
 }
