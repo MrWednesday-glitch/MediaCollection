@@ -57,7 +57,6 @@ public class AccountService : IAccountService
         });
     }
 
-    // TODO Write unit tests
     /// <summary>
     /// <inheritdoc/>
     /// </summary>
@@ -92,8 +91,8 @@ public class AccountService : IAccountService
         Claim[]? claims =
         [
             new Claim("Username", user.UserName!),
-                new Claim("Role", "user"),
-                new Claim("Email", user.Email!)
+            new Claim("Role", "user"),
+            new Claim("Email", user.Email!)
         ];
 
         JwtAuthorityResult jwtResult = _jwtAuthorityManager.GenerateTokens(user.UserName!, claims, _dateTimeWrapper.UtcNow);
