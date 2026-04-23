@@ -1,6 +1,4 @@
-﻿using MediaCollection.Domain.Enums;
-using MediaCollection.Domain.Models;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 

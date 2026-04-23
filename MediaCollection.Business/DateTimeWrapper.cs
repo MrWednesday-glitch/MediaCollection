@@ -3,7 +3,7 @@
 // TODO UnitTest
 // TODO Summaries
 // TODO Explain this in the readme
-public sealed class DateTimeWrapper
+public class DateTimeWrapper
 {
     private readonly DateTime? _dateTime;
 

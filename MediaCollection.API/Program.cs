@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MediaCollection.API;
 
+[ExcludeFromCodeCoverage]
 public sealed class Program
 {
     public static void Main(string[] args)
