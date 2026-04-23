@@ -6,7 +6,7 @@ namespace MediaCollection.API.Controllers;
 // TODO Fix this
 [ApiController]
 [Route("games")]
-public class GameController : ControllerBase
+public sealed class GameController : ControllerBase
 {
     //private const int MaxPageSize = 20;
     //private readonly IGameService _gameService;

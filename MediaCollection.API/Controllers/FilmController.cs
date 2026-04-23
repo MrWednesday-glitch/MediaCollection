@@ -4,7 +4,7 @@
 // TODO Fix this
 [ApiController]
 [Route("films")]
-public class FilmController : ControllerBase
+public sealed class FilmController : ControllerBase
 {
     //private const int MaxPageSize = 20;
     //private readonly IFilmService _filmService;

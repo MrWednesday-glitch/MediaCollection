@@ -2,6 +2,7 @@
 
 namespace MediaCollection.Domain.Entities;
 
+[ExcludeFromCodeCoverage]
 public class ApplicationRole : IdentityRole<Guid>
 {
     public string? Description { get; set; }

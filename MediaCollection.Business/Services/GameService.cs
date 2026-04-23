@@ -1,6 +1,6 @@
 ﻿namespace MediaCollection.Business.Services;
 
-public class GameService : IGameService
+public sealed class GameService : IGameService
 {
     private readonly IGameRepository _gameRepository;
 

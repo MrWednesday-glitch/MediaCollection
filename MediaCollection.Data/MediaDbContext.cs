@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 namespace MediaCollection.Data;
 
 [ExcludeFromCodeCoverage]
-public class MediaDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, Guid>
+public sealed class MediaDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, Guid>
 {
     public MediaDbContext()
     {

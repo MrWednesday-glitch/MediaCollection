@@ -8,7 +8,7 @@ namespace MediaCollection.Business;
 
 // TODO Unit test
 // TODO Summaries
-public class JwtAuthorityManager : IJwtAuthorityManager
+public sealed class JwtAuthorityManager : IJwtAuthorityManager
 {
     private readonly ConcurrentDictionary<string, RefreshToken> _usersRefreshTokens;
     private readonly JwtTokenConfiguration _jwtTokenConfiguration;

@@ -2,6 +2,7 @@
 
 namespace MediaCollection.Domain.Entities;
 
+[ExcludeFromCodeCoverage]
 public class ApplicationUser : IdentityUser<Guid>
 {
     public string FirstName { get; set; } = string.Empty;

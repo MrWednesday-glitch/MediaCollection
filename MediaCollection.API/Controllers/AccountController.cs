@@ -9,7 +9,7 @@ namespace MediaCollection.API.Controllers;
 // TODO Unit test
 [ApiController]
 [Route("api/account")]
-public class AccountController : ControllerBase
+public sealed class AccountController : ControllerBase
 {
     private readonly IAccountService _accountService;
 

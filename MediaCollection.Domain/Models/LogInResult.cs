@@ -1,6 +1,7 @@
 ﻿namespace MediaCollection.Domain.Models;
 
 // TODO Summaries
+[ExcludeFromCodeCoverage]
 public record LogInResult()
 {
     public string UserName { get; init; } = string.Empty;

@@ -6,7 +6,7 @@ namespace MediaCollection.API.Controllers;
 // TODO Fix this
 [ApiController]
 [Route("books")]
-public class BookController : ControllerBase
+public sealed class BookController : ControllerBase
 {
     //private const int MaxPageSize = 20;
     //private readonly IBookService _bookService;

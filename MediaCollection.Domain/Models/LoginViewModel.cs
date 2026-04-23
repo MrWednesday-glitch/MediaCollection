@@ -2,6 +2,7 @@
 
 namespace MediaCollection.Domain.Models;
 
+[ExcludeFromCodeCoverage]
 public class LoginViewModel
 {
     [Required(ErrorMessage = "Email Id is Required")]

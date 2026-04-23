@@ -1,7 +1,7 @@
 ﻿//namespace MediaCollection.Business.Testing.ServiceTests.GameServiceTests;
 
 //[ExcludeFromCodeCoverage]
-//public class GetRandomTests
+//public sealed class GetRandomTests
 //{
 //    [Fact]
 //    public async Task Should_ReturnARandomGame()

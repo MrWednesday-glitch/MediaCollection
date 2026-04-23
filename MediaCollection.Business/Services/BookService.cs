@@ -1,6 +1,6 @@
 ﻿namespace MediaCollection.Business.Services;
 
-public class BookService : IBookService
+public sealed class BookService : IBookService
 {
     private readonly IBookRepository _bookRepository;
 

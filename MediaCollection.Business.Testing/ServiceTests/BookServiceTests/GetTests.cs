@@ -4,7 +4,7 @@ using Xunit.Sdk;
 namespace MediaCollection.Business.Testing.ServiceTests.BookServiceTests;
 
 [ExcludeFromCodeCoverage]
-public class GetTests
+public sealed class GetTests
 {
     private readonly Book[] _mockedBooks =
     [

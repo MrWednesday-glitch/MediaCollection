@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MediaCollection.Domain.Entities;
 
+[ExcludeFromCodeCoverage]
 public class UserFilm
 {
     [Required]

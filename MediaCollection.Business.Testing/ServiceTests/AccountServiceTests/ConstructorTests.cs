@@ -1,7 +1,7 @@
 ﻿namespace MediaCollection.Business.Testing.ServiceTests.AccountServiceTests;
 
 [ExcludeFromCodeCoverage]
-public class ConstructorTests : AccountServiceTestsBase
+public sealed class ConstructorTests : AccountServiceTestsBase
 {
     [Fact]
     public void Should_ThrowAnArgumentNullException_When_UserManagerIsNull()

@@ -1,5 +1,6 @@
 ﻿namespace MediaCollection.Domain.Models;
 
+[ExcludeFromCodeCoverage]
 public class ProfileViewModel
 {
     public string Email { get; set; } = string.Empty;
