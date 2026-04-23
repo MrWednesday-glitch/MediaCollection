@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace MediaCollection.Data.Migrations
 {
+    [ExcludeFromCodeCoverage]
     [DbContext(typeof(MediaDbContext))]
     partial class MediaDbContextModelSnapshot : ModelSnapshot
     {

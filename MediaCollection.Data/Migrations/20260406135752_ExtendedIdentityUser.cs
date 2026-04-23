@@ -4,6 +4,7 @@
 
 namespace MediaCollection.Data.Migrations
 {
+    [ExcludeFromCodeCoverage]
     /// <inheritdoc />
     public partial class ExtendedIdentityUser : Migration
     {

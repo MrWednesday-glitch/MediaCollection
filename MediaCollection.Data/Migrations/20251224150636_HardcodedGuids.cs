@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MediaCollection.Data.Migrations
 {
+    [ExcludeFromCodeCoverage]
     /// <inheritdoc />
     public partial class HardcodedGuids : Migration
     {
