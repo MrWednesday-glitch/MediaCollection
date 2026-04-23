@@ -3,7 +3,7 @@ using System.Security.Claims;
 
 namespace MediaCollection.Business.Services;
 
-public class AccountService : IAccountService
+public sealed class AccountService : IAccountService
 {
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly SignInManager<ApplicationUser> _signInManager;
@@ -106,7 +106,6 @@ public class AccountService : IAccountService
         });
     }
 
-    // TODO Write unit tests
     /// <summary>
     /// <inheritdoc/>
     /// </summary>
@@ -125,7 +124,6 @@ public class AccountService : IAccountService
 
         if (!result.Succeeded)
         {
-            // TODO Check
             return CustomResult<IdentityResult>.Failure(CustomError.UnknownError("Cannot create user."));
         }
 
@@ -141,7 +139,6 @@ public class AccountService : IAccountService
 
         if (!roleAssignResult.Succeeded)
         {
-            // TODO Check
             // TODO Make custom error that has to do with account management
             return CustomResult<IdentityResult>.Failure(CustomError.UnknownError("Something went wrong with user creation."));
         }
