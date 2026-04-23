@@ -17,7 +17,7 @@ public class AccountServiceTestsBase
             userManager ?? CreateUserManagerMock().Object,
             signInManager ?? CreateSignInManagerMock().Object,
             roleManager ?? CreateRoleManagerMock().Object,
-            dateTimeWrapper ?? Mock.Of<DateTimeWrapper>(),
+            dateTimeWrapper ?? new DateTimeWrapper(),
             jwtAuthorityManager ?? Mock.Of<IJwtAuthorityManager>());
 
         return accountService;

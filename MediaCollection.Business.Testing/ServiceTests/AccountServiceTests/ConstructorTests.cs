@@ -89,7 +89,7 @@ public sealed class ConstructorTests : AccountServiceTestsBase
             CreateUserManagerMock().Object,
             CreateSignInManagerMock().Object,
             CreateRoleManagerMock().Object,
-            Mock.Of<DateTimeWrapper>(),
+            new DateTimeWrapper(),
             null!);
 
         // -- Assert

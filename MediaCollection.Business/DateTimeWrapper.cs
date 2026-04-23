@@ -7,12 +7,7 @@ public class DateTimeWrapper
 {
     private readonly DateTime? _dateTime;
 
-    public DateTimeWrapper()
-    {
-        _dateTime = null;
-    }
-
-    public DateTimeWrapper(DateTime fixedDateTime)
+    public DateTimeWrapper(DateTime? fixedDateTime = null)
     {
         _dateTime = fixedDateTime;
     }
