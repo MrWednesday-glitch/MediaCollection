@@ -1,17 +1,25 @@
 ﻿namespace MediaCollection.Business;
 
-// TODO UnitTest
-// TODO Summaries
-// TODO Explain this in the readme
+/// <summary>
+/// A class to wrap around any calls to datetime.now.
+/// Userful for testing purposes.
+/// </summary>
 public class DateTimeWrapper
 {
     private readonly DateTime? _dateTime;
 
+    /// <summary>
+    /// Initializes the constructor.
+    /// </summary>
+    /// <param name="fixedDateTime">A nullable parameter, useful for unit testing purposes.</param>
     public DateTimeWrapper(DateTime? fixedDateTime = null)
     {
         _dateTime = fixedDateTime;
     }
 
+    /// <summary>
+    /// Calls the datetime.now.
+    /// </summary>
     public DateTime Now
     {
         get
@@ -20,6 +28,9 @@ public class DateTimeWrapper
         }
     }
 
+    /// <summary>
+    /// Calls the datetime.utcnow.
+    /// </summary>
     public DateTime UtcNow
     {
         get
