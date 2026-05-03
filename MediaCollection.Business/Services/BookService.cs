@@ -11,6 +11,9 @@ public sealed class BookService : IBookService
         _bookRepository = bookRepository;
     }
 
+    /// <summary>
+    /// <inheritdoc/>
+    /// </summary>
     public async Task<(CustomResult<IEnumerable<Book>>, PaginationMetadata)> GetAsync(
         int pageNumber, 
         int pageSize, 
@@ -42,6 +45,9 @@ public sealed class BookService : IBookService
         return (CustomResult<IEnumerable<Book>>.Success(books), paginationMetadata);
     }
 
+    /// <summary>
+    /// <inheritdoc/>
+    /// </summary>
     public async Task<CustomResult<Book>> Get(Guid id, CancellationToken cancellationToken = default)
     {
         try
