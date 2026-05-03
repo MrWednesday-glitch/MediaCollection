@@ -11,14 +11,14 @@ public class AccountServiceTestsBase
         SignInManager<ApplicationUser>? signInManager = null,
         RoleManager<ApplicationRole>? roleManager = null,
         DateTimeWrapper? dateTimeWrapper = null,
-        IJwtAuthorityManager? jwtAuthorityManager = null)
+        IJwtAuthorityService? jwtAuthorityManager = null)
     {
         IAccountService accountService = new AccountService(
             userManager ?? CreateUserManagerMock().Object,
             signInManager ?? CreateSignInManagerMock().Object,
             roleManager ?? CreateRoleManagerMock().Object,
             dateTimeWrapper ?? new DateTimeWrapper(),
-            jwtAuthorityManager ?? Mock.Of<IJwtAuthorityManager>());
+            jwtAuthorityManager ?? Mock.Of<IJwtAuthorityService>());
 
         return accountService;
     }

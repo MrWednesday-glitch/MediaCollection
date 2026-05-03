@@ -9,13 +9,13 @@ public sealed class AccountService : IAccountService
     private readonly SignInManager<ApplicationUser> _signInManager;
     private readonly RoleManager<ApplicationRole> _roleManager;
     private readonly DateTimeWrapper _dateTimeWrapper;
-    private readonly IJwtAuthorityManager _jwtAuthorityManager;
+    private readonly IJwtAuthorityService _jwtAuthorityManager;
 
     public AccountService(UserManager<ApplicationUser> userManager,
         SignInManager<ApplicationUser> signInManager,
         RoleManager<ApplicationRole> roleManager,
         DateTimeWrapper dateTimeWrapper,
-        IJwtAuthorityManager jwtAuthorityManager)
+        IJwtAuthorityService jwtAuthorityManager)
     {
         ArgumentNullException.ThrowIfNull(userManager);
         ArgumentNullException.ThrowIfNull(signInManager);

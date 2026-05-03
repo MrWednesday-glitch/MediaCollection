@@ -4,12 +4,12 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace MediaCollection.Business;
+namespace MediaCollection.Business.Services;
 
 /// <summary>
-/// The implementation of the <see cref="IJwtAuthorityManager"/>.
+/// The implementation of the <see cref="IJwtAuthorityService"/>.
 /// </summary>
-public sealed class JwtAuthorityManager : IJwtAuthorityManager
+public sealed class JwtAuthorityService : IJwtAuthorityService
 {
     private readonly ConcurrentDictionary<string, RefreshToken> _usersRefreshTokens;
     private readonly JwtTokenConfiguration _jwtTokenConfiguration;
@@ -18,7 +18,7 @@ public sealed class JwtAuthorityManager : IJwtAuthorityManager
     /// <summary>
     /// Initialized the constructor.
     /// </summary>
-    public JwtAuthorityManager(JwtTokenConfiguration jwtTokenConfiguration)
+    public JwtAuthorityService(JwtTokenConfiguration jwtTokenConfiguration)
     {
         ArgumentNullException.ThrowIfNull(jwtTokenConfiguration);
         ArgumentNullException.ThrowIfNull(jwtTokenConfiguration.Secret);

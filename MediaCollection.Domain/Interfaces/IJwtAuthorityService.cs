@@ -1,12 +1,9 @@
 ﻿using MediaCollection.Domain.Models;
-using System;
-using System.Collections.Generic;
 using System.Security.Claims;
-using System.Text;
 
 namespace MediaCollection.Domain.Interfaces;
 
-public interface IJwtAuthorityManager
+public interface IJwtAuthorityService
 {
     /// <summary>
     /// A method used to generate a JWT Token

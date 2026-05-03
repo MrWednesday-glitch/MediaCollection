@@ -1,6 +1,6 @@
 ﻿using System.Security.Claims;
 
-namespace MediaCollection.Business.Testing.JwtAuthorityManagerTests;
+namespace MediaCollection.Business.Testing.ServiceTests.JwtAuthorityServiceTests;
 
 [ExcludeFromCodeCoverage]
 public class GenerateTokensTests
@@ -9,7 +9,7 @@ public class GenerateTokensTests
     public void Should_FollowTheHappyPath()
     {
         // -- Arrange
-        IJwtAuthorityManager jwtAuthorityManager = BuildJwtAuthorityManager(new JwtTokenConfiguration()
+        IJwtAuthorityService jwtAuthorityManager = BuildJwtAuthorityManager(new JwtTokenConfiguration()
         {
             Audience = "Steve",
             Issuer = "Bob",
@@ -32,9 +32,9 @@ public class GenerateTokensTests
         result.RefreshToken.ExpireAt.Should().Be(new DateTime(2026, 5, 4));
     }
 
-    private static IJwtAuthorityManager BuildJwtAuthorityManager(JwtTokenConfiguration? jwtTokenConfiguration = null)
+    private static IJwtAuthorityService BuildJwtAuthorityManager(JwtTokenConfiguration? jwtTokenConfiguration = null)
     {
-        IJwtAuthorityManager jwtAuthorityManager = new JwtAuthorityManager(jwtTokenConfiguration ?? new JwtTokenConfiguration()
+        IJwtAuthorityService jwtAuthorityManager = new JwtAuthorityService(jwtTokenConfiguration ?? new JwtTokenConfiguration()
         {
             Audience = "Steve",
             Issuer = "Bob",

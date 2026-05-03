@@ -17,7 +17,7 @@ public static class BusinessServiceCollectionExtensions
         services.AddScoped<IPublisherService, PublisherService>();
         services.AddScoped<IDeveloperService, DeveloperService>();
         services.AddScoped<IAccountService, AccountService>();
-        services.AddScoped<IJwtAuthorityManager, JwtAuthorityManager>();
+        services.AddScoped<IJwtAuthorityService, JwtAuthorityService>();
 
         var jwtTokenConfiguration = configuration.GetSection("jwtTokenConfig")
             .Get<JwtTokenConfiguration>();

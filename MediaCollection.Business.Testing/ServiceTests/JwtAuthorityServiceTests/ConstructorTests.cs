@@ -1,4 +1,4 @@
-﻿namespace MediaCollection.Business.Testing.JwtAuthorityManagerTests;
+﻿namespace MediaCollection.Business.Testing.ServiceTests.JwtAuthorityServiceTests;
 
 [ExcludeFromCodeCoverage]
 public class ConstructorTests
@@ -9,7 +9,7 @@ public class ConstructorTests
         // -- Arrange
 
         // -- ACt
-        Action testIncovation = () => _ = new JwtAuthorityManager(null!);
+        Action testIncovation = () => _ = new JwtAuthorityService(null!);
 
         // -- Assert
         testIncovation
@@ -28,7 +28,7 @@ public class ConstructorTests
         };
 
         // -- ACt
-        Action testIncovation = () => _ = new JwtAuthorityManager(jwtTokenConfiguration);
+        Action testIncovation = () => _ = new JwtAuthorityService(jwtTokenConfiguration);
 
         // -- Assert
         testIncovation

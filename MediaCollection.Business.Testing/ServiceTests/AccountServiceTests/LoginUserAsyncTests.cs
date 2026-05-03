@@ -29,7 +29,7 @@ public sealed class LoginUserAsyncTests : AccountServiceTestsBase
             .Setup(x => x.PasswordSignInAsync(user.UserName!, It.IsAny<string>(), It.IsAny<bool>(), false))
             .ReturnsAsync(SignInResult.Success);
 
-        Mock<IJwtAuthorityManager> jwtManagerMock = new();
+        Mock<IJwtAuthorityService> jwtManagerMock = new();
         jwtManagerMock
             .Setup(x => x.GenerateTokens(It.IsAny<string>(), It.IsAny<Claim[]>(), It.IsAny<DateTime>()))
             .Returns(new JwtAuthorityResult
