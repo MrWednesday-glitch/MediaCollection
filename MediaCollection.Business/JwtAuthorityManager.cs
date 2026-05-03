@@ -7,20 +7,29 @@ using System.Text;
 namespace MediaCollection.Business;
 
 // TODO Unit test
-// TODO Summaries
+/// <summary>
+/// The implementation of the <see cref="IJwtAuthorityManager"/>.
+/// </summary>
 public sealed class JwtAuthorityManager : IJwtAuthorityManager
 {
     private readonly ConcurrentDictionary<string, RefreshToken> _usersRefreshTokens;
     private readonly JwtTokenConfiguration _jwtTokenConfiguration;
     private readonly byte[] _secret;
 
+    /// <summary>
+    /// Initialized the constructor.
+    /// </summary>
     public JwtAuthorityManager(JwtTokenConfiguration jwtTokenConfiguration)
     {
         _jwtTokenConfiguration = jwtTokenConfiguration;
         _usersRefreshTokens = new ConcurrentDictionary<string, RefreshToken>();
-        _secret = Encoding.ASCII.GetBytes(jwtTokenConfiguration.Secret);
+        _secret = Encoding.ASCII.GetBytes(jwtTokenConfiguration.Secret
+            ?? throw new ArgumentNullException("Something is wrong with the jwttokenconfiguration."));
     }
 
+    /// <summary>
+    /// <inheritdoc/>
+    /// </summary>
     public JwtAuthorityResult GenerateTokens(string userName, Claim[] claims, DateTime now)
     {
         bool shouldAddAudienceClaim = string.IsNullOrWhiteSpace(claims?
@@ -49,6 +58,10 @@ public sealed class JwtAuthorityManager : IJwtAuthorityManager
         };
     }
 
+    /// <summary>
+    /// Uses a random number generator to create a refresh token.
+    /// </summary>
+    /// <returns>The refresh token.</returns>
     private static string GenerateRefreshTokenString()
     {
         byte[] randomNumber = new byte[32];

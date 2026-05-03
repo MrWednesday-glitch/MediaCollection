@@ -1,9 +1,15 @@
 ﻿namespace MediaCollection.Business.Services;
 
+/// <summary>
+/// The implementation of the <see cref="IFilmService"/>.
+/// </summary>
 public class FilmService : IFilmService
 {
     private readonly IFilmRepository _filmRepository;
 
+    /// <summary>
+    /// Initializes the constructor.
+    /// </summary>
     public FilmService(IFilmRepository filmRepository)
     {
         ArgumentNullException.ThrowIfNull(filmRepository);
@@ -11,6 +17,9 @@ public class FilmService : IFilmService
         _filmRepository = filmRepository;
     }
 
+    /// <summary>
+    /// <inheritdoc/>
+    /// </summary>
     public async Task<(CustomResult<IEnumerable<Film>>, PaginationMetadata)> GetAsync(
         int pageNumber, 
         int pageSize, 
@@ -42,6 +51,9 @@ public class FilmService : IFilmService
         return (CustomResult<IEnumerable<Film>>.Success(films), paginationMetadata);
     }
 
+    /// <summary>
+    /// <inheritdoc/>
+    /// </summary>
     public async Task<CustomResult<Film>> GetAsync(Guid id, CancellationToken cancellationToken = default)
     {
         try
