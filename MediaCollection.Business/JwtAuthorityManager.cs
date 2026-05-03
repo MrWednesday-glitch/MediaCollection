@@ -6,7 +6,6 @@ using System.Text;
 
 namespace MediaCollection.Business;
 
-// TODO Unit test
 /// <summary>
 /// The implementation of the <see cref="IJwtAuthorityManager"/>.
 /// </summary>
@@ -21,10 +20,12 @@ public sealed class JwtAuthorityManager : IJwtAuthorityManager
     /// </summary>
     public JwtAuthorityManager(JwtTokenConfiguration jwtTokenConfiguration)
     {
+        ArgumentNullException.ThrowIfNull(jwtTokenConfiguration);
+        ArgumentNullException.ThrowIfNull(jwtTokenConfiguration.Secret);
+
         _jwtTokenConfiguration = jwtTokenConfiguration;
         _usersRefreshTokens = new ConcurrentDictionary<string, RefreshToken>();
-        _secret = Encoding.ASCII.GetBytes(jwtTokenConfiguration.Secret
-            ?? throw new ArgumentNullException("Something is wrong with the jwttokenconfiguration."));
+        _secret = Encoding.ASCII.GetBytes(jwtTokenConfiguration.Secret);
     }
 
     /// <summary>

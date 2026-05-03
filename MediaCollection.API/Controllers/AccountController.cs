@@ -13,6 +13,8 @@ public sealed class AccountController : ControllerBase
 
     public AccountController(IAccountService accountService)
     {
+        ArgumentNullException.ThrowIfNull(accountService);
+
         _accountService = accountService;
     }
 
