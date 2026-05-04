@@ -4,7 +4,6 @@ using System.Security.Claims;
 
 namespace MediaCollection.API.Controllers;
 
-// TODO Unit test
 [ApiController]
 [Route("api/account")]
 public sealed class AccountController : ControllerBase
