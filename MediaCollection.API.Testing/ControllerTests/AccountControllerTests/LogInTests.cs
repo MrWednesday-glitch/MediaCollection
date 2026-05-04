@@ -23,7 +23,7 @@ public class LoginTests : AccountControllerTestBase
         Mock<IAccountService> mockedAccountService = new();
         mockedAccountService
             .Setup(x => x.LoginUserAsync(loginViewModel))
-            .Returns(Task.FromResult(CustomResult<LogInResult>.Success(logInResult)));
+            .ReturnsAsync(CustomResult<LogInResult>.Success(logInResult));
         AccountController accountController = BuildAccountController(mockedAccountService.Object);
 
         // -- Act
@@ -43,5 +43,177 @@ public class LoginTests : AccountControllerTestBase
             AccessToken = "I am allowed to be here.",
             RefreshToken = "1234567890"
         });
+    }
+
+    [Fact]
+    public async Task Should_ReturnBadRequest_WhenModelStateIsInvalid()
+    {
+        // -- Arrange
+        Mock<IAccountService> mockedAccountService = new();
+        AccountController controller = BuildAccountController(mockedAccountService.Object);
+
+        controller.ModelState.AddModelError("Email", "Required");
+
+        LoginViewModel model = new();
+
+        // -- Act
+        IActionResult result = await controller.LoginAsync(model);
+
+        // -- Assert
+        result.Should().NotBeNull();
+        result.Should().BeOfType<BadRequestObjectResult>();
+
+        BadRequestObjectResult badRequest = result.As<BadRequestObjectResult>();
+        badRequest.StatusCode.Should().Be(400);
+
+        mockedAccountService.Verify(x => x.LoginUserAsync(It.IsAny<LoginViewModel>()), Times.Never);
+    }
+
+    [Fact]
+    public async Task Should_ReturnNotFound_WhenUserDoesNotExist()
+    {
+        // -- Arrange
+        LoginViewModel model = new()
+        {
+            Email = "missing@test.com",
+            Password = "Password123!"
+        };
+
+        Mock<IAccountService> mockedAccountService = new();
+        mockedAccountService
+            .Setup(x => x.LoginUserAsync(model))
+            .ReturnsAsync(CustomResult<LogInResult>.Failure(
+                CustomError.RecordNotFound("No user found.")));
+
+        AccountController controller = BuildAccountController(mockedAccountService.Object);
+        controller.ControllerContext = new ControllerContext
+        {
+            HttpContext = new DefaultHttpContext()
+        };
+
+        // -- Act
+        IActionResult result = await controller.LoginAsync(model);
+
+        // -- Assert
+        result
+            .Should().BeOfType<NotFoundObjectResult>()
+            .Which.Value
+            .Should().BeEquivalentTo(new ErrorDetails(
+                Instance: string.Empty,
+                Detail: string.Empty,
+                Status: 404,
+                Title: "No user found.",
+                Type: string.Empty));
+    }
+
+    [Fact]
+    public async Task Should_ReturnBadRequest_WhenUserNotConfirmed()
+    {
+        // -- Arrange
+        LoginViewModel model = new()
+        {
+            Email = "unconfirmed@test.com",
+            Password = "Password123!"
+        };
+
+        Mock<IAccountService> mockedAccountService = new();
+        mockedAccountService
+            .Setup(x => x.LoginUserAsync(model))
+            .ReturnsAsync(CustomResult<LogInResult>.Failure(
+                CustomError.UserNotConfirmed("User is not confirmed.")));
+
+        AccountController controller = BuildAccountController(mockedAccountService.Object);
+        controller.ControllerContext = new ControllerContext
+        {
+            HttpContext = new DefaultHttpContext()
+        };
+
+        // -- Act
+        IActionResult result = await controller.LoginAsync(model);
+
+        // -- Assert
+        result
+            .Should().BeOfType<BadRequestObjectResult>()
+            .Which.Value
+            .Should().BeEquivalentTo(new ErrorDetails(
+                Instance: string.Empty,
+                Detail: string.Empty,
+                Status: 400,
+                Title: "User is not confirmed.",
+                Type: string.Empty));
+    }
+
+    [Fact]
+    public async Task Should_ReturnUnauthorized_WhenUserPasswordIsNotCorrect()
+    {
+        // -- Arrange
+        LoginViewModel model = new()
+        {
+            Email = "wrongpassword@test.com",
+            Password = "Password123!"
+        };
+
+        Mock<IAccountService> mockedAccountService = new();
+        mockedAccountService
+            .Setup(x => x.LoginUserAsync(model))
+            .ReturnsAsync(CustomResult<LogInResult>.Failure(
+                CustomError.Unauthorized("Something went wrong logging in.")));
+
+        AccountController controller = BuildAccountController(mockedAccountService.Object);
+        controller.ControllerContext = new ControllerContext
+        {
+            HttpContext = new DefaultHttpContext()
+        };
+
+        // -- Act
+        IActionResult result = await controller.LoginAsync(model);
+
+        // -- Assert
+        result
+            .Should().BeOfType<UnauthorizedObjectResult>()
+            .Which.Value
+            .Should().BeEquivalentTo(new ErrorDetails(
+                Instance: string.Empty,
+                Detail: string.Empty,
+                Status: 401,
+                Title: "Something went wrong logging in.",
+                Type: string.Empty));
+    }
+
+    [Fact]
+    public async Task Should_Return500_WhenSomethingUnknownGoesWrong()
+    {
+        // -- Arrange
+        LoginViewModel model = new()
+        {
+            Email = "unknownerror@test.com",
+            Password = "Password123!"
+        };
+
+        Mock<IAccountService> mockedAccountService = new();
+        mockedAccountService
+            .Setup(x => x.LoginUserAsync(model))
+            .ReturnsAsync(CustomResult<LogInResult>.Failure(
+                CustomError.UnknownError("Something went wrong.")));
+
+        AccountController controller = BuildAccountController(mockedAccountService.Object);
+        controller.ControllerContext = new ControllerContext
+        {
+            HttpContext = new DefaultHttpContext()
+        };
+
+        // -- Act
+        IActionResult result = await controller.LoginAsync(model);
+
+        // -- Assert
+        result
+            .Should().BeOfType<ObjectResult>()
+            .Which.Value
+            .Should().BeEquivalentTo(new ErrorDetails(
+                Instance: string.Empty,
+                Detail: string.Empty,
+                Status: 500,
+                Title: "Something went wrong.",
+                Type: string.Empty));
     }
 }

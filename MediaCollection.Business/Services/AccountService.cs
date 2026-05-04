@@ -66,13 +66,11 @@ public sealed class AccountService : IAccountService
 
         if (user is null)
         {
-            //return SignInResult.Failed;
             return CustomResult<LogInResult>.Failure(CustomError.RecordNotFound("No user found."));
         }
 
         if (!await _userManager.IsEmailConfirmedAsync(user))
         {
-            //return SignInResult.NotAllowed;
             return CustomResult<LogInResult>.Failure(CustomError.UserNotConfirmed("User is not confirmed."));
         }
 
