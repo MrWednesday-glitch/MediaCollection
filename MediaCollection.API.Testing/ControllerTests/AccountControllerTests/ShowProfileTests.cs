@@ -3,7 +3,7 @@
 namespace MediaCollection.API.Testing.ControllerTests.AccountControllerTests;
 
 [ExcludeFromCodeCoverage]
-public class ShowProfileTests : AccountControllerTestBase
+public sealed class ShowProfileTests : AccountControllerTestBase
 {
     [Fact]
     public async Task Should_ReturnUnauthorized_When_EmailClaimMissing()

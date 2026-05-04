@@ -1,6 +1,6 @@
 ﻿namespace MediaCollection.API.Testing.ControllerTests.AccountControllerTests;
 
-public class ConstructorTests
+public sealed class ConstructorTests
 {
     [Fact]
     public void Should_ThrowAnArgumentNullException_When_AccountServiceIsNull()

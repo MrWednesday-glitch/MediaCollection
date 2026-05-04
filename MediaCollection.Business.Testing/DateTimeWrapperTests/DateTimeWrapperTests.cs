@@ -1,7 +1,7 @@
 ﻿namespace MediaCollection.Business.Testing.DateTimeWrapperTests;
 
 [ExcludeFromCodeCoverage]
-public class DateTimeWrapperTests
+public sealed class DateTimeWrapperTests
 {
     [Fact]
     public void Should_ReturnTheCorrectNow_When_GivingAFixedOne()

@@ -1,10 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using System.Runtime.InteropServices;
 
 namespace MediaCollection.API.Testing.ControllerTests.AccountControllerTests;
 
 [ExcludeFromCodeCoverage]
-public class RegisterTests : AccountControllerTestBase
+public sealed class RegisterTests : AccountControllerTestBase
 {
     [Fact]
     public async Task Should_RegisterNewUserCorrectly()

@@ -1,7 +1,7 @@
 ﻿namespace MediaCollection.API.Testing.ControllerTests.AccountControllerTests;
 
 [ExcludeFromCodeCoverage]
-public class LoginTests : AccountControllerTestBase
+public sealed class LoginTests : AccountControllerTestBase
 {
     [Fact]
     public async Task Should_LoginCorrectly()
