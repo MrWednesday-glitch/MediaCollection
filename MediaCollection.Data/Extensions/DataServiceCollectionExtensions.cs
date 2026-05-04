@@ -21,6 +21,8 @@ public static class DataServiceCollectionExtensions
                 .UseLazyLoadingProxies()
                 .UseSqlServer(connectionString);
         }, ServiceLifetime.Scoped);
+        services.AddIdentity<ApplicationUser, ApplicationRole>()
+            .AddEntityFrameworkStores<MediaDbContext>();
 
         services.AddScoped<IGameRepository, GameRepository>();
         services.AddScoped<IBookRepository, BookRepository>();

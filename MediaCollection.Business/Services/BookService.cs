@@ -1,6 +1,6 @@
 ﻿namespace MediaCollection.Business.Services;
 
-public class BookService : IBookService
+public sealed class BookService : IBookService
 {
     private readonly IBookRepository _bookRepository;
 
@@ -11,6 +11,9 @@ public class BookService : IBookService
         _bookRepository = bookRepository;
     }
 
+    /// <summary>
+    /// <inheritdoc/>
+    /// </summary>
     public async Task<(CustomResult<IEnumerable<Book>>, PaginationMetadata)> GetAsync(
         int pageNumber, 
         int pageSize, 
@@ -42,6 +45,9 @@ public class BookService : IBookService
         return (CustomResult<IEnumerable<Book>>.Success(books), paginationMetadata);
     }
 
+    /// <summary>
+    /// <inheritdoc/>
+    /// </summary>
     public async Task<CustomResult<Book>> Get(Guid id, CancellationToken cancellationToken = default)
     {
         try
@@ -50,7 +56,6 @@ public class BookService : IBookService
 
             return CustomResult<Book>.Success(book);
         }
-        // TODO Unit test
         catch (RecordNotFoundException ex)
         {
             return CustomResult<Book>.Failure(CustomError.RecordNotFound(ex.Message));

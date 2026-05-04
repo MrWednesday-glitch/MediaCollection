@@ -4,5 +4,7 @@ public enum ErrorCodes
 {
     Nothing = 0,
     UnknownError,
-    RecordNotFound
+    RecordNotFound,
+    UserNotConfirmed,
+    Unauthorized
 }

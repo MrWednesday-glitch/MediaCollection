@@ -6,4 +6,6 @@ public class Book : Media
     public Guid AuthorId { get; set; }
 
     public virtual Author Author { get; set; } = null!;
+
+    public virtual ICollection<UserBook> UserBooks { get; set; } = new List<UserBook>();
 }

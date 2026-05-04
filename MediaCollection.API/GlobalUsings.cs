@@ -1,8 +1,9 @@
-﻿global using MediaCollection.API.DTOModels;
-global using MediaCollection.API.Models;
+﻿global using MediaCollection.API.Models;
 global using MediaCollection.Domain;
 global using MediaCollection.Domain.Entities;
+global using MediaCollection.Domain.Enums;
 global using MediaCollection.Domain.Interfaces;
+global using MediaCollection.Domain.Models;
 global using Microsoft.AspNetCore.Mvc;
 global using System.ComponentModel.DataAnnotations;
-global using System.Text.Json;
+global using System.Diagnostics.CodeAnalysis;

@@ -5,7 +5,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MediaCollection.API;
 
-public class Program
+[ExcludeFromCodeCoverage]
+public sealed class Program
 {
     public static void Main(string[] args)
     {
@@ -14,7 +15,7 @@ public class Program
         builder.Services.AddControllers();
 
         builder.Services.AddDataServices(builder.Configuration);
-        builder.Services.AddBusinessServices();
+        builder.Services.AddBusinessServices(builder.Configuration);
 
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
@@ -42,6 +43,7 @@ public class Program
 
         app.UseHttpsRedirection();
 
+        app.UseAuthentication();
         app.UseAuthorization();
 
 

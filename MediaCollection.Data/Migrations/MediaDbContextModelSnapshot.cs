@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace MediaCollection.Data.Migrations
 {
+    [ExcludeFromCodeCoverage]
     [DbContext(typeof(MediaDbContext))]
     partial class MediaDbContextModelSnapshot : ModelSnapshot
     {
@@ -17,10 +18,151 @@ namespace MediaCollection.Data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "10.0.1")
+                .HasAnnotation("ProductVersion", "10.0.5")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("MediaCollection.Domain.Entities.ApplicationRole", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("NormalizedName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedName")
+                        .IsUnique()
+                        .HasDatabaseName("RoleNameIndex")
+                        .HasFilter("[NormalizedName] IS NOT NULL");
+
+                    b.ToTable("Roles", (string)null);
+                });
+
+            modelBuilder.Entity("MediaCollection.Domain.Entities.ApplicationUser", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("UserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedEmail")
+                        .HasDatabaseName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasDatabaseName("UserNameIndex")
+                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.ToTable("Users", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("00000000-0000-0000-0000-000000000100"),
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "00000000-0000-0000-0000-000000000102",
+                            CreatedOn = new DateTime(2026, 4, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "raven@email.me",
+                            EmailConfirmed = true,
+                            FirstName = "Raven",
+                            LastName = "Admin",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "RAVEN@EMAIL.ME",
+                            NormalizedUserName = "RAVEN",
+                            PasswordHash = "AQAAAAIAAYagAAAAEONZCmRor5ViDWUuCcXlUXbbYiiYpJnAvxjQjA20nLqzX1Ons1dXsgtx60VCU/BXww==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "00000000-0000-0000-0000-000000000101",
+                            TwoFactorEnabled = false,
+                            UserName = "raven"
+                        });
+                });
 
             modelBuilder.Entity("MediaCollection.Domain.Entities.Author", b =>
                 {
@@ -130,9 +272,6 @@ namespace MediaCollection.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("Owned")
-                        .HasColumnType("bit");
-
                     b.Property<string>("PictureUri")
                         .HasColumnType("nvarchar(max)");
 
@@ -148,7 +287,7 @@ namespace MediaCollection.Data.Migrations
 
                     b.ToTable("Media");
 
-                    b.HasDiscriminator().HasValue("Media");
+                    b.HasDiscriminator<string>("Discriminator").HasValue("Media");
 
                     b.UseTphMappingStrategy();
                 });
@@ -207,6 +346,219 @@ namespace MediaCollection.Data.Migrations
                         });
                 });
 
+            modelBuilder.Entity("MediaCollection.Domain.Entities.UserBook", b =>
+                {
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("BookId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("Owned")
+                        .HasColumnType("bit");
+
+                    b.HasKey("UserId", "BookId");
+
+                    b.HasIndex("BookId");
+
+                    b.ToTable("UserBook");
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = new Guid("00000000-0000-0000-0000-000000000100"),
+                            BookId = new Guid("00000000-0000-0000-0000-000000000014"),
+                            Owned = true
+                        });
+                });
+
+            modelBuilder.Entity("MediaCollection.Domain.Entities.UserFilm", b =>
+                {
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("FilmId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("Owned")
+                        .HasColumnType("bit");
+
+                    b.HasKey("UserId", "FilmId");
+
+                    b.HasIndex("FilmId");
+
+                    b.ToTable("UserFilm");
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = new Guid("00000000-0000-0000-0000-000000000100"),
+                            FilmId = new Guid("00000000-0000-0000-0000-000000000016"),
+                            Owned = false
+                        });
+                });
+
+            modelBuilder.Entity("MediaCollection.Domain.Entities.UserGame", b =>
+                {
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("GameId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("Finished")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("Owned")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("OwnedOn")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("UserId", "GameId");
+
+                    b.HasIndex("GameId");
+
+                    b.ToTable("UserGame");
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = new Guid("00000000-0000-0000-0000-000000000100"),
+                            GameId = new Guid("00000000-0000-0000-0000-000000000013"),
+                            Finished = true,
+                            Owned = true,
+                            OwnedOn = "Steam"
+                        },
+                        new
+                        {
+                            UserId = new Guid("00000000-0000-0000-0000-000000000100"),
+                            GameId = new Guid("00000000-0000-0000-0000-000000000018"),
+                            Finished = true,
+                            Owned = true,
+                            OwnedOn = "GOG"
+                        },
+                        new
+                        {
+                            UserId = new Guid("00000000-0000-0000-0000-000000000100"),
+                            GameId = new Guid("00000000-0000-0000-0000-000000000017"),
+                            Finished = true,
+                            Owned = true,
+                            OwnedOn = "Steam"
+                        },
+                        new
+                        {
+                            UserId = new Guid("00000000-0000-0000-0000-000000000100"),
+                            GameId = new Guid("00000000-0000-0000-0000-000000000015"),
+                            Finished = true,
+                            Owned = true,
+                            OwnedOn = "Playstation 2"
+                        });
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("RoleClaims", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserClaims", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
+                {
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ProviderKey")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ProviderDisplayName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("LoginProvider", "ProviderKey");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserLogins", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>", b =>
+                {
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("UserId", "RoleId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("UserRoles", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
+                {
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("UserId", "LoginProvider", "Name");
+
+                    b.ToTable("UserTokens", (string)null);
+                });
+
             modelBuilder.Entity("MediaCollection.Domain.Entities.Book", b =>
                 {
                     b.HasBaseType("MediaCollection.Domain.Entities.Media");
@@ -223,7 +575,6 @@ namespace MediaCollection.Data.Migrations
                         {
                             Id = new Guid("00000000-0000-0000-0000-000000000014"),
                             Name = "American Gods",
-                            Owned = true,
                             PictureUri = "https://1.bp.blogspot.com/-sIcmR6Ve9uk/UT4G1N7iAaI/AAAAAAAASJU/KEzdlynscVE/s1600/american-gods-ebook-9788499185415.jpg",
                             PublisherId = new Guid("00000000-0000-0000-0000-000000000001"),
                             ReleaseDate = new DateTime(2001, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -247,7 +598,6 @@ namespace MediaCollection.Data.Migrations
                         {
                             Id = new Guid("00000000-0000-0000-0000-000000000016"),
                             Name = "Mad Max: Fury Road",
-                            Owned = false,
                             PictureUri = "https://cdn.traileraddict.com/content/warner-bros-pictures/mad_max_fury_road-7.jpg",
                             PublisherId = new Guid("00000000-0000-0000-0000-000000000002"),
                             ReleaseDate = new DateTime(2015, 5, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -262,12 +612,6 @@ namespace MediaCollection.Data.Migrations
                     b.Property<Guid>("DeveloperId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<bool>("Finished")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("OwnedOn")
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasIndex("DeveloperId");
 
                     b.HasDiscriminator().HasValue("Game");
@@ -277,49 +621,37 @@ namespace MediaCollection.Data.Migrations
                         {
                             Id = new Guid("00000000-0000-0000-0000-000000000013"),
                             Name = "Hades",
-                            Owned = true,
                             PictureUri = "https://image.api.playstation.com/vulcan/ap/rnd/202104/0517/9AcM3vy5t77zPiJyKHwRfnNT.png",
                             PublisherId = new Guid("00000000-0000-0000-0000-000000000003"),
                             ReleaseDate = new DateTime(2020, 9, 17, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DeveloperId = new Guid("00000000-0000-0000-0000-000000000009"),
-                            Finished = true,
-                            OwnedOn = "Steam"
+                            DeveloperId = new Guid("00000000-0000-0000-0000-000000000009")
                         },
                         new
                         {
                             Id = new Guid("00000000-0000-0000-0000-000000000018"),
                             Name = "Disco Elysium",
-                            Owned = true,
                             PictureUri = "https://static0.gamerantimages.com/wordpress/wp-content/uploads/2022/10/disco-elysium-final-cut.jpg",
                             PublisherId = new Guid("00000000-0000-0000-0000-000000000006"),
                             ReleaseDate = new DateTime(2019, 10, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DeveloperId = new Guid("00000000-0000-0000-0000-000000000012"),
-                            Finished = false,
-                            OwnedOn = "GOG"
+                            DeveloperId = new Guid("00000000-0000-0000-0000-000000000012")
                         },
                         new
                         {
                             Id = new Guid("00000000-0000-0000-0000-000000000017"),
                             Name = "Shovel Knight",
-                            Owned = true,
                             PictureUri = "https://www.gamespot.com/a/uploads/scale_medium/mig/0/0/6/2/2230062-box_sk.png",
                             PublisherId = new Guid("00000000-0000-0000-0000-000000000005"),
                             ReleaseDate = new DateTime(2014, 6, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DeveloperId = new Guid("00000000-0000-0000-0000-000000000011"),
-                            Finished = true,
-                            OwnedOn = "Steam"
+                            DeveloperId = new Guid("00000000-0000-0000-0000-000000000011")
                         },
                         new
                         {
                             Id = new Guid("00000000-0000-0000-0000-000000000015"),
                             Name = "Final Fantasy 10",
-                            Owned = true,
                             PictureUri = "https://m.media-amazon.com/images/I/91rQrZ+BRHL._AC_SL1500_.jpg",
                             PublisherId = new Guid("00000000-0000-0000-0000-000000000004"),
                             ReleaseDate = new DateTime(2002, 5, 24, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DeveloperId = new Guid("00000000-0000-0000-0000-000000000010"),
-                            Finished = true,
-                            OwnedOn = "Playstation 2"
+                            DeveloperId = new Guid("00000000-0000-0000-0000-000000000010")
                         });
                 });
 
@@ -332,6 +664,114 @@ namespace MediaCollection.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("Publisher");
+                });
+
+            modelBuilder.Entity("MediaCollection.Domain.Entities.UserBook", b =>
+                {
+                    b.HasOne("MediaCollection.Domain.Entities.Book", "Book")
+                        .WithMany("UserBooks")
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MediaCollection.Domain.Entities.ApplicationUser", "User")
+                        .WithMany("UserBooks")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Book");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("MediaCollection.Domain.Entities.UserFilm", b =>
+                {
+                    b.HasOne("MediaCollection.Domain.Entities.Film", "Film")
+                        .WithMany("UserFilms")
+                        .HasForeignKey("FilmId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MediaCollection.Domain.Entities.ApplicationUser", "User")
+                        .WithMany("UserFilms")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Film");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("MediaCollection.Domain.Entities.UserGame", b =>
+                {
+                    b.HasOne("MediaCollection.Domain.Entities.Game", "Game")
+                        .WithMany("UserGames")
+                        .HasForeignKey("GameId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MediaCollection.Domain.Entities.ApplicationUser", "User")
+                        .WithMany("UserGames")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Game");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
+                {
+                    b.HasOne("MediaCollection.Domain.Entities.ApplicationRole", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
+                {
+                    b.HasOne("MediaCollection.Domain.Entities.ApplicationUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
+                {
+                    b.HasOne("MediaCollection.Domain.Entities.ApplicationUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>", b =>
+                {
+                    b.HasOne("MediaCollection.Domain.Entities.ApplicationRole", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MediaCollection.Domain.Entities.ApplicationUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
+                {
+                    b.HasOne("MediaCollection.Domain.Entities.ApplicationUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("MediaCollection.Domain.Entities.Book", b =>
@@ -367,6 +807,15 @@ namespace MediaCollection.Data.Migrations
                     b.Navigation("Developer");
                 });
 
+            modelBuilder.Entity("MediaCollection.Domain.Entities.ApplicationUser", b =>
+                {
+                    b.Navigation("UserBooks");
+
+                    b.Navigation("UserFilms");
+
+                    b.Navigation("UserGames");
+                });
+
             modelBuilder.Entity("MediaCollection.Domain.Entities.Author", b =>
                 {
                     b.Navigation("Books");
@@ -385,6 +834,21 @@ namespace MediaCollection.Data.Migrations
             modelBuilder.Entity("MediaCollection.Domain.Entities.Publisher", b =>
                 {
                     b.Navigation("Media");
+                });
+
+            modelBuilder.Entity("MediaCollection.Domain.Entities.Book", b =>
+                {
+                    b.Navigation("UserBooks");
+                });
+
+            modelBuilder.Entity("MediaCollection.Domain.Entities.Film", b =>
+                {
+                    b.Navigation("UserFilms");
+                });
+
+            modelBuilder.Entity("MediaCollection.Domain.Entities.Game", b =>
+                {
+                    b.Navigation("UserGames");
                 });
 #pragma warning restore 612, 618
         }

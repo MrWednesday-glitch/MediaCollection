@@ -10,6 +10,4 @@ public class Media : EntityBase
     public virtual Publisher Publisher { get; set; } = null!;
 
     public DateTime ReleaseDate { get; set; }
-
-    public bool Owned { get; set; }
 }

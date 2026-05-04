@@ -1,9 +1,15 @@
 ﻿namespace MediaCollection.Business.Services;
 
-public class GameService : IGameService
+/// <summary>
+/// The implementation of the <see cref="IGameService"/>.
+/// </summary>
+public sealed class GameService : IGameService
 {
     private readonly IGameRepository _gameRepository;
 
+    /// <summary>
+    /// Initializes the constructor.
+    /// </summary>
     public GameService(IGameRepository gameRepository)
     {
         ArgumentNullException.ThrowIfNull(gameRepository);
@@ -11,6 +17,9 @@ public class GameService : IGameService
         _gameRepository = gameRepository;
     }
 
+    /// <summary>
+    /// <inheritdoc/>
+    /// </summary>
     public async Task<CustomResult<Game>> GetAsync(Guid id, CancellationToken cancellationToken = default)
     {
         try
@@ -26,6 +35,9 @@ public class GameService : IGameService
         }
     }
 
+    /// <summary>
+    /// <inheritdoc/>
+    /// </summary>
     public async Task<(CustomResult<IEnumerable<Game>>, PaginationMetadata)> GetAsync(
         int pageNumber, 
         int pageSize, 
@@ -57,11 +69,18 @@ public class GameService : IGameService
         return (CustomResult<IEnumerable<Game>>.Success(games), paginationMetadata);
     }
 
+    // TODO Add userId to the parameter list
+    // TODO Fix unit tests
+    /// <summary>
+    /// <inheritdoc/>
+    /// </summary>
     public async Task<CustomResult<Game>> GetRandomAsync(CancellationToken cancellationToken = default)
     {
         IQueryable<Game> unfinishedGames = (await _gameRepository.GetAsync())
             .TagWith("random")
-            .Where(g => !g.Finished);
+            .Where(g => g.UserGames.Any(ug => /* ug.UserId == userId && */ !ug.Finished))
+            //.Where(g => !g.Finished)
+            ;
         int totalItemCount = unfinishedGames.Count();
 
         if (totalItemCount == 0)
