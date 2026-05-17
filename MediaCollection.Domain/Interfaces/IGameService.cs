@@ -10,7 +10,7 @@ public interface IGameService
     /// <param name="pageSize">The amount of entities that will be in the given selection.</param>
     /// <param name="searchTerm">A search term used to go through the database and grab a selection of game entities.</param>
     /// <returns>A task that contains the selection of game entities.</returns>
-    Task<(CustomResult<IEnumerable<Game>>, PaginationMetadata)> GetAsync(int pageNumber, int pageSize, string? searchTerm = "", CancellationToken cancellationToken = default);
+    Task<(CustomResult<IEnumerable<Game>>, PaginationMetadata)> GetAsync(string userEmail, int pageNumber, int pageSize, string? searchTerm = "", CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds logic to a single game entity that was retrieved from the database.

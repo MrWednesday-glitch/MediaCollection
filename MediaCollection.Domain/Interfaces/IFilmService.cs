@@ -9,7 +9,7 @@ public interface IFilmService
     /// <param name="pageSize">The amount of film records retrieved.</param>
     /// <param name="searchTerm">A term that ensures only matching records are retrieved.</param>
     /// <returns>A task holding a collection of films and matching metadata.</returns>
-    Task<(CustomResult<IEnumerable<Film>>, PaginationMetadata)> GetAsync(int pageNumber, int pageSize, string? searchTerm = "", CancellationToken cancellationToken = default);
+    Task<(CustomResult<IEnumerable<Film>>, PaginationMetadata)> GetAsync(string userEmail, int pageNumber, int pageSize, string? searchTerm = "", CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a record matching the id.

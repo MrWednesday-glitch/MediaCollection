@@ -1,4 +1,4 @@
-﻿using MediaCollection.Domain.Models;
+﻿using Microsoft.AspNetCore.Authorization;
 using System.Text;
 
 namespace MediaCollection.API.Controllers;
@@ -8,6 +8,7 @@ namespace MediaCollection.API.Controllers;
 /// </summary>
 [ApiController]
 [Route("developers")]
+[Authorize]
 public class DeveloperController : ControllerBase
 {
     private readonly IDeveloperService _developerService;
